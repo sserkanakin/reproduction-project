@@ -15,7 +15,7 @@ MODEL_ID_7B = "llava-hf/llava-interleave-qwen-7b-hf"
 # If you want to try the 7B model on Mac, set USE_QUANTIZATION_IF_APPLICABLE to True.
 # On a powerful GPU machine, you can use MODEL_ID_7B and set USE_QUANTIZATION_IF_APPLICABLE to False.
 
-CURRENT_MODEL_ID = MODEL_ID_SMALL  # TRY THIS FIRST ON YOUR MAC
+CURRENT_MODEL_ID = MODEL_ID_7B  # TRY THIS FIRST ON YOUR MAC
 # CURRENT_MODEL_ID = MODEL_ID_7B
 
 # Quantization (primarily for reducing memory on Mac for the 7B model)

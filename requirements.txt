@@ -1,4 +1,31 @@
-torch~=2.7.0
-pillow~=11.2.1
-transformers~=4.51.3
-openai~=1.79.0
+# Base requirements for the MMIU LLaVA Evaluation Pipeline
+
+# For PyTorch, choose the version appropriate for your target environment (CPU or GPU)
+# Example for CPU-only (smaller, but LLaVA inference will be very slow):
+# torch torchvision torchaudio
+# Example for CUDA 11.8 (check https://pytorch.org/get-started/previous-versions/ for others):
+# torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# Example for CUDA 12.1:
+torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# For Hugging Face Transformers and LLaVA models
+transformers>=4.38.0 # Ensure a recent version for LLaVA compatibility
+# For specific LLaVA models, you might need to install their custom code if not fully in transformers
+# e.g., if the LLaVA-Interleave repo has a setup.py: pip install -e path/to/cloned/llava_repo
+
+# Image processing
+Pillow>=9.0.0
+
+# OpenAI API for choice conversion
+openai>=1.0.0
+
+# For loading .env files
+python-dotenv>=1.0.0
+
+# For progress bars
+tqdm>=4.60.0
+
+# Optional: For 8-bit quantization with --use_quantization
+# bitsandbytes is primarily for Linux with NVIDIA GPUs.
+# May have limited/no support or different installation on other OS/hardware.
+bitsandbytes>=0.41.0
