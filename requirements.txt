@@ -6,7 +6,9 @@
 # Example for CUDA 11.8 (check https://pytorch.org/get-started/previous-versions/ for others):
 # torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 # Example for CUDA 12.1:
-torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+torch --index-url https://download.pytorch.org/whl/cu121
+torchvision --index-url https://download.pytorch.org/whl/cu121
+torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # For Hugging Face Transformers and LLaVA models
 transformers>=4.38.0 # Ensure a recent version for LLaVA compatibility
