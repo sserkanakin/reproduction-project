@@ -154,7 +154,7 @@ def run_llava_single_inference(image_paths, question_with_options):
         if 'pixel_values' in inputs and inputs['pixel_values'].dtype != llava_model.dtype:
             inputs['pixel_values'] = inputs['pixel_values'].to(llava_model.dtype)
 
-        generation_kwargs = {"max_new_tokens": 50, "num_beams": 1, "do_sample": False}
+        generation_kwargs = {"max_new_tokens": 10, "num_beams": 1, "do_sample": False}
         with torch.no_grad():
             generated_ids = llava_model.generate(**inputs, **generation_kwargs)
 
