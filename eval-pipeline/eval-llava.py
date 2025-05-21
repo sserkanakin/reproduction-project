@@ -158,6 +158,9 @@ def run_llava_single_inference(image_paths, question_with_options):
         with torch.no_grad():
             generated_ids = llava_model.generate(**inputs, **generation_kwargs)
 
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
         input_token_len = inputs['input_ids'].shape[1] if 'input_ids' in inputs else 0
         response_ids = generated_ids[:, input_token_len:]
 
