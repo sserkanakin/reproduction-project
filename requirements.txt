@@ -29,3 +29,5 @@ tqdm>=4.60.0
 # Optional: For 8-bit quantization with --use_quantization
 # bitsandbytes is primarily for Linux with NVIDIA GPUs.
 bitsandbytes>=0.41.0
+# datasets
+datasets>=2.14.0  # For loading and processing datasets
