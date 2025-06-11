@@ -18,8 +18,10 @@ from PIL import Image
 
 
 def parse_args():
+    """Parses command-line arguments for the fine-tuning script."""
     parser = argparse.ArgumentParser(description="LoRA Fine-tuning script for a LLaVA model.")
-    # --- Model Arguments ---
+
+    # --- Model & Quantization Arguments ---
     parser.add_argument("--base_model_id", type=str, default="llava-hf/llava-interleave-qwen-7b-hf",
                         help="The Hugging Face Hub ID of the base LLaVA model to fine-tune.")
     parser.add_argument("--use_quantization", action="store_true",
@@ -31,7 +33,7 @@ def parse_args():
     parser.add_argument("--image_base_dir", type=str, required=True,
                         help="Base directory where MMIU images are stored.")
 
-    # --- Training Arguments ---
+    # --- Training Hyperparameters ---
     parser.add_argument("--output_dir", type=str, default="./llava_finetuned_adapters",
                         help="Directory to save the fine-tuned LoRA adapters and training checkpoints.")
     parser.add_argument("--num_train_epochs", type=int, default=3,
@@ -53,7 +55,7 @@ def parse_args():
 
 
 class LlavaFinetuneDataset(torch.utils.data.Dataset):
-    """Custom PyTorch Dataset for LLaVA fine-tuning."""
+    """Custom PyTorch Dataset to load and process the fine-tuning data."""
 
     def __init__(self, dataset_path, processor, image_base_dir):
         self.processor = processor
@@ -66,29 +68,29 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = self.dataset[idx]
+
+        # Combine the instruction and the golden output for training
         full_text = item['instruction'] + item['output']
 
+        # Load images from paths
         images = []
         image_paths = item.get("source_images", [])
         if image_paths:
             for path in image_paths:
                 try:
-                    full_path = os.path.join(self.image_base_dir, path)
-                    if path.startswith('./'):
-                        full_path = os.path.join(self.image_base_dir, path[2:])
+                    full_path = os.path.join(self.image_base_dir, path.lstrip('./'))
                     image = Image.open(full_path).convert("RGB")
                     images.append(image)
                 except Exception as e:
                     print(
                         f"Warning: Could not load image {full_path} for sample {item.get('id', 'unknown')}. Skipping. Error: {e}")
-                    return None
+                    return None  # The data collator will filter this out
 
         try:
             # The processor prepares the combined text-image input.
-            # Padding is handled by the data collator in the Trainer.
+            # The Trainer will automatically handle creating 'labels' from 'input_ids' and masking.
             inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
-            # Squeeze to remove the batch dimension that the processor adds by default.
-            # The data collator will add it back for the batch.
+            # Squeeze to remove the extra batch dimension the processor adds.
             inputs = {k: v.squeeze(0) for k, v in inputs.items()}
             return inputs
         except Exception as e:
@@ -97,41 +99,45 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
 
 def custom_data_collator(features):
-    """Filter out None items from a batch and let default collator handle padding."""
+    """A data collator that filters out samples that failed to load."""
     features = [f for f in features if f is not None]
     if not features:
         return {}
 
+    # Use the default data collator from transformers to handle padding and batching
     from transformers.data.data_collator import default_data_collator
     return default_data_collator(features)
 
 
-# --- MODIFIED: Custom Trainer now overrides compute_loss, which is safer ---
-class LlavaTrainer(Trainer):
+class MultiImageLlavaTrainer(Trainer):
+    """Custom Trainer to handle multi-image batches by reshaping the pixel_values tensor."""
+
     def compute_loss(self, model, inputs, return_outputs=False):
         """
-        Override compute_loss to reshape the pixel_values tensor from 5D to 4D
-        before the model's forward pass.
+        Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
         """
+        # The 'inputs' dictionary contains the batch from the data collator.
         if "pixel_values" in inputs and inputs["pixel_values"] is not None and inputs["pixel_values"].ndim == 5:
-            # Current shape: (batch_size, num_images_per_sample, C, H, W)
+            # The tensor arrives with shape (batch_size, num_images_per_sample, C, H, W).
+            # We need to flatten the first two dimensions to get (batch_size * num_images, C, H, W)
+            # before passing it to the model.
             bs, num_images, c, h, w = inputs["pixel_values"].shape
-            # Reshape to (batch_size * num_images_per_sample, C, H, W)
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        # Let the original compute_loss handle the rest with the corrected inputs
+        # Now, call the original compute_loss method from the parent Trainer class
+        # with the corrected inputs.
         return super().compute_loss(model, inputs, return_outputs)
 
 
 def main():
     args = parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
-    print("Starting LoRA Fine-tuning...")
+    print("--- Starting LoRA Fine-tuning ---")
 
-    # --- Load Model and Processor ---
+    # --- 1. Load Model and Processor ---
     quantization_config = None
     if args.use_quantization:
-        print("Using 8-bit quantization.")
+        print("Model will be loaded with 8-bit quantization.")
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
     model = LlavaForConditionalGeneration.from_pretrained(
@@ -142,15 +148,21 @@ def main():
     )
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
+    # --- 2. Configure Tokenizer for Training ---
+    # LLaVA models need a pad token for training with batching.
+    # We use the end-of-sequence token as the pad token if one isn't already set.
     if processor.tokenizer.pad_token is None:
-        print("pad_token not set. Setting it to eos_token for padding.")
+        print("Tokenizer pad_token not set. Setting it to eos_token for padding.")
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
+        # Ensure the model's config also knows the pad_token_id
         if model.config.pad_token_id is None:
             model.config.pad_token_id = processor.tokenizer.pad_token_id
 
+    # For causal language models, padding should be on the right
     processor.tokenizer.padding_side = "right"
 
-    # --- Setup LoRA / PEFT ---
+    # --- 3. Setup LoRA / PEFT ---
+    # This configures the small adapter layers we will train.
     lora_config = LoraConfig(
         r=16,
         lora_alpha=32,
@@ -163,15 +175,15 @@ def main():
     model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
 
-    # --- Load and Prepare Dataset ---
-    print(f"Loading and processing dataset from: {args.finetuning_dataset_path}")
+    # --- 4. Load and Prepare Dataset ---
+    print(f"Loading fine-tuning dataset from: {args.finetuning_dataset_path}")
     train_dataset = LlavaFinetuneDataset(
         dataset_path=args.finetuning_dataset_path,
         processor=processor,
         image_base_dir=args.image_base_dir
     )
 
-    # --- Setup Trainer ---
+    # --- 5. Setup and Run Trainer ---
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         num_train_epochs=args.num_train_epochs,
@@ -182,27 +194,27 @@ def main():
         save_steps=args.save_steps,
         max_steps=args.max_steps,
         report_to="none",
-        fp16=True,
+        fp16=True,  # Use mixed-precision training for speed and memory efficiency
         remove_unused_columns=False,
         save_total_limit=2,
         dataloader_num_workers=2,
     )
 
-    # MODIFIED: Use the custom LlavaTrainer
-    trainer = LlavaTrainer(
+    # Use our custom trainer to handle the multi-image input shape
+    trainer = MultiImageLlavaTrainer(
         model=model,
         args=training_args,
         train_dataset=train_dataset,
         data_collator=custom_data_collator,
     )
 
-    print("Starting fine-tuning...")
+    print("Starting fine-tuning process...")
     trainer.train()
 
-    print("Fine-tuning complete. Saving final LoRA adapters.")
+    print("\n--- Fine-tuning Complete ---")
     final_checkpoint_dir = os.path.join(args.output_dir, "final_checkpoint")
     model.save_pretrained(final_checkpoint_dir)
-    print(f"Final adapters saved to: {final_checkpoint_dir}")
+    print(f"Final LoRA adapters saved to: {final_checkpoint_dir}")
 
 
 if __name__ == "__main__":
