@@ -85,10 +85,8 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
         try:
             # The processor prepares the combined text-image input.
-            # Padding is handled by the data collator in the Trainer.
             inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
-            # Squeeze to remove the batch dimension that the processor adds by default.
-            # The data collator will add it back for the batch.
+            # Squeeze to remove the batch dimension the processor adds.
             inputs = {k: v.squeeze(0) for k, v in inputs.items()}
             return inputs
         except Exception as e:
@@ -98,15 +96,29 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
 def custom_data_collator(features):
     """Filter out None items from a batch and let default collator handle padding."""
-    # Filter out samples that failed to load
     features = [f for f in features if f is not None]
     if not features:
         return {}
 
-    # Let the default collator from transformers handle the rest.
-    # It's smart enough to pad correctly if the processor's pad_token is set.
     from transformers.data.data_collator import default_data_collator
     return default_data_collator(features)
+
+
+# --- ADDED: Custom Trainer to fix the 5D tensor issue ---
+class LlavaTrainer(Trainer):
+    def training_step(self, model, inputs):
+        """
+        Custom training step to reshape the pixel_values tensor from 5D to 4D
+        before passing it to the model's forward pass.
+        """
+        if "pixel_values" in inputs and inputs["pixel_values"].ndim == 5:
+            # Current shape: (batch_size, num_images_per_sample, C, H, W)
+            bs, num_images, c, h, w = inputs["pixel_values"].shape
+            # Reshape to (batch_size * num_images_per_sample, C, H, W)
+            inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
+
+        # Let the original training_step handle the rest
+        return super().training_step(model, inputs)
 
 
 def main():
@@ -118,7 +130,6 @@ def main():
     quantization_config = None
     if args.use_quantization:
         print("Using 8-bit quantization.")
-        # Use BitsAndBytesConfig for modern transformers versions
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
     model = LlavaForConditionalGeneration.from_pretrained(
@@ -126,21 +137,15 @@ def main():
         torch_dtype=torch.float16,
         quantization_config=quantization_config,
         trust_remote_code=True,
-        # MODIFIED: Removed device_map="auto". The Trainer will now handle device placement.
-        # This is the simplest fix if your single GPU can handle the model with quantization.
-        # device_map="auto"
     )
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
-    # --- Set padding token on the tokenizer ---
     if processor.tokenizer.pad_token is None:
         print("pad_token not set. Setting it to eos_token for padding.")
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
-        # Also update the model's config to use this pad_token_id
         if model.config.pad_token_id is None:
             model.config.pad_token_id = processor.tokenizer.pad_token_id
 
-    # Set padding side to the right for training causal language models
     processor.tokenizer.padding_side = "right"
 
     # --- Setup LoRA / PEFT ---
@@ -175,13 +180,14 @@ def main():
         save_steps=args.save_steps,
         max_steps=args.max_steps,
         report_to="none",
-        fp16=True,  # Use mixed precision training
-        remove_unused_columns=False,  # Important for custom datasets
-        save_total_limit=2,  # Optional: only keep the last 2 checkpoints
-        dataloader_num_workers=2,  # Optional: for faster data loading
+        fp16=True,
+        remove_unused_columns=False,
+        save_total_limit=2,
+        dataloader_num_workers=2,
     )
 
-    trainer = Trainer(
+    # MODIFIED: Use the custom LlavaTrainer
+    trainer = LlavaTrainer(
         model=model,
         args=training_args,
         train_dataset=train_dataset,
