@@ -6,13 +6,9 @@
 # Example for CUDA 11.8 (check https://pytorch.org/get-started/previous-versions/ for others):
 # torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 # Example for CUDA 12.1:
-torch --index-url https://download.pytorch.org/whl/cu121
-torchvision --index-url https://download.pytorch.org/whl/cu121
-torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # For Hugging Face Transformers and LLaVA models
 transformers>=4.38.0 # Ensure a recent version for LLaVA compatibility
-accelerate>=0.26.0   # ADD THIS LINE - Required for bitsandbytes quantization
 
 # Image processing
 Pillow>=9.0.0
@@ -28,6 +24,7 @@ tqdm>=4.60.0
 
 # Optional: For 8-bit quantization with --use_quantization
 # bitsandbytes is primarily for Linux with NVIDIA GPUs.
-bitsandbytes>=0.41.0
 # datasets
 datasets>=2.14.0  # For loading and processing datasets
+torch~=2.7.0
+peft~=0.15.2
