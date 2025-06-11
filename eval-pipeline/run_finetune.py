@@ -85,8 +85,10 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
         try:
             # The processor prepares the combined text-image input.
+            # Padding is handled by the data collator in the Trainer.
             inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
-            # Squeeze to remove the batch dimension the processor adds.
+            # Squeeze to remove the batch dimension that the processor adds by default.
+            # The data collator will add it back for the batch.
             inputs = {k: v.squeeze(0) for k, v in inputs.items()}
             return inputs
         except Exception as e:
@@ -104,21 +106,21 @@ def custom_data_collator(features):
     return default_data_collator(features)
 
 
-# --- ADDED: Custom Trainer to fix the 5D tensor issue ---
+# --- MODIFIED: Custom Trainer now overrides compute_loss, which is safer ---
 class LlavaTrainer(Trainer):
-    def training_step(self, model, inputs):
+    def compute_loss(self, model, inputs, return_outputs=False):
         """
-        Custom training step to reshape the pixel_values tensor from 5D to 4D
-        before passing it to the model's forward pass.
+        Override compute_loss to reshape the pixel_values tensor from 5D to 4D
+        before the model's forward pass.
         """
-        if "pixel_values" in inputs and inputs["pixel_values"].ndim == 5:
+        if "pixel_values" in inputs and inputs["pixel_values"] is not None and inputs["pixel_values"].ndim == 5:
             # Current shape: (batch_size, num_images_per_sample, C, H, W)
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             # Reshape to (batch_size * num_images_per_sample, C, H, W)
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        # Let the original training_step handle the rest
-        return super().training_step(model, inputs)
+        # Let the original compute_loss handle the rest with the corrected inputs
+        return super().compute_loss(model, inputs, return_outputs)
 
 
 def main():
