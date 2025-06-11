@@ -44,7 +44,7 @@ def parse_args():
                         help="Number of steps to accumulate gradients before performing an optimizer step.")
     parser.add_argument("--learning_rate", type=float, default=1e-4,
                         help="Initial learning rate for the optimizer.")
-    parser.add_argument("--logging_steps", type=int, default=10,
+    parser.add_argument("--logging_steps", type=int, default=1,
                         help="Log training state every X steps.")
     parser.add_argument("--save_steps", type=int, default=50,
                         help="Save a checkpoint every X steps.")
@@ -84,12 +84,17 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
                 except Exception as e:
                     print(
                         f"Warning: Could not load image {full_path} for sample {item.get('id', 'unknown')}. Skipping. Error: {e}")
-                    return None  # The data collator will filter this out
+                    return None
 
         try:
-            # The processor prepares the combined text-image input.
-            # The Trainer will automatically handle creating 'labels' from 'input_ids' and masking.
+            # The processor prepares the inputs
             inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
+
+            # --- FIXED: Explicitly create 'labels' for loss calculation ---
+            # The labels are the same as the input_ids for language modeling.
+            # The model internally handles masking the prompt part so loss is only calculated on the response.
+            inputs['labels'] = inputs['input_ids'].clone()
+
             # Squeeze to remove the extra batch dimension the processor adds.
             inputs = {k: v.squeeze(0) for k, v in inputs.items()}
             return inputs
@@ -104,7 +109,6 @@ def custom_data_collator(features):
     if not features:
         return {}
 
-    # Use the default data collator from transformers to handle padding and batching
     from transformers.data.data_collator import default_data_collator
     return default_data_collator(features)
 
@@ -115,18 +119,12 @@ class MultiImageLlavaTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
         """
         Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
-        **kwargs is added to accept any extra arguments passed by the parent Trainer.
         """
-        # The 'inputs' dictionary contains the batch from the data collator.
         if "pixel_values" in inputs and inputs["pixel_values"] is not None and inputs["pixel_values"].ndim == 5:
-            # The tensor arrives with shape (batch_size, num_images_per_sample, C, H, W).
-            # We need to flatten the first two dimensions to get (batch_size * num_images, C, H, W)
-            # before passing it to the model.
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
         # Now, call the original compute_loss method from the parent Trainer class
-        # with the corrected inputs and passing along any extra keyword arguments.
         return super().compute_loss(model, inputs, return_outputs, **kwargs)
 
 
@@ -150,20 +148,15 @@ def main():
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
     # --- 2. Configure Tokenizer for Training ---
-    # LLaVA models need a pad token for training with batching.
-    # We use the end-of-sequence token as the pad token if one isn't already set.
     if processor.tokenizer.pad_token is None:
         print("Tokenizer pad_token not set. Setting it to eos_token for padding.")
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
-        # Ensure the model's config also knows the pad_token_id
         if model.config.pad_token_id is None:
             model.config.pad_token_id = processor.tokenizer.pad_token_id
 
-    # For causal language models, padding should be on the right
     processor.tokenizer.padding_side = "right"
 
     # --- 3. Setup LoRA / PEFT ---
-    # This configures the small adapter layers we will train.
     lora_config = LoraConfig(
         r=16,
         lora_alpha=32,
@@ -195,13 +188,12 @@ def main():
         save_steps=args.save_steps,
         max_steps=args.max_steps,
         report_to="none",
-        fp16=True,  # Use mixed-precision training for speed and memory efficiency
+        fp16=True,
         remove_unused_columns=False,
         save_total_limit=2,
         dataloader_num_workers=2,
     )
 
-    # Use our custom trainer to handle the multi-image input shape
     trainer = MultiImageLlavaTrainer(
         model=model,
         args=training_args,
