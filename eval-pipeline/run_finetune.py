@@ -126,12 +126,13 @@ def main():
         torch_dtype=torch.float16,
         quantization_config=quantization_config,
         trust_remote_code=True,
-        device_map="auto"  # Let accelerate handle device placement
+        # MODIFIED: Removed device_map="auto". The Trainer will now handle device placement.
+        # This is the simplest fix if your single GPU can handle the model with quantization.
+        # device_map="auto"
     )
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
-    # --- CORRECTED: Set padding token on the tokenizer, not the processor ---
-    # The tokenizer is a component of the processor object
+    # --- Set padding token on the tokenizer ---
     if processor.tokenizer.pad_token is None:
         print("pad_token not set. Setting it to eos_token for padding.")
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
