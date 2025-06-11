@@ -32,8 +32,6 @@ def parse_args():
                         help="Path to the .jsonl file containing the fine-tuning data.")
     parser.add_argument("--image_base_dir", type=str, required=True,
                         help="Base directory where MMIU images are stored.")
-    parser.add_argument("--max_seq_length", type=int, default=2048,
-                        help="Maximum sequence length to truncate or pad to.")
 
     # --- Training Hyperparameters ---
     parser.add_argument("--output_dir", type=str, default="./llava_finetuned_adapters",
@@ -59,10 +57,9 @@ def parse_args():
 class LlavaFinetuneDataset(torch.utils.data.Dataset):
     """Custom PyTorch Dataset to load and process the fine-tuning data."""
 
-    def __init__(self, dataset_path, processor, image_base_dir, max_length):
+    def __init__(self, dataset_path, processor, image_base_dir):
         self.processor = processor
         self.image_base_dir = image_base_dir
-        self.max_length = max_length
         with open(dataset_path, 'r') as f:
             self.dataset = [json.loads(line) for line in f]
 
@@ -81,7 +78,6 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
         if image_paths:
             for path in image_paths:
                 try:
-                    # Use lstrip to handle paths that may or may not start with './'
                     full_path = os.path.join(self.image_base_dir, path.lstrip('./'))
                     image = Image.open(full_path).convert("RGB")
                     images.append(image)
@@ -92,17 +88,11 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
 
         try:
             # The processor prepares the inputs
-            # --- FIXED: Added padding and truncation to handle long sequences ---
-            inputs = self.processor(
-                text=full_text,
-                images=images if images else None,
-                return_tensors="pt",
-                padding="max_length",  # Pad to max_length
-                truncation=True,  # Truncate to max_length
-                max_length=self.max_length
-            )
+            inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
 
-            # Explicitly create 'labels' for loss calculation.
+            # --- FIXED: Explicitly create 'labels' for loss calculation ---
+            # The labels are the same as the input_ids for language modeling.
+            # The model internally handles masking the prompt part so loss is only calculated on the response.
             inputs['labels'] = inputs['input_ids'].clone()
 
             # Squeeze to remove the extra batch dimension the processor adds.
@@ -126,7 +116,7 @@ def custom_data_collator(features):
 class MultiImageLlavaTrainer(Trainer):
     """Custom Trainer to handle multi-image batches by reshaping the pixel_values tensor."""
 
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
         """
         Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
         """
@@ -134,7 +124,8 @@ class MultiImageLlavaTrainer(Trainer):
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        return super().compute_loss(model, inputs, return_outputs)
+        # Now, call the original compute_loss method from the parent Trainer class
+        return super().compute_loss(model, inputs, return_outputs, **kwargs)
 
 
 def main():
@@ -183,8 +174,7 @@ def main():
     train_dataset = LlavaFinetuneDataset(
         dataset_path=args.finetuning_dataset_path,
         processor=processor,
-        image_base_dir=args.image_base_dir,
-        max_length=args.max_seq_length  # Pass max_length to the dataset
+        image_base_dir=args.image_base_dir
     )
 
     # --- 5. Setup and Run Trainer ---
