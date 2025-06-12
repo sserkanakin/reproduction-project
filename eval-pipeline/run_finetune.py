@@ -32,7 +32,6 @@ def parse_args():
                         help="Path to the .jsonl file containing the fine-tuning data.")
     parser.add_argument("--image_base_dir", type=str, required=True,
                         help="Base directory where MMIU images are stored.")
-    # <-- ADD THIS ARGUMENT -->
     parser.add_argument("--max_seq_length", type=int, default=2048,
                         help="Maximum sequence length to truncate or pad to.")
 
@@ -57,8 +56,6 @@ def parse_args():
     return parser.parse_args()
 
 
-# In run_finetune.py
-
 class LlavaFinetuneDataset(torch.utils.data.Dataset):
     """Custom PyTorch Dataset to load and process the fine-tuning data."""
 
@@ -75,25 +72,17 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         item = self.dataset[idx]
 
-        # --- MODIFIED: Pre-truncate the long output text ---
-        # This prevents the processor's truncator from causing an error.
-        # We cap the generated output text to a reasonable character limit.
-        # This is a heuristic, but it's effective for avoiding the processor error.
         output_text = item['output']
-        if len(output_text) > 2000: # Limit the reasoning text to ~2000 characters
+        if len(output_text) > 2000:
             output_text = output_text[:2000]
 
-        # Combine the instruction and the (potentially shortened) golden output for training
         full_text = item['instruction'] + output_text
-        # --- END OF MODIFICATION ---
 
-        # Load images from paths
         images = []
         image_paths = item.get("source_images", [])
         if image_paths:
             for path in image_paths:
                 try:
-                    # Use lstrip to handle paths that may or may not start with './'
                     full_path = os.path.join(self.image_base_dir, path.lstrip('./'))
                     image = Image.open(full_path).convert("RGB")
                     images.append(image)
@@ -103,20 +92,16 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
                     return None
 
         try:
-            # The processor prepares the inputs
             inputs = self.processor(
-                text=full_text, # Use the modified full_text
+                text=full_text,
                 images=images if images else None,
                 return_tensors="pt",
                 padding="max_length",
-                truncation=False, # Keep truncation as a safeguard
+                truncation=True,
                 max_length=self.max_length
             )
 
-            # Explicitly create 'labels' for loss calculation.
             inputs['labels'] = inputs['input_ids'].clone()
-
-            # Squeeze to remove the extra batch dimension the processor adds.
             inputs = {k: v.squeeze(0) for k, v in inputs.items()}
             return inputs
         except Exception as e:
@@ -129,7 +114,6 @@ def custom_data_collator(features):
     features = [f for f in features if f is not None]
     if not features:
         return {}
-    # Use the default data collator provided by the transformers library
     from transformers.data.data_collator import default_data_collator
     return default_data_collator(features)
 
@@ -137,6 +121,7 @@ def custom_data_collator(features):
 class MultiImageLlavaTrainer(Trainer):
     """Custom Trainer to handle multi-image batches by reshaping the pixel_values tensor."""
 
+    # --- MODIFIED: Added **kwargs to the function signature ---
     def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
         """
         Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
@@ -145,9 +130,8 @@ class MultiImageLlavaTrainer(Trainer):
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        # Now, call the original compute_loss method from the parent Trainer class
+        # Now, call the original compute_loss method and pass kwargs along
         return super().compute_loss(model, inputs, return_outputs, **kwargs)
-
 
 
 def main():
@@ -155,7 +139,6 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     print("--- Starting LoRA Fine-tuning ---")
 
-    # --- 1. Load Model and Processor ---
     quantization_config = None
     if args.use_quantization:
         print("Model will be loaded with 8-bit quantization.")
@@ -169,7 +152,6 @@ def main():
     )
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
-    # --- 2. Configure Tokenizer for Training ---
     if processor.tokenizer.pad_token is None:
         print("Tokenizer pad_token not set. Setting it to eos_token for padding.")
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
@@ -178,7 +160,6 @@ def main():
 
     processor.tokenizer.padding_side = "right"
 
-    # --- 3. Setup LoRA / PEFT ---
     lora_config = LoraConfig(
         r=16,
         lora_alpha=32,
@@ -191,16 +172,14 @@ def main():
     model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
 
-    # --- 4. Load and Prepare Dataset ---
     print(f"Loading fine-tuning dataset from: {args.finetuning_dataset_path}")
     train_dataset = LlavaFinetuneDataset(
         dataset_path=args.finetuning_dataset_path,
         processor=processor,
         image_base_dir=args.image_base_dir,
-        max_length=args.max_seq_length  # <-- MODIFIED: Pass max_length to the dataset
+        max_length=args.max_seq_length
     )
 
-    # --- 5. Setup and Run Trainer ---
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         num_train_epochs=args.num_train_epochs,
