@@ -84,38 +84,33 @@ def resolve_image_path(img_path: str) -> str:
     raise FileNotFoundError(f"Image file not found: {img_path}")
 
 
-def preprocess(example, processor, max_in=512, max_out=256, max_images=6):
+def preprocess(example, processor, max_images=6, max_out=256):
     # example fields: source_images, instruction, output
-    # 1. Process images independently
-    image_tensors = []
+    # 1. Load and pad/truncate images
+    images = []
     for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
         img = Image.open(full_path).convert('RGB')
-        pixel = processor.image_processor(images=img, return_tensors='pt').pixel_values
-        image_tensors.append(pixel)
-    # pad/truncate to max_images
-    if len(image_tensors) < max_images:
-        pad = torch.zeros_like(image_tensors[0])
-        image_tensors += [pad] * (max_images - len(image_tensors))
-    pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
+        images.append(img)
+    if len(images) < max_images:
+        blank = Image.new('RGB', images[0].size, (0, 0, 0))
+        for _ in range(max_images - len(images)):
+            images.append(blank)
 
-    # 2. Tokenize instruction text separately
-    tokenized = processor.tokenizer(
-        example['instruction'],
-        truncation=True,
-        padding='max_length',
-        max_length=max_in,
+    # 2. Use the processor's interleaving logic to handle multi-image + text
+    proc_inputs = processor(
+        images=images,
+        text=example['instruction'],
         return_tensors='pt'
     )
-    input_ids = tokenized.input_ids.squeeze(0)
-    attention_mask = tokenized.attention_mask.squeeze(0)
+    pixel_values = proc_inputs.pixel_values.squeeze(0)
+    input_ids = proc_inputs.input_ids.squeeze(0)
+    attention_mask = proc_inputs.attention_mask.squeeze(0)
 
     # 3. Tokenize output (reasoning + final answer) for labels
     labels = processor.tokenizer(
         example['output'],
-        truncation=True,
-        padding='max_length',
-        max_length=max_out,
+        truncation=False,
         return_tensors='pt'
     ).input_ids.squeeze(0)
 
