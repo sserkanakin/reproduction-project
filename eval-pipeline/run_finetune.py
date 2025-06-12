@@ -1,5 +1,6 @@
 import argparse
 import os
+from pathlib import Path
 from PIL import Image
 import torch
 from transformers import (
@@ -66,6 +67,12 @@ def parse_args():
     )
     return parser.parse_args()
 
+def resolve_image_path(img_path: str) -> str:
+    # Handle relative paths by resolving against the current working directory (/app)
+    p = Path(img_path)
+    if not p.is_absolute():
+        p = Path(os.getcwd()) / p
+    return str(p)
 
 def preprocess(example, processor, max_in=512, max_out=256):
     # example fields: source_images, instruction, output
