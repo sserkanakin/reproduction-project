@@ -148,6 +148,7 @@ def main():
         args=training_args,
         train_dataset=train_dataset,
         data_collator=collate_fn,
+        label_names=["labels"]
     )
 
     # — run training & save —
