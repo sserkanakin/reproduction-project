@@ -57,14 +57,15 @@ def parse_args():
     return parser.parse_args()
 
 
+# In run_finetune.py
+
 class LlavaFinetuneDataset(torch.utils.data.Dataset):
     """Custom PyTorch Dataset to load and process the fine-tuning data."""
 
-    # <-- MODIFIED: ADD max_length PARAMETER -->
     def __init__(self, dataset_path, processor, image_base_dir, max_length):
         self.processor = processor
         self.image_base_dir = image_base_dir
-        self.max_length = max_length # <-- MODIFIED: STORE max_length
+        self.max_length = max_length
         with open(dataset_path, 'r') as f:
             self.dataset = [json.loads(line) for line in f]
 
@@ -74,8 +75,17 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         item = self.dataset[idx]
 
-        # Combine the instruction and the golden output for training
-        full_text = item['instruction'] + item['output']
+        # --- MODIFIED: Pre-truncate the long output text ---
+        # This prevents the processor's truncator from causing an error.
+        # We cap the generated output text to a reasonable character limit.
+        # This is a heuristic, but it's effective for avoiding the processor error.
+        output_text = item['output']
+        if len(output_text) > 2000: # Limit the reasoning text to ~2000 characters
+            output_text = output_text[:2000]
+
+        # Combine the instruction and the (potentially shortened) golden output for training
+        full_text = item['instruction'] + output_text
+        # --- END OF MODIFICATION ---
 
         # Load images from paths
         images = []
@@ -83,6 +93,7 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
         if image_paths:
             for path in image_paths:
                 try:
+                    # Use lstrip to handle paths that may or may not start with './'
                     full_path = os.path.join(self.image_base_dir, path.lstrip('./'))
                     image = Image.open(full_path).convert("RGB")
                     images.append(image)
@@ -92,16 +103,17 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
                     return None
 
         try:
-            # <-- MODIFIED: PROCESSOR CALL WITH PADDING/TRUNCATION -->
+            # The processor prepares the inputs
             inputs = self.processor(
-                text=full_text,
+                text=full_text, # Use the modified full_text
                 images=images if images else None,
                 return_tensors="pt",
                 padding="max_length",
-                truncation=True,
+                truncation=True, # Keep truncation as a safeguard
                 max_length=self.max_length
             )
 
+            # Explicitly create 'labels' for loss calculation.
             inputs['labels'] = inputs['input_ids'].clone()
 
             # Squeeze to remove the extra batch dimension the processor adds.
