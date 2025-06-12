@@ -69,11 +69,19 @@ def parse_args():
 
 
 def resolve_image_path(img_path: str) -> str:
-    # Handle relative paths by resolving against the current working directory (/app)
+    # Handle relative paths and base data directory
     p = Path(img_path)
-    if not p.is_absolute():
-        p = Path(os.getcwd()) / p
-    return str(p)
+    # Try as given
+    if p.is_absolute() and p.exists():
+        return str(p)
+    rel = Path(os.getcwd()) / p
+    if rel.exists():
+        return str(rel)
+    # Try under eval-pipeline/data
+    alt = Path(os.getcwd()) / 'eval-pipeline' / 'data' / p
+    if alt.exists():
+        return str(alt)
+    raise FileNotFoundError(f"Image file not found: {img_path}")
 
 
 def preprocess(example, processor, max_in=512, max_out=256):
