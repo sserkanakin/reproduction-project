@@ -137,7 +137,7 @@ def custom_data_collator(features):
 class MultiImageLlavaTrainer(Trainer):
     """Custom Trainer to handle multi-image batches by reshaping the pixel_values tensor."""
 
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
         """
         Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
         """
@@ -145,7 +145,9 @@ class MultiImageLlavaTrainer(Trainer):
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        return super().compute_loss(model, inputs, return_outputs)
+        # Now, call the original compute_loss method from the parent Trainer class
+        return super().compute_loss(model, inputs, return_outputs, **kwargs)
+
 
 
 def main():
