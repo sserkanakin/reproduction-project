@@ -12,7 +12,6 @@ from transformers import (
 )
 from datasets import load_dataset
 from peft import LoraConfig, get_peft_model, TaskType
-from datasets import load_dataset
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -83,7 +82,6 @@ def resolve_image_path(img_path: str) -> str:
 
 
 def preprocess(example, processor, max_images=6, max_out=256):
-    # Load and pad/truncate images
     images = []
     for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
@@ -91,32 +89,24 @@ def preprocess(example, processor, max_images=6, max_out=256):
     if len(images) < max_images:
         blank = Image.new('RGB', images[0].size, (0, 0, 0))
         images += [blank] * (max_images - len(images))
-
-    # Use processor to handle images + instruction without truncating text
-    tokenizer = processor.tokenizer
-    text = example['instruction']
-    max_len = tokenizer.model_max_length
     proc_inputs = processor(
         images=images,
-        text=text,
+        text=example['instruction'],
         padding='max_length',
-        max_length=max_len,
         truncation=False,
+        max_length=processor.tokenizer.model_max_length,
         return_tensors='pt'
     )
     pixel_values = proc_inputs.pixel_values.squeeze(0)
     input_ids = proc_inputs.input_ids.squeeze(0)
     attention_mask = proc_inputs.attention_mask.squeeze(0)
-
-    # Tokenize output (reasoning + final answer) for labels
-    labels = tokenizer(
+    labels = processor.tokenizer(
         example['output'],
         padding='max_length',
         max_length=max_out,
         truncation=True,
         return_tensors='pt'
     ).input_ids.squeeze(0)
-
     return {
         'pixel_values': pixel_values,
         'input_ids': input_ids,
@@ -127,19 +117,16 @@ def preprocess(example, processor, max_images=6, max_out=256):
 
 def main():
     args = parse_args()
-
     data_files = {'train': args.train_file, 'validation': args.val_file}
     ds = load_dataset('json', data_files=data_files)
-
     print(f"Loading model {args.base_model} (8-bit={args.in_8bit})...")
     processor = AutoProcessor.from_pretrained(args.base_model, trust_remote_code=True)
     model = AutoModelForVision2Seq.from_pretrained(
         args.base_model,
         load_in_8bit=args.in_8bit,
         device_map='auto',
-        torch_dtype=torch.float16 if args.fp16 else None,
+        torch_dtype=torch.float16 if args.fp16 else None
     )
-
     lora_cfg = LoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
@@ -148,14 +135,12 @@ def main():
         task_type=TaskType.SEQ_2_SEQ_LM,
     )
     model = get_peft_model(model, lora_cfg)
-
     print("Tokenizing and processing images...")
     ds = ds.map(
         lambda ex: preprocess(ex, processor),
         remove_columns=['id', 'source_images', 'instruction', 'output', 'ground_truth_option'],
         batched=False
     )
-
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -167,15 +152,20 @@ def main():
         logging_steps=50,
         do_eval=True,
     )
-
+    # Use a Seq2Seq collator to handle dynamic padding
+    data_collator = DataCollatorForSeq2Seq(
+        tokenizer=processor.tokenizer,
+        model=model,
+        label_pad_token_id=processor.tokenizer.pad_token_id,
+        padding='longest'
+    )
     trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=ds['train'],
         eval_dataset=ds['validation'],
-        data_collator=default_data_collator,
+        data_collator=data_collator,
     )
-
     trainer.train()
     print(f"Saving LoRA model to {args.output_dir}")
     os.makedirs(args.output_dir, exist_ok=True)
