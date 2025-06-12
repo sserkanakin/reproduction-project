@@ -1,6 +1,6 @@
 # === Stage 1: Base Image ===
-# Use an official NVIDIA CUDA base image with PyTorch compatibility
-FROM pytorch/pytorch:2.0.1-cuda12.1-cudnn8-runtime
+# Use NVIDIA CUDA base image
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
 # === Environment Variables ===
 ENV PYTHONUNBUFFERED=1
@@ -24,7 +24,10 @@ RUN apt-get update && \
 # Make python3.10 the default
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
-RUN python -m pip install --upgrade pip setuptools wheel
+# Upgrade pip and install PyTorch with CUDA support
+RUN python -m pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu121 \
+        torch torchvision torchaudio
 
 # === Application Setup ===
 WORKDIR /app
