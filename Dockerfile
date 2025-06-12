@@ -51,4 +51,4 @@ WORKDIR /app
 
 # === No fixed ENTRYPOINT ===
 # We leave it flexible to run any script via `docker run <image> <script>.py`
-CMD ["bash"] ["bash"]
+CMD ["bash"]
