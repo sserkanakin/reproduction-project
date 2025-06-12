@@ -1,5 +1,6 @@
 import argparse
 import os
+from PIL import Image
 import torch
 from transformers import (
     AutoProcessor,
@@ -71,8 +72,10 @@ def preprocess(example, processor, max_in=512, max_out=256):
     # Load and process each image
     image_tensors = []
     for img_path in example['source_images']:
-        pixel = processor(image_path=img_path, return_tensors='pt').pixel_values
+        img = Image.open(img_path).convert('RGB')
+        pixel = processor(images=img, return_tensors='pt').pixel_values
         image_tensors.append(pixel)
+    # concatenate pixels along width dimension
     pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
 
     # Tokenize instruction text
