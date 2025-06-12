@@ -1,6 +1,6 @@
 # === Stage 1: Base Image ===
-# Use an official NVIDIA CUDA base image with PyTorch compatibility
-FROM pytorch/pytorch:2.0.1-cuda12.1-cudnn8-runtime
+# Use NVIDIA CUDA base image directly and install PyTorch via pip
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
 # === Environment Variables ===
 ENV PYTHONUNBUFFERED=1
@@ -24,7 +24,12 @@ RUN apt-get update && \
 # Make python3.10 the default
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
-RUN python -m pip install --upgrade pip setuptools wheel
+
+# Upgrade pip and install PyTorch (with CUDA 12.1) + vision/audio libs
+RUN python -m pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir \
+      --extra-index-url https://download.pytorch.org/whl/cu121 \
+      torch torchvision torchaudio
 
 # === Application Setup ===
 WORKDIR /app
@@ -33,15 +38,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY eval-pipeline/ /app/eval-pipeline/
 COPY generate_finetuning_data.py run_finetune.py eval-runner.py ./
-
-# === (Optional) Cache Hugging Face models ===
-# Uncomment to pre-download heavy models and reduce startup latency
-# ENV HF_HOME=/app/hf_cache
-# RUN mkdir -p $HF_HOME && \
-#     python -c "from transformers import AutoProcessor, AutoModelForVision2Seq;\
-# import torch; MODEL='llava-hf/llava-interleave-qwen-7b-hf';\
-# AutoProcessor.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True);\
-# AutoModelForVision2Seq.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True)"
 
 # === No fixed ENTRYPOINT ===
 # We leave it flexible to run any script via `docker run <image> <script>.py`
