@@ -32,6 +32,9 @@ def parse_args():
                         help="Path to the .jsonl file containing the fine-tuning data.")
     parser.add_argument("--image_base_dir", type=str, required=True,
                         help="Base directory where MMIU images are stored.")
+    # <-- ADD THIS ARGUMENT -->
+    parser.add_argument("--max_seq_length", type=int, default=2048,
+                        help="Maximum sequence length to truncate or pad to.")
 
     # --- Training Hyperparameters ---
     parser.add_argument("--output_dir", type=str, default="./llava_finetuned_adapters",
@@ -57,9 +60,11 @@ def parse_args():
 class LlavaFinetuneDataset(torch.utils.data.Dataset):
     """Custom PyTorch Dataset to load and process the fine-tuning data."""
 
-    def __init__(self, dataset_path, processor, image_base_dir):
+    # <-- MODIFIED: ADD max_length PARAMETER -->
+    def __init__(self, dataset_path, processor, image_base_dir, max_length):
         self.processor = processor
         self.image_base_dir = image_base_dir
+        self.max_length = max_length # <-- MODIFIED: STORE max_length
         with open(dataset_path, 'r') as f:
             self.dataset = [json.loads(line) for line in f]
 
@@ -87,12 +92,16 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
                     return None
 
         try:
-            # The processor prepares the inputs
-            inputs = self.processor(text=full_text, images=images if images else None, return_tensors="pt")
+            # <-- MODIFIED: PROCESSOR CALL WITH PADDING/TRUNCATION -->
+            inputs = self.processor(
+                text=full_text,
+                images=images if images else None,
+                return_tensors="pt",
+                padding="max_length",
+                truncation=True,
+                max_length=self.max_length
+            )
 
-            # --- FIXED: Explicitly create 'labels' for loss calculation ---
-            # The labels are the same as the input_ids for language modeling.
-            # The model internally handles masking the prompt part so loss is only calculated on the response.
             inputs['labels'] = inputs['input_ids'].clone()
 
             # Squeeze to remove the extra batch dimension the processor adds.
@@ -108,7 +117,7 @@ def custom_data_collator(features):
     features = [f for f in features if f is not None]
     if not features:
         return {}
-
+    # Use the default data collator provided by the transformers library
     from transformers.data.data_collator import default_data_collator
     return default_data_collator(features)
 
@@ -116,7 +125,7 @@ def custom_data_collator(features):
 class MultiImageLlavaTrainer(Trainer):
     """Custom Trainer to handle multi-image batches by reshaping the pixel_values tensor."""
 
-    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
+    def compute_loss(self, model, inputs, return_outputs=False):
         """
         Overrides the default compute_loss to fix the 5D tensor issue for pixel_values.
         """
@@ -124,8 +133,7 @@ class MultiImageLlavaTrainer(Trainer):
             bs, num_images, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(bs * num_images, c, h, w)
 
-        # Now, call the original compute_loss method from the parent Trainer class
-        return super().compute_loss(model, inputs, return_outputs, **kwargs)
+        return super().compute_loss(model, inputs, return_outputs)
 
 
 def main():
@@ -174,7 +182,8 @@ def main():
     train_dataset = LlavaFinetuneDataset(
         dataset_path=args.finetuning_dataset_path,
         processor=processor,
-        image_base_dir=args.image_base_dir
+        image_base_dir=args.image_base_dir,
+        max_length=args.max_seq_length  # <-- MODIFIED: Pass max_length to the dataset
     )
 
     # --- 5. Setup and Run Trainer ---
@@ -183,6 +192,7 @@ def main():
         num_train_epochs=args.num_train_epochs,
         per_device_train_batch_size=args.per_device_train_batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
+        optim="paged_adamw_8bit",
         learning_rate=args.learning_rate,
         logging_steps=args.logging_steps,
         save_steps=args.save_steps,
