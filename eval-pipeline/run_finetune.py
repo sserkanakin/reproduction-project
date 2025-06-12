@@ -69,57 +69,41 @@ class LlavaFinetuningDataset(Dataset):
 
 
 # --- 3. Robust Data Collator Class ---
+# python
 class DataCollatorForLlavaFinetuning:
-    """
-    A custom data collator that handles all preprocessing, tokenization,
-    and label creation for a batch.
-    """
-
     def __init__(self, processor: AutoProcessor, max_length: int):
         self.processor = processor
         self.max_length = max_length
 
     def __call__(self, features: List[Dict]) -> Dict[str, torch.Tensor]:
-        # Filter out failed samples
         features = [f for f in features if f is not None]
         if not features:
-            # If the whole batch is empty, return an empty dict
             return {}
 
-        # The Llava processor expects a flat list of images and a list of texts
         all_images = [img for f in features for img in f["images"]]
-
-        # Create a text prompt for each sample
         prompts = [f["instruction"] + f["output"] for f in features]
 
-        # Tokenize and process the batch
         inputs = self.processor(
             text=prompts,
             images=all_images,
             padding="max_length",
-            truncation=True,
+            truncation=False,  # Disabled truncation to avoid image token count mismatch
             max_length=self.max_length,
             return_tensors="pt"
         )
 
-        # Create labels for language modeling
         labels = inputs.input_ids.clone()
 
-        # Now, we need to mask the instruction part of the labels
         instruction_prompts = [f["instruction"] for f in features]
         instruction_token_lengths = [
             len(self.processor.tokenizer(inst, add_special_tokens=False).input_ids)
             for inst in instruction_prompts
         ]
 
-        # The processor adds a Beginning Of Sequence (BOS) token. We must account for it.
-        # For each sample in the batch, mask its instruction tokens in the labels tensor.
         for i, length in enumerate(instruction_token_lengths):
-            labels[i, :length + 1] = -100  # +1 for the BOS token
+            labels[i, :length + 1] = -100
 
-        # Also mask any padding tokens that might be part of the response
         labels[labels == self.processor.tokenizer.pad_token_id] = -100
-
         inputs["labels"] = labels
         return inputs
 
