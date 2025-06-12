@@ -91,21 +91,26 @@ def preprocess(example, processor, max_images=6, max_out=256):
         blank = Image.new('RGB', pil_images[0].size, (0, 0, 0))
         pil_images += [blank] * (max_images - len(pil_images))
 
-    # Delegate to LlavaProcessor to handle images + text interleaving
-    proc_inputs = processor(
-        images=pil_images,
-        text=example['instruction'],
+    # Process each image separately and mosaic along width
+    pixel_tensors = []
+    for img in pil_images:
+        # shape [1, 3, H, W]
+        pix = processor.image_processor(images=img, return_tensors='pt').pixel_values
+        pix = pix.squeeze(0)  # [3, H, W]
+        pixel_tensors.append(pix)
+    # Concatenate width-wise: mosaic image [3, H, W * num_images]
+    pixel_values = torch.cat(pixel_tensors, dim=2)
+
+    # Tokenize instruction text (with <image> tokens) -- we ignore automatic interleaving
+    tokenized = processor.tokenizer(
+        example['instruction'],
         padding='max_length',
-        truncation=False,
+        truncation=True,
         max_length=processor.tokenizer.model_max_length,
         return_tensors='pt'
     )
-    # proc_inputs.pixel_values: [1, 3*max_images, H, W]
-    # proc_inputs.input_ids: [1, seq_len]
-
-    pixel_values = proc_inputs.pixel_values.squeeze(0)
-    input_ids = proc_inputs.input_ids.squeeze(0)
-    attention_mask = proc_inputs.attention_mask.squeeze(0)
+    input_ids = tokenized.input_ids.squeeze(0)
+    attention_mask = tokenized.attention_mask.squeeze(0)
 
     # Tokenize output for Seq2Seq labels
     labels = processor.tokenizer(
