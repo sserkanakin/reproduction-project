@@ -148,6 +148,8 @@ def main():
         remove_columns=['id', 'source_images', 'instruction', 'output', 'ground_truth_option'],
         batched=False
     )
+    # Convert dataset columns to torch tensors for training
+    ds.set_format(type='torch', columns=['pixel_values','input_ids','attention_mask','labels'])
     # Debug sample
     sample = ds['train'][0]
     print("Dataset processed. Sample keys:", list(sample.keys()))
