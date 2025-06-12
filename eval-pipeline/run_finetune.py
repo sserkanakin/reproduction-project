@@ -154,7 +154,7 @@ def main():
         batched=False
     )
 
-    # Set up training args
+        # Set up training args
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -162,9 +162,9 @@ def main():
         num_train_epochs=args.epochs,
         learning_rate=args.learning_rate,
         fp16=args.fp16,
-        evaluation_strategy='epoch',
         save_total_limit=2,
         logging_steps=50,
+        do_eval=True,
     )
 
     trainer = Trainer(
