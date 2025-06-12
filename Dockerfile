@@ -30,28 +30,22 @@ RUN python -m pip install --upgrade pip setuptools wheel && \
         torch torchvision torchaudio
 
 # === Application Setup ===
+# Since the Dockerfile lives inside `reproduction-project/`, copy the entire context
 WORKDIR /app
-# Copy the entire cloned project directory into the container
-# Assumes you build from the parent of 'reproduction-project'
-COPY reproduction-project/ /app/
+COPY . /app
 
-# Install Python dependencies
-WORKDIR /app
-COPY reproduction-project/requirements.txt ./
+# Install Python dependencies from your project
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set working directory back to project root
-WORKDIR /app
-
 # === (Optional) Cache Hugging Face models ===
-# Uncomment to pre-download heavy models and reduce startup latency
+# Uncomment to pre-download heavy models into /app/hf_cache
 # ENV HF_HOME=/app/hf_cache
 # RUN mkdir -p $HF_HOME && \
-#     python -c "from transformers import AutoProcessor, AutoModelForVision2Seq;\
-# import torch; MODEL='llava-hf/llava-interleave-qwen-7b-hf';\
-# AutoProcessor.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True);\
+#     python -c "from transformers import AutoProcessor, AutoModelForVision2Seq; \
+# import torch; MODEL='llava-hf/llava-interleave-qwen-7b-hf'; \
+# AutoProcessor.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True); \
 # AutoModelForVision2Seq.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True)"
 
-# === No fixed ENTRYPOINT ===
-# We leave it flexible to run any script via `docker run <image> <script>.py`
+# === Flexible CMD ===
+# Default to bash so you can run any script: `docker run <image> python your_script.py`
 CMD ["bash"]
