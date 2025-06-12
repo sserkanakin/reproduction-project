@@ -67,6 +67,7 @@ def parse_args():
     )
     return parser.parse_args()
 
+
 def resolve_image_path(img_path: str) -> str:
     # Handle relative paths by resolving against the current working directory (/app)
     p = Path(img_path)
@@ -74,12 +75,13 @@ def resolve_image_path(img_path: str) -> str:
         p = Path(os.getcwd()) / p
     return str(p)
 
+
 def preprocess(example, processor, max_in=512, max_out=256):
     # example fields: source_images, instruction, output
-    # Load and process each image
     image_tensors = []
     for img_path in example['source_images']:
-        img = Image.open(img_path).convert('RGB')
+        full_path = resolve_image_path(img_path)
+        img = Image.open(full_path).convert('RGB')
         pixel = processor(images=img, return_tensors='pt').pixel_values
         image_tensors.append(pixel)
     # concatenate pixels along width dimension
