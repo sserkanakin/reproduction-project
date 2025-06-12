@@ -8,140 +8,164 @@ from transformers import (
     LlavaForConditionalGeneration,
     TrainingArguments,
     Trainer,
-    BitsAndBytesConfig
+    BitsAndBytesConfig,
 )
 from peft import get_peft_model, LoraConfig
 from PIL import Image
+from typing import Dict, List
 
 
+# --- 1. Argument Parsing ---
 def parse_args():
-    """Parses command-line arguments for the fine-tuning script."""
-    parser = argparse.ArgumentParser(description="LoRA Fine-tuning script for LLaVA models.")
+    parser = argparse.ArgumentParser(description="Robust LoRA Fine-tuning script for LLaVA models.")
     parser.add_argument("--base_model_id", type=str, default="llava-hf/llava-interleave-qwen-7b-hf")
-    parser.add_argument("--use_quantization", action="store_true", help="Enable 8-bit quantization for VRAM saving.")
-    parser.add_argument("--finetuning_dataset_path", type=str, required=True,
-                        help="Path to the .jsonl fine-tuning data.")
-    parser.add_argument("--image_base_dir", type=str, required=True,
-                        help="Base directory where MMIU images are stored.")
-    parser.add_argument("--max_seq_length", type=int, default=2048, help="Maximum sequence length for truncation.")
-    parser.add_argument("--output_dir", type=str, default="./llava_finetuned_adapters",
-                        help="Directory to save adapters.")
-    parser.add_argument("--num_train_epochs", type=int, default=3, help="Number of training epochs.")
-    parser.add_argument("--per_device_train_batch_size", type=int, default=1, help="Batch size per device.")
-    parser.add_argument("--gradient_accumulation_steps", type=int, default=8, help="Steps for gradient accumulation.")
-    parser.add_argument("--learning_rate", type=float, default=1e-5, help="Initial learning rate.")
-    parser.add_argument("--logging_steps", type=int, default=5, help="Log every X steps.")
-    parser.add_argument("--save_steps", type=int, default=100, help="Save a checkpoint every X steps.")
-    parser.add_argument("--max_steps", type=int, default=-1, help="Max steps to run (overrides epochs).")
+    parser.add_argument("--use_quantization", action="store_true")
+    parser.add_argument("--finetuning_dataset_path", type=str, required=True)
+    parser.add_argument("--image_base_dir", type=str, required=True)
+    parser.add_argument("--max_seq_length", type=int, default=2048)
+    parser.add_argument("--output_dir", type=str, default="./llava_finetuned_adapters")
+    parser.add_argument("--num_train_epochs", type=int, default=3)
+    parser.add_argument("--per_device_train_batch_size", type=int, default=1)
+    parser.add_argument("--gradient_accumulation_steps", type=int, default=8)
+    parser.add_argument("--learning_rate", type=float, default=1e-5)
+    parser.add_argument("--logging_steps", type=int, default=5)
+    parser.add_argument("--save_steps", type=int, default=100)
+    parser.add_argument("--max_steps", type=int, default=-1)
     return parser.parse_args()
 
 
-class FineTuningDataset(Dataset):
-    """Simple Dataset to load and process data for fine-tuning."""
+# --- 2. Simplified Dataset Class ---
+class LlavaFinetuningDataset(Dataset):
+    """
+    A simple dataset class that loads raw data: text prompts and images.
+    The heavy processing is deferred to the data collator.
+    """
 
-    def __init__(self, dataset_path, processor, image_base_dir, max_length):
-        self.processor = processor
+    def __init__(self, dataset_path: str, image_base_dir: str):
         self.image_base_dir = image_base_dir
-        self.max_length = max_length
         with open(dataset_path, 'r') as f:
             self.dataset = [json.loads(line) for line in f]
 
     def __len__(self):
         return len(self.dataset)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> Dict[str, List]:
         item = self.dataset[idx]
-        full_text = item['instruction'] + item['output']
-
         images = []
         if image_paths := item.get("source_images"):
             for path in image_paths:
                 try:
                     full_path = os.path.join(self.image_base_dir, path.lstrip('./'))
                     images.append(Image.open(full_path).convert("RGB"))
-                except Exception:
-                    # Return None if an image fails to load; collator will skip it.
-                    return None
+                except Exception as e:
+                    print(f"Warning: Could not load image {full_path}. Skipping sample. Error: {e}")
+                    return None  # This sample will be filtered out by the collator.
 
-        try:
-            # The processor handles tokenization, image processing, and truncation.
-            inputs = self.processor(
-                text=full_text,
-                images=images,
-                return_tensors="pt",
-                padding="max_length",
-                truncation=True,
-                max_length=self.max_length
-            )
-            # For Causal LM, the labels are the same as the input_ids.
-            # The model internally handles masking the prompt part during loss calculation.
-            inputs['labels'] = inputs['input_ids'].clone()
-
-            # Remove the extra batch dimension.
-            return {k: v.squeeze(0) for k, v in inputs.items()}
-        except Exception:
-            # If any other processing error occurs, skip the sample.
-            return None
+        return {
+            "instruction": item["instruction"],
+            "output": item["output"],
+            "images": images
+        }
 
 
-def custom_data_collator(features):
-    """A simple data collator that filters out failed samples and batches them."""
-    # Filter out None values which may have been returned by the dataset's __getitem__
-    features = [f for f in features if f is not None]
-    if not features:
-        return {}
-    # Batch the features
-    return {key: torch.stack([f[key] for f in features]) for key in features[0].keys()}
+# --- 3. Robust Data Collator Class ---
+class DataCollatorForLlavaFinetuning:
+    """
+    A custom data collator that handles all preprocessing, tokenization,
+    and label creation for a batch.
+    """
+
+    def __init__(self, processor: AutoProcessor, max_length: int):
+        self.processor = processor
+        self.max_length = max_length
+
+    def __call__(self, features: List[Dict]) -> Dict[str, torch.Tensor]:
+        # Filter out failed samples
+        features = [f for f in features if f is not None]
+        if not features:
+            # If the whole batch is empty, return an empty dict
+            return {}
+
+        # The Llava processor expects a flat list of images and a list of texts
+        all_images = [img for f in features for img in f["images"]]
+
+        # Create a text prompt for each sample
+        prompts = [f["instruction"] + f["output"] for f in features]
+
+        # Tokenize and process the batch
+        inputs = self.processor(
+            text=prompts,
+            images=all_images,
+            padding="max_length",
+            truncation=True,
+            max_length=self.max_length,
+            return_tensors="pt"
+        )
+
+        # Create labels for language modeling
+        labels = inputs.input_ids.clone()
+
+        # Now, we need to mask the instruction part of the labels
+        instruction_prompts = [f["instruction"] for f in features]
+        instruction_token_lengths = [
+            len(self.processor.tokenizer(inst, add_special_tokens=False).input_ids)
+            for inst in instruction_prompts
+        ]
+
+        # The processor adds a Beginning Of Sequence (BOS) token. We must account for it.
+        # For each sample in the batch, mask its instruction tokens in the labels tensor.
+        for i, length in enumerate(instruction_token_lengths):
+            labels[i, :length + 1] = -100  # +1 for the BOS token
+
+        # Also mask any padding tokens that might be part of the response
+        labels[labels == self.processor.tokenizer.pad_token_id] = -100
+
+        inputs["labels"] = labels
+        return inputs
 
 
+# --- 4. Main Execution Block ---
 def main():
     args = parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
+
     print("--- Starting LLaVA LoRA Fine-tuning ---")
 
-    # Setup quantization
+    # Model and Quantization Setup
     quant_config = BitsAndBytesConfig(load_in_8bit=True) if args.use_quantization else None
-
-    # Load model and processor
-    model = LlavaForConditionalGeneration.from_pretrained(args.base_model_id, torch_dtype=torch.float16,
-                                                          quantization_config=quant_config, trust_remote_code=True)
+    model = LlavaForConditionalGeneration.from_pretrained(
+        args.base_model_id, torch_dtype=torch.float16,
+        quantization_config=quant_config, trust_remote_code=True
+    )
     processor = AutoProcessor.from_pretrained(args.base_model_id, trust_remote_code=True)
 
-    # Configure tokenizer padding
+    # Tokenizer Setup
     if processor.tokenizer.pad_token is None:
         processor.tokenizer.pad_token = processor.tokenizer.eos_token
         model.config.pad_token_id = processor.tokenizer.pad_token_id
 
-    # Configure LoRA
+    # LoRA Setup
     lora_config = LoraConfig(
-        r=16,
-        lora_alpha=32,
+        r=16, lora_alpha=32,
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
-        lora_dropout=0.05,
-        bias="none",
-        task_type="CAUSAL_LM"
+        lora_dropout=0.05, bias="none", task_type="CAUSAL_LM"
     )
     model = get_peft_model(model, lora_config)
     model.print_trainable_parameters()
 
-    # Create dataset instance
-    train_dataset = FineTuningDataset(args.finetuning_dataset_path, processor, args.image_base_dir, args.max_seq_length)
+    # Dataset and Data Collator Setup
+    train_dataset = LlavaFinetuningDataset(args.finetuning_dataset_path, args.image_base_dir)
+    data_collator = DataCollatorForLlavaFinetuning(processor, args.max_seq_length)
 
-    # Define training arguments
+    # Training Arguments
     training_args = TrainingArguments(
-        output_dir=args.output_dir,
-        num_train_epochs=args.num_train_epochs,
+        output_dir=args.output_dir, num_train_epochs=args.num_train_epochs,
         per_device_train_batch_size=args.per_device_train_batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
-        learning_rate=args.learning_rate,
-        logging_steps=args.logging_steps,
-        save_steps=args.save_steps,
-        max_steps=args.max_steps,
-        fp16=True,
-        optim="paged_adamw_8bit",
-        save_total_limit=2,
-        remove_unused_columns=False,
-        report_to="none"
+        learning_rate=args.learning_rate, logging_steps=args.logging_steps,
+        save_steps=args.save_steps, max_steps=args.max_steps, fp16=True,
+        optim="paged_adamw_8bit", save_total_limit=2,
+        remove_unused_columns=False, report_to="none"
     )
 
     # Initialize Trainer
@@ -149,14 +173,12 @@ def main():
         model=model,
         args=training_args,
         train_dataset=train_dataset,
-        data_collator=custom_data_collator
+        data_collator=data_collator,
     )
 
-    # Start fine-tuning
     print("Starting the training process...")
     trainer.train()
 
-    # Save the final model
     final_checkpoint_dir = os.path.join(args.output_dir, "final_checkpoint")
     model.save_pretrained(final_checkpoint_dir)
     print(f"\n--- Fine-tuning Complete --- \nFinal LoRA adapters saved to: {final_checkpoint_dir}")
