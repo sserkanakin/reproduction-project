@@ -11,6 +11,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
+        build-essential \
         ffmpeg \
         libgl1 \
         libglib2.0-0 \
