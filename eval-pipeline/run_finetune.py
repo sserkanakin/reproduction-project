@@ -67,18 +67,15 @@ def parse_args():
 
 
 def preprocess(example, processor, max_in=512, max_out=256):
-    # expects example contains:
-    # - example['image_paths']: list of image file paths
-    # - example['instruction']: prompt string with <image> tokens
-    # - example['target']: target string (reasoning + answer)
-    images = []
-    for img_path in example['image_paths']:
-        # load and process each image
+    # example fields: source_images, instruction, output
+    # Load and process each image
+    image_tensors = []
+    for img_path in example['source_images']:
         pixel = processor(image_path=img_path, return_tensors='pt').pixel_values
-        images.append(pixel)
-    # concatenate across channel dimension
-    pixel_values = torch.cat(images, dim=1).squeeze(0)
+        image_tensors.append(pixel)
+    pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
 
+    # Tokenize instruction text
     tokenized_inputs = processor.tokenizer(
         example['instruction'],
         truncation=True,
@@ -86,34 +83,31 @@ def preprocess(example, processor, max_in=512, max_out=256):
         max_length=max_in,
         return_tensors='pt',
     )
+    # Tokenize output (reasoning + final answer)
     tokenized_labels = processor.tokenizer(
-        example['target'],
+        example['output'],
         truncation=True,
         padding='max_length',
         max_length=max_out,
         return_tensors='pt',
     )
 
-    input_ids = tokenized_inputs.input_ids.squeeze(0)
-    attention_mask = tokenized_inputs.attention_mask.squeeze(0)
-    labels = tokenized_labels.input_ids.squeeze(0)
-
     return {
         'pixel_values': pixel_values,
-        'input_ids': input_ids,
-        'attention_mask': attention_mask,
-        'labels': labels,
+        'input_ids': tokenized_inputs.input_ids.squeeze(0),
+        'attention_mask': tokenized_inputs.attention_mask.squeeze(0),
+        'labels': tokenized_labels.input_ids.squeeze(0),
     }
 
 
 def main():
     args = parse_args()
 
-    # Load dataset
-    data_files = { 'train': args.train_file, 'validation': args.val_file }
+    # Load dataset from JSONL
+    data_files = {'train': args.train_file, 'validation': args.val_file}
     ds = load_dataset('json', data_files=data_files)
 
-    # Load processor & model
+    # Load processor & base model
     print(f"Loading model {args.base_model} (8-bit={args.in_8bit})...")
     processor = AutoProcessor.from_pretrained(args.base_model, trust_remote_code=True)
     model = AutoModelForVision2Seq.from_pretrained(
@@ -122,24 +116,25 @@ def main():
         device_map='auto'
     )
 
-    # Wrap in LoRA
+    # Apply LoRA
     lora_cfg = LoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
         target_modules=['q_proj', 'v_proj'],
         lora_dropout=args.lora_dropout,
-        task_type=TaskType.SEQ_2_SEQ_LM
+        task_type=TaskType.SEQ_2_SEQ_LM,
     )
     model = get_peft_model(model, lora_cfg)
 
-    # Preprocess
+    # Preprocess examples (images + text)
     print("Tokenizing and processing images...")
     ds = ds.map(
         lambda ex: preprocess(ex, processor),
-        remove_columns=ds['train'].column_names
+        remove_columns=['id', 'source_images', 'instruction', 'output', 'ground_truth_option'],
+        batched=False
     )
 
-    # Training arguments
+    # Set up training args
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -152,7 +147,6 @@ def main():
         logging_steps=50,
     )
 
-    # Trainer
     trainer = Trainer(
         model=model,
         args=training_args,
@@ -161,9 +155,9 @@ def main():
         data_collator=default_data_collator,
     )
 
-    # Train
+    # Train and save
     trainer.train()
-    print("Saving LoRA-adapted model to", args.output_dir)
+    print(f"Saving LoRA model to {args.output_dir}")
     os.makedirs(args.output_dir, exist_ok=True)
     model.save_pretrained(args.output_dir)
 
