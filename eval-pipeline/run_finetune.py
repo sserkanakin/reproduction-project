@@ -109,7 +109,7 @@ class LlavaFinetuneDataset(torch.utils.data.Dataset):
                 images=images if images else None,
                 return_tensors="pt",
                 padding="max_length",
-                truncation=True, # Keep truncation as a safeguard
+                truncation=False, # Keep truncation as a safeguard
                 max_length=self.max_length
             )
 
