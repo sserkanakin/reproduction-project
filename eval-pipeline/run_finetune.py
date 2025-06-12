@@ -133,7 +133,8 @@ def main():
     model = AutoModelForVision2Seq.from_pretrained(
         args.base_model,
         load_in_8bit=args.in_8bit,
-        device_map='auto'
+        device_map='auto',
+        torch_dtype=torch.float16 if args.fp16 else None,
     )
 
     # Apply LoRA
