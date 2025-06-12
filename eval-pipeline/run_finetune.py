@@ -86,46 +86,47 @@ def resolve_image_path(img_path: str) -> str:
 
 def preprocess(example, processor, max_in=512, max_out=256, max_images=6):
     # example fields: source_images, instruction, output
-    # Load and process each image into a fixed-length list
-    image_tensors = []
-    # First, load up to max_images images
+    images = []
+    # Load up to max_images images as PIL
     for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
         img = Image.open(full_path).convert('RGB')
-        pixel = processor.image_processor(images=img, return_tensors='pt').pixel_values
-        image_tensors.append(pixel)
-    # If fewer than max_images, pad with black images
-    if len(image_tensors) < max_images:
-        # Use the size of the first tensor to pad
-        pad_shape = image_tensors[0].shape  # [1, 3, H, W]
-        pad_tensor = torch.zeros(pad_shape, dtype=image_tensors[0].dtype)
-        for _ in range(max_images - len(image_tensors)):
-            image_tensors.append(pad_tensor)
-    # Concatenate along channel dimension to match LLaVA interleave expectation
-    pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
+        images.append(img)
+    # If fewer images, pad by repeating last image or using a blank image
+    if len(images) < max_images:
+        # create a blank image same size as first
+        blank = Image.new('RGB', images[0].size, (0,0,0))
+        for _ in range(max_images - len(images)):
+            images.append(blank)
 
-    # Tokenize instruction text
-    tokenized_inputs = processor.tokenizer(
-        example['instruction'],
-        truncation=True,
+    # Prepare inputs with processor: images list + instruction text
+    proc_inputs = processor(
+        images=images,
+        text=example['instruction'],
         padding='max_length',
+        truncation=True,
         max_length=max_in,
         return_tensors='pt',
     )
-    # Tokenize output (reasoning + final answer)
-    tokenized_labels = processor.tokenizer(
+    # tokenized inputs contains pixel_values, input_ids, attention_mask
+    pixel_values = proc_inputs.pixel_values.squeeze(0)
+    input_ids = proc_inputs.input_ids.squeeze(0)
+    attention_mask = proc_inputs.attention_mask.squeeze(0)
+
+    # Tokenize output (reasoning + final answer) as labels
+    labels = processor.tokenizer(
         example['output'],
         truncation=True,
         padding='max_length',
         max_length=max_out,
-        return_tensors='pt',
-    )
+        return_tensors='pt'
+    ).input_ids.squeeze(0)
 
     return {
         'pixel_values': pixel_values,
-        'input_ids': tokenized_inputs.input_ids.squeeze(0),
-        'attention_mask': tokenized_inputs.attention_mask.squeeze(0),
-        'labels': tokenized_labels.input_ids.squeeze(0),
+        'input_ids': input_ids,
+        'attention_mask': attention_mask,
+        'labels': labels,
     }
 
 
