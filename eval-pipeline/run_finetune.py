@@ -8,8 +8,9 @@ from transformers import (
     AutoModelForVision2Seq,
     TrainingArguments,
     Trainer,
-    default_data_collator,
+    DataCollatorForSeq2Seq,
 )
+from datasets import load_dataset
 from peft import LoraConfig, get_peft_model, TaskType
 from datasets import load_dataset
 
