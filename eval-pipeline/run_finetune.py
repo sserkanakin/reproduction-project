@@ -84,15 +84,24 @@ def resolve_image_path(img_path: str) -> str:
     raise FileNotFoundError(f"Image file not found: {img_path}")
 
 
-def preprocess(example, processor, max_in=512, max_out=256):
+def preprocess(example, processor, max_in=512, max_out=256, max_images=6):
     # example fields: source_images, instruction, output
+    # Load and process each image into a fixed-length list
     image_tensors = []
-    for img_path in example['source_images']:
+    # First, load up to max_images images
+    for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
         img = Image.open(full_path).convert('RGB')
         pixel = processor.image_processor(images=img, return_tensors='pt').pixel_values
         image_tensors.append(pixel)
-    # concatenate pixels along width dimension
+    # If fewer than max_images, pad with black images
+    if len(image_tensors) < max_images:
+        # Use the size of the first tensor to pad
+        pad_shape = image_tensors[0].shape  # [1, 3, H, W]
+        pad_tensor = torch.zeros(pad_shape, dtype=image_tensors[0].dtype)
+        for _ in range(max_images - len(image_tensors)):
+            image_tensors.append(pad_tensor)
+    # Concatenate along channel dimension to match LLaVA interleave expectation
     pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
 
     # Tokenize instruction text
