@@ -128,7 +128,7 @@ def main():
         lora_alpha=args.lora_alpha,
         target_modules=['q_proj', 'v_proj'],
         lora_dropout=args.lora_dropout,
-        task_type=TaskType.VISION_SEQ_2_SEQ_LM
+        task_type=TaskType.SEQ_2_SEQ_LM
     )
     model = get_peft_model(model, lora_cfg)
 
