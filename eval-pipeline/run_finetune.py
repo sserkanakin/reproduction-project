@@ -82,44 +82,40 @@ def resolve_image_path(img_path: str) -> str:
 
 
 def preprocess(example, processor, max_images=6, max_out=256):
-    pil_images = []
-    for img_path in example['source_images'][:max_images]:
-        full_path = resolve_image_path(img_path)
-        pil_images.append(Image.open(full_path).convert('RGB'))
-    if len(pil_images) < max_images:
-        blank = Image.new('RGB', pil_images[0].size, (0, 0, 0))
-        pil_images += [blank] * (max_images - len(pil_images))
-    pixel_tensors = []
-    for img in pil_images:
-        pix = processor.image_processor(images=img, return_tensors='pt').pixel_values
-        pixel_tensors.append(pix)
-    # concatenate along width dimension
-    pixel_values = torch.cat(pixel_tensors, dim=3).squeeze(0)
+    # 1. Load up to max_images PIL images and pad with blanks
+    images = []
+    for path in example["source_images"][:max_images]:
+        img = Image.open(resolve_image_path(path)).convert("RGB")
+        images.append(img)
+    while len(images) < max_images:
+        images.append(Image.new("RGB", images[0].size, (0,0,0)))
 
-    tokenized = processor.tokenizer(
-        example['instruction'],
-        padding='max_length',
-        truncation=True,
+    # 2. Delegate to the LlavaProcessor to handle BOTH images and text interleaving
+    proc_inputs = processor(
+        images=images,
+        text=example["instruction"],
+        padding="max_length",
+        truncation=False,  # keep all <image> tokens
         max_length=processor.tokenizer.model_max_length,
-        return_tensors='pt'
+        return_tensors="pt"
     )
-    input_ids = tokenized.input_ids.squeeze(0)
-    attention_mask = tokenized.attention_mask.squeeze(0)
 
+    # 3. Tokenize the target explanation + answer
     labels = processor.tokenizer(
-        example['output'],
-        padding='max_length',
+        example["output"],
+        padding="max_length",
         truncation=True,
         max_length=max_out,
-        return_tensors='pt'
-    ).input_ids.squeeze(0)
+        return_tensors="pt"
+    ).input_ids
 
     return {
-        'pixel_values': pixel_values,
-        'input_ids': input_ids,
-        'attention_mask': attention_mask,
-        'labels': labels,
+        "pixel_values": proc_inputs.pixel_values.squeeze(0),        # [N,3,H,W]
+        "input_ids":    proc_inputs.input_ids.squeeze(0),           # [seq_len]
+        "attention_mask": proc_inputs.attention_mask.squeeze(0),    # [seq_len]
+        "labels": labels.squeeze(0),                                 # [max_out]
     }
+
 
 
 def main():
