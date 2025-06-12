@@ -91,26 +91,28 @@ def preprocess(example, processor, max_images=6, max_out=256):
         blank = Image.new('RGB', pil_images[0].size, (0, 0, 0))
         pil_images += [blank] * (max_images - len(pil_images))
 
-    # Process each image separately and mosaic along width
+    # Process each image and mosaic along width
     pixel_tensors = []
     for img in pil_images:
-        # shape [1, 3, H, W]
         pix = processor.image_processor(images=img, return_tensors='pt').pixel_values
-        pix = pix.squeeze(0)  # [3, H, W]
-        pixel_tensors.append(pix)
-    # Concatenate width-wise: mosaic image [3, H, W * num_images]
-    pixel_values = torch.cat(pixel_tensors, dim=2)
+        # pix: [1,3,H,W]
+        pixel_tensors.append(pix.squeeze(0))  # -> [3,H,W]
+    # Concatenate width-wise: [3, H, W * N]
+    mosaic = torch.cat(pixel_tensors, dim=2)
+    # Add batch dimension: [1,3,H,W*N]
+    pixel_values = mosaic.unsqueeze(0)
 
-    # Tokenize instruction text (with <image> tokens) -- we ignore automatic interleaving
+    # Prepare instruction text without <image> tokens
+    instr = example['instruction'].replace('<image>', '').strip()
     tokenized = processor.tokenizer(
-        example['instruction'],
+        instr,
         padding='max_length',
         truncation=True,
         max_length=processor.tokenizer.model_max_length,
         return_tensors='pt'
     )
-    input_ids = tokenized.input_ids.squeeze(0)
-    attention_mask = tokenized.attention_mask.squeeze(0)
+    input_ids = tokenized.input_ids  # [1, seq_len]
+    attention_mask = tokenized.attention_mask  # [1, seq_len]
 
     # Tokenize output for Seq2Seq labels
     labels = processor.tokenizer(
@@ -119,13 +121,13 @@ def preprocess(example, processor, max_images=6, max_out=256):
         truncation=True,
         max_length=max_out,
         return_tensors='pt'
-    ).input_ids.squeeze(0)
+    ).input_ids  # [1, max_out]
 
     return {
-        'pixel_values': pixel_values,
-        'input_ids': input_ids,
-        'attention_mask': attention_mask,
-        'labels': labels,
+        'pixel_values': pixel_values.squeeze(0),  # remove leading batch dim
+        'input_ids': input_ids.squeeze(0),
+        'attention_mask': attention_mask.squeeze(0),
+        'labels': labels.squeeze(0),
     }
 
 
