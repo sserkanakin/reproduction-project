@@ -90,7 +90,7 @@ def preprocess(example, processor, max_in=512, max_out=256):
     for img_path in example['source_images']:
         full_path = resolve_image_path(img_path)
         img = Image.open(full_path).convert('RGB')
-        pixel = processor(images=img, return_tensors='pt').pixel_values
+        pixel = processor.feature_extractor(images=img, return_tensors='pt').pixel_values
         image_tensors.append(pixel)
     # concatenate pixels along width dimension
     pixel_values = torch.cat(image_tensors, dim=1).squeeze(0)
