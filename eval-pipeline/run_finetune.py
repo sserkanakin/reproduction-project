@@ -82,31 +82,38 @@ def resolve_image_path(img_path: str) -> str:
 
 
 def preprocess(example, processor, max_images=6, max_out=256):
-    images = []
+    pil_images = []
     for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
-        images.append(Image.open(full_path).convert('RGB'))
-    if len(images) < max_images:
-        blank = Image.new('RGB', images[0].size, (0, 0, 0))
-        images += [blank] * (max_images - len(images))
-    proc_inputs = processor(
-        images=images,
-        text=example['instruction'],
+        pil_images.append(Image.open(full_path).convert('RGB'))
+    if len(pil_images) < max_images:
+        blank = Image.new('RGB', pil_images[0].size, (0, 0, 0))
+        pil_images += [blank] * (max_images - len(pil_images))
+    pixel_tensors = []
+    for img in pil_images:
+        pix = processor.image_processor(images=img, return_tensors='pt').pixel_values
+        pixel_tensors.append(pix)
+    # concatenate along width dimension
+    pixel_values = torch.cat(pixel_tensors, dim=3).squeeze(0)
+
+    tokenized = processor.tokenizer(
+        example['instruction'],
         padding='max_length',
-        truncation=False,
+        truncation=True,
         max_length=processor.tokenizer.model_max_length,
         return_tensors='pt'
     )
-    pixel_values = proc_inputs.pixel_values.squeeze(0)
-    input_ids = proc_inputs.input_ids.squeeze(0)
-    attention_mask = proc_inputs.attention_mask.squeeze(0)
+    input_ids = tokenized.input_ids.squeeze(0)
+    attention_mask = tokenized.attention_mask.squeeze(0)
+
     labels = processor.tokenizer(
         example['output'],
         padding='max_length',
-        max_length=max_out,
         truncation=True,
+        max_length=max_out,
         return_tensors='pt'
     ).input_ids.squeeze(0)
+
     return {
         'pixel_values': pixel_values,
         'input_ids': input_ids,
@@ -141,6 +148,14 @@ def main():
         remove_columns=['id', 'source_images', 'instruction', 'output', 'ground_truth_option'],
         batched=False
     )
+    # Debug sample
+    sample = ds['train'][0]
+    print("Dataset processed. Sample keys:", list(sample.keys()))
+    print("pixel_values shape:", sample['pixel_values'].shape)
+    print("input_ids length:", len(sample['input_ids']))
+    print("attention_mask length:", len(sample['attention_mask']))
+    print("labels length:", len(sample['labels']))
+
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -152,13 +167,13 @@ def main():
         logging_steps=50,
         do_eval=True,
     )
-    # Use a Seq2Seq collator to handle dynamic padding
     data_collator = DataCollatorForSeq2Seq(
         tokenizer=processor.tokenizer,
         model=model,
         label_pad_token_id=processor.tokenizer.pad_token_id,
         padding='longest'
     )
+    print("Starting training...")
     trainer = Trainer(
         model=model,
         args=training_args,
