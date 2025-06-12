@@ -91,25 +91,28 @@ def preprocess(example, processor, max_images=6, max_out=256):
         blank = Image.new('RGB', images[0].size, (0, 0, 0))
         images += [blank] * (max_images - len(images))
 
-    # Process interleaved images + text
+    # Use processor to handle images + instruction without truncating text
+    tokenizer = processor.tokenizer
+    text = example['instruction']
+    max_len = tokenizer.model_max_length
     proc_inputs = processor(
         images=images,
-        text=example['instruction'],
+        text=text,
         padding='max_length',
-        truncation=True,
-        max_length=512,
+        max_length=max_len,
+        truncation=False,
         return_tensors='pt'
     )
     pixel_values = proc_inputs.pixel_values.squeeze(0)
     input_ids = proc_inputs.input_ids.squeeze(0)
     attention_mask = proc_inputs.attention_mask.squeeze(0)
 
-    # Tokenize output with fixed length
-    labels = processor.tokenizer(
+    # Tokenize output (reasoning + final answer) for labels
+    labels = tokenizer(
         example['output'],
         padding='max_length',
-        truncation=True,
         max_length=max_out,
+        truncation=True,
         return_tensors='pt'
     ).input_ids.squeeze(0)
 
