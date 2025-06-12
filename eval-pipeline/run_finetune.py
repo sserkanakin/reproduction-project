@@ -69,15 +69,12 @@ def parse_args():
 
 
 def resolve_image_path(img_path: str) -> str:
-    # Handle relative paths and base data directory
     p = Path(img_path)
-    # Try as given
     if p.is_absolute() and p.exists():
         return str(p)
     rel = Path(os.getcwd()) / p
     if rel.exists():
         return str(rel)
-    # Try under eval-pipeline/data
     alt = Path(os.getcwd()) / 'eval-pipeline' / 'data' / p
     if alt.exists():
         return str(alt)
@@ -85,32 +82,34 @@ def resolve_image_path(img_path: str) -> str:
 
 
 def preprocess(example, processor, max_images=6, max_out=256):
-    # example fields: source_images, instruction, output
-    # 1. Load and pad/truncate images
+    # Load and pad/truncate images
     images = []
     for img_path in example['source_images'][:max_images]:
         full_path = resolve_image_path(img_path)
-        img = Image.open(full_path).convert('RGB')
-        images.append(img)
+        images.append(Image.open(full_path).convert('RGB'))
     if len(images) < max_images:
         blank = Image.new('RGB', images[0].size, (0, 0, 0))
-        for _ in range(max_images - len(images)):
-            images.append(blank)
+        images += [blank] * (max_images - len(images))
 
-    # 2. Use the processor's interleaving logic to handle multi-image + text
+    # Process interleaved images + text
     proc_inputs = processor(
         images=images,
         text=example['instruction'],
+        padding='max_length',
+        truncation=True,
+        max_length=512,
         return_tensors='pt'
     )
     pixel_values = proc_inputs.pixel_values.squeeze(0)
     input_ids = proc_inputs.input_ids.squeeze(0)
     attention_mask = proc_inputs.attention_mask.squeeze(0)
 
-    # 3. Tokenize output (reasoning + final answer) for labels
+    # Tokenize output with fixed length
     labels = processor.tokenizer(
         example['output'],
-        truncation=False,
+        padding='max_length',
+        truncation=True,
+        max_length=max_out,
         return_tensors='pt'
     ).input_ids.squeeze(0)
 
@@ -125,11 +124,9 @@ def preprocess(example, processor, max_images=6, max_out=256):
 def main():
     args = parse_args()
 
-    # Load dataset from JSONL
     data_files = {'train': args.train_file, 'validation': args.val_file}
     ds = load_dataset('json', data_files=data_files)
 
-    # Load processor & base model
     print(f"Loading model {args.base_model} (8-bit={args.in_8bit})...")
     processor = AutoProcessor.from_pretrained(args.base_model, trust_remote_code=True)
     model = AutoModelForVision2Seq.from_pretrained(
@@ -139,7 +136,6 @@ def main():
         torch_dtype=torch.float16 if args.fp16 else None,
     )
 
-    # Apply LoRA
     lora_cfg = LoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
@@ -149,7 +145,6 @@ def main():
     )
     model = get_peft_model(model, lora_cfg)
 
-    # Preprocess examples (images + text)
     print("Tokenizing and processing images...")
     ds = ds.map(
         lambda ex: preprocess(ex, processor),
@@ -157,7 +152,6 @@ def main():
         batched=False
     )
 
-        # Set up training args
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -178,7 +172,6 @@ def main():
         data_collator=default_data_collator,
     )
 
-    # Train and save
     trainer.train()
     print(f"Saving LoRA model to {args.output_dir}")
     os.makedirs(args.output_dir, exist_ok=True)
