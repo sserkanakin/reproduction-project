@@ -146,21 +146,13 @@ def main():
         gradient_checkpointing=True,
     )
 
-        trainer = SFTTrainer(
+    trainer = SFTTrainer(
         model=model,
         args=training_args,
         train_dataset=ds["train"],
         eval_dataset=ds.get("eval"),
         dataset_text_field=None,
         data_collator=collate_fn,
-        peft_config=lora_cfg,
-        max_seq_length=args.max_seq_length,
-    )
-        model=model,
-        args=training_args,
-        train_dataset=ds["train"],
-        eval_dataset=ds.get("eval"),
-        dataset_text_field=None,
         peft_config=lora_cfg,
         max_seq_length=args.max_seq_length,
     )
