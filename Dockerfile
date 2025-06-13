@@ -25,7 +25,7 @@ RUN pip3 install --no-cache-dir \
         pillow einops sentencepiece tqdm python-dotenv tensorboard \
         openai>=1.25.0
 
-RUN git clone --depth 1 --branch v1.6.4 https://github.com/haotian-liu/LLaVA.git
+RUN git clone --depth 1 https://github.com/haotian-liu/LLaVA.git
 
 # 4. ENV + workspace
 ENV HF_HOME=/workspace/.cache/huggingface \
