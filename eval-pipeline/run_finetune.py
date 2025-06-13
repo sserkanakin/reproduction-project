@@ -80,16 +80,27 @@ def resolve_image_path(path: str) -> str:
 ###############################################################################
 
 def preprocess(ex, *, processor, max_images: int, max_target: int):
+    """Turn a raw JSONL example into tensors the model can digest.
+
+    * Keeps **exactly** the same number of images and `<image>` tokens.
+      If we have to pad with black squares to reach `max_images`, we also append
+      extra `<image>` placeholders to the *text* so the feature/token counts
+      line up.
+    """
     imgs: List[Image.Image] = [
         Image.open(resolve_image_path(fp)).convert("RGB")
         for fp in ex["source_images"][:max_images]
     ]
+    text = ex["instruction"].strip()
+
+    # Pad images – and **also** pad the prompt with <image> tokens -------------
     while len(imgs) < max_images:
         imgs.append(Image.new("RGB", imgs[0].size, (0, 0, 0)))
+        text += " <image>"
 
     proc_inputs = processor(
         images=imgs,
-        text=ex["instruction"],
+        text=text,
         padding=False,
         truncation=False,
         return_tensors="pt",
@@ -105,6 +116,11 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
     labels[labels == processor.tokenizer.pad_token_id] = -100
 
     return {
+        "pixel_values": proc_inputs.pixel_values.squeeze(0),
+        "input_ids": proc_inputs.input_ids.squeeze(0),
+        "attention_mask": proc_inputs.attention_mask.squeeze(0),
+        "labels": labels,
+    }
         "pixel_values": proc_inputs.pixel_values.squeeze(0),
         "input_ids": proc_inputs.input_ids.squeeze(0),
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
