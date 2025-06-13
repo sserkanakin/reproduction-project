@@ -1,22 +1,14 @@
 #!/usr/bin/env python
 """
-Fine‑tune **LLaVA‑HF** with LoRA on a vision‑language ordering task.
+Fine‑tune **LLaVA‑HF** with LoRA on multi‑image, interleaved prompts.
 
-**Patch 3 – HF compatibility**
---------------------------------
-Some older `transformers` builds (≈ < 4.0) do **not** expose the
-`evaluation_strategy` argument in `TrainingArguments`.  This revision:
-
-* Drops `evaluation_strategy` and `eval_steps` – evaluation is now run
-  **once at the end** via an explicit `trainer.evaluate()` call.
-* Keeps the rest of the training loop identical.
-
-If you upgrade to a more recent `transformers` (≥ 4.0) you can bring back
-step‑wise evaluation by re‑adding the two lines that were removed.
+This version fixes all outstanding syntax/indentation errors and hardens the
+*image ↔ token* alignment once and for all.
 """
 import argparse
 from pathlib import Path
 from typing import List
+import re
 
 import torch
 from PIL import Image
@@ -31,41 +23,42 @@ from transformers import (
 from peft import LoraConfig, TaskType, get_peft_model
 
 ###############################################################################
-# CLI
+# CLI helpers
 ###############################################################################
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
-    p.add_argument("--train_file", type=str, required=True)
-    p.add_argument("--val_file", type=str, required=True)
-    p.add_argument("--base_model", type=str, required=True)
-    p.add_argument("--output_dir", type=str, default="lora-output")
+    p.add_argument("--train_file", required=True, type=str)
+    p.add_argument("--val_file",   required=True, type=str)
+    p.add_argument("--base_model", required=True, type=str)
+    p.add_argument("--output_dir", default="lora-output", type=str)
 
-    # LoRA params
-    p.add_argument("--lora_rank", type=int, default=8)
-    p.add_argument("--lora_alpha", type=int, default=32)
-    p.add_argument("--lora_dropout", type=float, default=0.05)
+    # LoRA
+    p.add_argument("--lora_rank",   default=8,   type=int)
+    p.add_argument("--lora_alpha",  default=32,  type=int)
+    p.add_argument("--lora_dropout", default=0.05, type=float)
 
-    # Training hyper‑params
-    p.add_argument("--epochs", type=int, default=3)
-    p.add_argument("--batch_size", type=int, default=4)
-    p.add_argument("--learning_rate", type=float, default=1e-4)
-    p.add_argument("--fp16", action="store_true")
-    p.add_argument("--in_8bit", action="store_true")
+    # Training
+    p.add_argument("--epochs",        default=3,     type=int)
+    p.add_argument("--batch_size",    default=4,     type=int)
+    p.add_argument("--learning_rate", default=1e-4,  type=float)
+    p.add_argument("--fp16",          action="store_true")
+    p.add_argument("--in_8bit",       action="store_true")
 
-    # Sequence/image handling
-    p.add_argument("--max_images", type=int, default=6,
-                   help="Images per example (extra images are dropped, fewer are padded)")
-    p.add_argument("--max_target_length", type=int, default=256)
-    p.add_argument("--max_source_length", type=int, default=8192,
-                   help="Keep all <image> tokens; lower if you OOM")
+    # Sequence / image
+    p.add_argument("--max_images",        default=6,    type=int,
+                   help="Max images to use per example")
+    p.add_argument("--max_target_length", default=256,  type=int)
+    p.add_argument("--max_source_length", default=8192, type=int,
+                   help="Hard cap for text tokens (set lower if OOM)")
     return p.parse_args()
 
 ###############################################################################
-# Helpers
+# Path helper
 ###############################################################################
 
 def resolve_image_path(path: str) -> str:
+    """Resolve *path* against CWD and `eval-pipeline/data`."""
     p = Path(path)
     if p.is_absolute() and p.exists():
         return str(p)
@@ -80,24 +73,40 @@ def resolve_image_path(path: str) -> str:
 ###############################################################################
 
 def preprocess(ex, *, processor, max_images: int, max_target: int):
-    """Turn a raw JSONL example into tensors the model can digest.
+    """Align images and `<image>` placeholders, then tokenize."""
 
-    * Keeps **exactly** the same number of images and `<image>` tokens.
-      If we have to pad with black squares to reach `max_images`, we also append
-      extra `<image>` placeholders to the *text* so the feature/token counts
-      line up.
-    """
+    text: str = ex["instruction"].strip()
+    placeholder_cnt = text.count("<image>")
+    img_paths: List[str] = ex["source_images"]
+
+    # Decide how many images *and* placeholders to keep
+    n = min(max_images, placeholder_cnt, len(img_paths))
+    if n == 0:
+        raise ValueError("Example has no matching images/placeholders!")
+
+    # Select / load exactly *n* images
     imgs: List[Image.Image] = [
         Image.open(resolve_image_path(fp)).convert("RGB")
-        for fp in ex["source_images"][:max_images]
+        for fp in img_paths[:n]
     ]
-    text = ex["instruction"].strip()
 
-    # Pad images – and **also** pad the prompt with <image> tokens -------------
-    while len(imgs) < max_images:
+    # --- Fix placeholder count --------------------------------------------
+    if placeholder_cnt > n:
+        # Keep only the first *n* placeholders
+        parts = text.split("<image>")
+        text = "<image>".join(parts[:n]) + parts[-1]
+    elif placeholder_cnt < n:
+        # Append missing placeholders at the end (with a leading space)
+        text = text + " " + " ".join(["<image>"] * (n - placeholder_cnt))
+
+    # --- Pad images and text together if still mismatched ------------------
+    while len(imgs) < text.count("<image>"):
         imgs.append(Image.new("RGB", imgs[0].size, (0, 0, 0)))
         text += " <image>"
 
+    assert len(imgs) == text.count("<image>"), "Images and <image> tokens still differ!"
+
+    # --- Processor ---------------------------------------------------------
     proc_inputs = processor(
         images=imgs,
         text=text,
@@ -106,6 +115,7 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
         return_tensors="pt",
     )
 
+    # Targets (ignore padding in loss)
     labels = processor.tokenizer(
         ex["output"],
         padding="max_length",
@@ -116,39 +126,30 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
     labels[labels == processor.tokenizer.pad_token_id] = -100
 
     return {
-        "pixel_values": proc_inputs.pixel_values.squeeze(0),
-        "input_ids": proc_inputs.input_ids.squeeze(0),
+        "pixel_values": proc_inputs.pixel_values.squeeze(0),  # (N, 3, H, W)
+        "input_ids":    proc_inputs.input_ids.squeeze(0),
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
         "labels": labels,
     }
 
 ###############################################################################
-# Collator
-###############################################################################
-###############################################################################
-# Collator: **keep** 5‑D `(B, N, 3, H, W)`
+# Collator (leave pixel_values as 5‑D)
 ###############################################################################
 class LlavaMultiImageCollator(DataCollatorForSeq2Seq):
-    """Pad the *text* but leave the image tensor shape untouched (B, N, 3, H, W).
-
-    No collapsing here any more – we handle the 5‑D → 4‑D flattening in a
-    **vision‑tower monkey‑patch** so the alignment between image features and
-    `<image>` patch tokens stays intact.
-    """
-
     def __call__(self, features, return_tensors=None):
-        batch = super().__call__(features, return_tensors="pt")
-        # nothing to do – just return what HF stacked for us (B, N, 3, H, W)
-        return batch
+        return super().__call__(features, return_tensors="pt")
 
 ###############################################################################
 # Main
 ###############################################################################
 
-def main():
+def main() -> None:
     args = parse_args()
+
+    # Dataset ----------------------------------------------------------------
     ds = load_dataset("json", data_files={"train": args.train_file, "validation": args.val_file})
 
+    # Model + processor -------------------------------------------------------
     processor = AutoProcessor.from_pretrained(args.base_model, trust_remote_code=True)
     base_model = AutoModelForVision2Seq.from_pretrained(
         args.base_model,
@@ -168,12 +169,19 @@ def main():
         ),
     )
 
+    # Pre‑tokenise ------------------------------------------------------------
     ds = ds.map(
-        lambda ex: preprocess(ex, processor=processor, max_images=args.max_images, max_target=args.max_target_length),
+        lambda ex: preprocess(
+            ex,
+            processor=processor,
+            max_images=args.max_images,
+            max_target=args.max_target_length,
+        ),
         remove_columns=list(ds["train"].column_names),
     )
     ds.set_format("torch", ["pixel_values", "input_ids", "attention_mask", "labels"])
 
+    # Collator ---------------------------------------------------------------
     data_collator = LlavaMultiImageCollator(
         tokenizer=processor.tokenizer,
         model=model,
@@ -181,6 +189,7 @@ def main():
         padding="longest",
     )
 
+    # Training args ----------------------------------------------------------
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
@@ -196,26 +205,19 @@ def main():
         report_to="none",
     )
 
-        # ------------------------------------------------------------------
-    # Monkey‑patch the vision tower so **SigLIP** happily accepts 5‑D input
-    # ------------------------------------------------------------------
-    vt = model.base_model.vision_tower  # Peft wraps the base model
-
+    # Monkey‑patch vision tower to flatten 5‑D → 4‑D -------------------------
+    vt = model.base_model.vision_tower
     if not hasattr(vt, "_orig_forward"):
-        vt._orig_forward = vt.forward  # save for later
-
-        def vt_forward(pixel_values, *args, **kwargs):  # noqa: D401, E501
-            if pixel_values.dim() == 5:                 # (B, N, 3, H, W)
+        vt._orig_forward = vt.forward
+        def vt_forward(pixel_values, *a, **kw):
+            if pixel_values.dim() == 5:  # (B, N, 3, H, W)
                 b, n, c, h, w = pixel_values.shape
-                pixel_values = pixel_values.view(b * n, c, h, w)  # flatten N
-            return vt._orig_forward(pixel_values, *args, **kwargs)
-
+                pixel_values = pixel_values.view(b * n, c, h, w)
+            return vt._orig_forward(pixel_values, *a, **kw)
         vt.forward = vt_forward
-        print("🔧 Patched vision‑tower forward() for 5‑D inputs → flatten to 4‑D")
+        print("🔧 Vision tower patched for 5‑D input → 4‑D flattening")
 
-    # ------------------------------------------------------------------
-    # Trainer
-    # ------------------------------------------------------------------
+    # Trainer ---------------------------------------------------------------
     trainer = Trainer(
         model=model,
         args=training_args,
@@ -225,8 +227,6 @@ def main():
     )
 
     trainer.train()
-
-    # One evaluation pass at the end (works on any HF version)
     metrics = trainer.evaluate()
     print("Final eval metrics:", metrics)
 
