@@ -142,12 +142,13 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
         "input_ids": proc_inputs.input_ids.squeeze(0),
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
         "labels": labels,
+        "source_images": img_paths[:n_images],  # Keep original paths
+        "instruction": raw_text,  # Keep the final prompt
+        "n_images": n_images,  # How many images we actually used
+        "max_source_length": max_images * 3 + len(raw_text.split()),  # Rough estimate
+        "max_target_length": max_target,
     }
-        "pixel_values": proc_inputs.pixel_values.squeeze(0),  # (N, 3, H, W)
-        "input_ids":    proc_inputs.input_ids.squeeze(0),
-        "attention_mask": proc_inputs.attention_mask.squeeze(0),
-        "labels": labels,
-    }
+
 
 ###############################################################################
 # Collator (leave pixel_values as 5‑D)
