@@ -12,14 +12,15 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # ── 2.  Python deps (pinned) ────────────────────────────────────────────────
 RUN pip install --no-cache-dir \
-      transformers==4.45.1 \
-      trl==0.9.6 \
-      accelerate==0.28.0 \
-      peft==0.10.0 \
-      bitsandbytes==0.43.1 \
-      datasets==2.19.0 \
-      Pillow einops sentencepiece tqdm python-dotenv \
-      openai>=1.25.0
+    transformers==4.45.1 \
+    trl==0.9.6 \
+    accelerate==0.28.0 \
+    peft==0.10.0 \
+    bitsandbytes==0.43.1 \
+    datasets==2.19.0 \
+    Pillow einops sentencepiece tqdm python-dotenv \
+    openai>=1.25.0
+
 
 # If you keep a root-level requirements.txt **and** want extras installed,
 # uncomment the next two lines:
