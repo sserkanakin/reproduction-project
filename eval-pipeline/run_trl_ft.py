@@ -72,6 +72,10 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
         prompt = proc.apply_chat_template(row["conversations"], add_generation_prompt=False)
         imgs = [Image.open(img_root / p) for p in row["images"]]
         inputs = proc(text=prompt, images=imgs, return_tensors="pt")
+        # LLaVA vision tower expects 4‑D (B*N, 3, H, W); flatten if we have (B, N, 3, H, W)
+        if "pixel_values" in inputs and inputs["pixel_values"].ndim == 5:
+            b, n, c, h, w = inputs["pixel_values"].shape
+            inputs["pixel_values"] = inputs["pixel_values"].view(b * n, c, h, w)
         inputs["labels"] = inputs["input_ids"].clone()
         return inputs
 
