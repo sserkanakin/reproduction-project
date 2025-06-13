@@ -73,49 +73,61 @@ def resolve_image_path(path: str) -> str:
 ###############################################################################
 
 def preprocess(ex, *, processor, max_images: int, max_target: int):
-    """Align images and `<image>` placeholders, then tokenize."""
+    """Ensure **exact alignment** between number of images and `<image>` tokens.
 
-    text: str = ex["instruction"].strip()
-    placeholder_cnt = text.count("<image>")
+    1. Choose *n_images* = min(max_images, len(source_images)).
+    2. Load exactly *n_images* pictures.
+    3. Rewrite the prompt so it contains **exactly** *n_images* `<image>`
+       placeholders (keeping the original wording around them).
+    4. If we had to add new placeholders, we also add blank images so the
+       counts stay equal.
+    """
+
+    raw_text: str = ex["instruction"].strip()
     img_paths: List[str] = ex["source_images"]
 
-    # Decide how many images *and* placeholders to keep
-    n = min(max_images, placeholder_cnt, len(img_paths))
-    if n == 0:
-        raise ValueError("Example has no matching images/placeholders!")
+    # 1️⃣  Decide how many images we will actually use ----------------------
+    n_images = min(max_images, len(img_paths))
 
-    # Select / load exactly *n* images
+    # 2️⃣  Load those images --------------------------------------------------
     imgs: List[Image.Image] = [
         Image.open(resolve_image_path(fp)).convert("RGB")
-        for fp in img_paths[:n]
+        for fp in img_paths[:n_images]
     ]
 
-    # --- Fix placeholder count --------------------------------------------
-    if placeholder_cnt > n:
-        # Keep only the first *n* placeholders
-        parts = text.split("<image>")
-        text = "<image>".join(parts[:n]) + parts[-1]
-    elif placeholder_cnt < n:
-        # Append missing placeholders at the end (with a leading space)
-        text = text + " " + " ".join(["<image>"] * (n - placeholder_cnt))
+    # 3️⃣  Normalise the placeholder count -----------------------------------
+    def keep_first_n_placeholders(text: str, n: int) -> str:
+        segments = text.split("<image>")
+        rebuilt = segments[0]
+        used = 0
+        for seg in segments[1:]:
+            if used < n:
+                rebuilt += "<image>"  # keep this placeholder
+                used += 1
+            # else: drop extra placeholders
+            rebuilt += seg
+        return rebuilt
 
-    # --- Pad images and text together if still mismatched ------------------
-    while len(imgs) < text.count("<image>"):
-        imgs.append(Image.new("RGB", imgs[0].size, (0, 0, 0)))
-        text += " <image>"
+    current_tokens = raw_text.count("<image>")
+    if current_tokens > n_images:
+        raw_text = keep_first_n_placeholders(raw_text, n_images)
+    elif current_tokens < n_images:
+        missing = n_images - current_tokens
+        raw_text = raw_text + " " + " ".join(["<image>"] * missing)
 
-    assert len(imgs) == text.count("<image>"), "Images and <image> tokens still differ!"
+    # After correction they **must** be equal
+    assert raw_text.count("<image>") == n_images, "Still mismatched after normalisation"
 
-    # --- Processor ---------------------------------------------------------
+    # 4️⃣  Processor ---------------------------------------------------------
     proc_inputs = processor(
         images=imgs,
-        text=text,
+        text=raw_text,
         padding=False,
         truncation=False,
         return_tensors="pt",
     )
 
-    # Targets (ignore padding in loss)
+    # 🎯 Targets -------------------------------------------------------------
     labels = processor.tokenizer(
         ex["output"],
         padding="max_length",
@@ -126,6 +138,11 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
     labels[labels == processor.tokenizer.pad_token_id] = -100
 
     return {
+        "pixel_values": proc_inputs.pixel_values.squeeze(0),
+        "input_ids": proc_inputs.input_ids.squeeze(0),
+        "attention_mask": proc_inputs.attention_mask.squeeze(0),
+        "labels": labels,
+    }
         "pixel_values": proc_inputs.pixel_values.squeeze(0),  # (N, 3, H, W)
         "input_ids":    proc_inputs.input_ids.squeeze(0),
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
