@@ -121,11 +121,6 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
         "labels": labels,
     }
-        "pixel_values": proc_inputs.pixel_values.squeeze(0),
-        "input_ids": proc_inputs.input_ids.squeeze(0),
-        "attention_mask": proc_inputs.attention_mask.squeeze(0),
-        "labels": labels,
-    }
 
 ###############################################################################
 # Collator
