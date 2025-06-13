@@ -1,27 +1,15 @@
 #!/usr/bin/env python
-"""run_trl_ft.py ── **One‑GPU (L4) QLoRA fine‑tune** for LLaVA‑Interleave‑Qwen‑7B
+"""run_trl_ft.py – One‑GPU QLoRA fine‑tune (L4) for LLaVA‑Interleave‑Qwen‑7B
 
-Designed to run *inside the Docker image* we built earlier.  Defaults:
-* Expects all code under `/workspace/eval-pipeline/`
-* Images live at `/workspace/eval-pipeline/data/…`
-* Fine‑tune JSONL → `/workspace/eval-pipeline/data/finetuning_data/llava_temporal_train.jsonl`
-* LoRA adapter out → `/workspace/eval-pipeline/outputs/temporal_lora/`
-
-Launch (inside VM)
-------------------
-```bash
-docker run --gpus all --rm -it \
-  -v $HOME/.cache/huggingface:/workspace/.cache/huggingface \
-  -v $PWD/eval-pipeline:/workspace/eval-pipeline \
-  llava-temporal:latest \
-  python /workspace/eval-pipeline/run_trl_ft.py
-```
+* All paths hard‑coded for container layout.
+* Custom `collate_fn` flattens `pixel_values` **and** pads token tensors.
+* Duplicate trainer block removed.
 """
 from __future__ import annotations
 
 import argparse, os
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 import torch
 from datasets import load_dataset, disable_caching
 from transformers import (
@@ -37,26 +25,17 @@ disable_caching()
 # ---------------------------------------------------------------------------
 
 def parse_args():
-    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
-    # Paths (container defaults)
+    p = argparse.ArgumentParser()
     p.add_argument("--model_id", default="llava-hf/llava-interleave-qwen-7b-hf")
     p.add_argument("--image_root", default="/workspace/eval-pipeline/data")
     p.add_argument("--train_jsonl", default="/workspace/eval-pipeline/data/finetuning_data/llava_temporal_train.jsonl")
     p.add_argument("--eval_jsonl", default="/workspace/eval-pipeline/data/finetuning_data/llava_temporal_dev.jsonl")
     p.add_argument("--output_dir", default="/workspace/eval-pipeline/outputs/temporal_lora")
-
-    # Training hyper‑params (single L4 24 GB, 4‑bit QLoRA)
     p.add_argument("--per_device_train_batch_size", type=int, default=1)
     p.add_argument("--gradient_accumulation_steps", type=int, default=16)
     p.add_argument("--num_train_epochs", type=float, default=3.0)
     p.add_argument("--learning_rate", type=float, default=1e-4)
-
     p.add_argument("--max_seq_length", type=int, default=4096)
-    p.add_argument("--lora_r", type=int, default=16)
-    p.add_argument("--lora_alpha", type=int, default=32)
-    p.add_argument("--lora_dropout", type=float, default=0.05)
-
     p.add_argument("--logging_steps", type=int, default=25)
     p.add_argument("--save_steps", type=int, default=500)
     return p.parse_args()
@@ -72,8 +51,7 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
         prompt = proc.apply_chat_template(row["conversations"], add_generation_prompt=False)
         imgs = [Image.open(img_root / p) for p in row["images"]]
         inputs = proc(text=prompt, images=imgs, return_tensors="pt")
-        # LLaVA vision tower expects 4‑D (B*N, 3, H, W); flatten if we have (B, N, 3, H, W)
-        if "pixel_values" in inputs and inputs["pixel_values"].ndim == 5:
+        if inputs["pixel_values"].ndim == 5:
             b, n, c, h, w = inputs["pixel_values"].shape
             inputs["pixel_values"] = inputs["pixel_values"].view(b * n, c, h, w)
         inputs["labels"] = inputs["input_ids"].clone()
@@ -82,22 +60,20 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
     return _fn
 
 # ---------------------------------------------------------------------------
-# Collate that flattens images across batch
+# Collate
 # ---------------------------------------------------------------------------
 
-def collate_fn(features: list[Dict]):
-    """Stack text fields, **concatenate pixel_values along dim=0** so vision
-    tower sees 4‑D tensors (B_total_imgs, 3, H, W)."""
-    import torch
-    out = {}
+def collate_fn(features: List[Dict]):
+    out: Dict[str, torch.Tensor] = {}
     keys = features[0].keys()
     for k in keys:
+        vals = [f[k] for f in features]
         if k == "pixel_values":
-            out[k] = torch.cat([f[k] for f in features], dim=0)
-        else:
-            out[k] = torch.nn.utils.rnn.pad_sequence(
-                [f[k] for f in features], batch_first=True, padding_value=0
-            ) if k in {"input_ids", "labels"} else torch.stack([f[k] for f in features])
+            out[k] = torch.cat(vals, dim=0)
+        elif isinstance(vals[0], torch.Tensor):
+            out[k] = torch.nn.utils.rnn.pad_sequence(vals, batch_first=True, padding_value=0)
+        else:  # fallback to tensor conversion
+            out[k] = torch.tensor(vals)
     return out
 
 # ---------------------------------------------------------------------------
@@ -108,25 +84,15 @@ def main():
     args = parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
-    # 4‑bit NF4 QLoRA config
-    bnb_cfg = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_compute_dtype=torch.float16,
-    )
+    bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                 bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.float16)
 
-    print("[INFO] Loading processor & model…")
     processor = AutoProcessor.from_pretrained(args.model_id, trust_remote_code=True)
-    model = LlavaForConditionalGeneration.from_pretrained(
-        args.model_id, quantization_config=bnb_cfg, device_map="auto"
-    )
+    model = LlavaForConditionalGeneration.from_pretrained(args.model_id, quantization_config=bnb_cfg, device_map="auto")
 
-    lora_cfg = LoraConfig(
-        r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout,
-        target_modules="all-linear", task_type="CAUSAL_LM", bias="none")
+    lora_cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05,
+                          target_modules="all-linear", task_type="CAUSAL_LM", bias="none")
 
-    print("[INFO] Loading dataset…")
     files = {"train": args.train_jsonl}
     if Path(args.eval_jsonl).exists():
         files["eval"] = args.eval_jsonl
@@ -151,19 +117,15 @@ def main():
         args=training_args,
         train_dataset=ds["train"],
         eval_dataset=ds.get("eval"),
-        dataset_text_field=None,
         data_collator=collate_fn,
+        dataset_text_field=None,
         peft_config=lora_cfg,
         max_seq_length=args.max_seq_length,
     )
 
-    print("[INFO] Starting training…")
     trainer.train()
-
-    print("[INFO] Saving adapter & tokenizer …")
     trainer.save_model(args.output_dir)
     processor.save_pretrained(args.output_dir)
-    print("[INFO] Done. Adapter saved in", args.output_dir)
 
 
 if __name__ == "__main__":
