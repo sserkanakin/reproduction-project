@@ -64,17 +64,16 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
 # ---------------------------------------------------------------------------
 
 def collate_fn(features: List[Dict]):
-    out: Dict[str, torch.Tensor] = {}
-    keys = features[0].keys()
-    for k in keys:
+    batch = {}
+    for k in features[0]:
         vals = [f[k] for f in features]
         if k == "pixel_values":
-            out[k] = torch.cat(vals, dim=0)
-        elif isinstance(vals[0], torch.Tensor):
-            out[k] = torch.nn.utils.rnn.pad_sequence(vals, batch_first=True, padding_value=0)
-        else:  # fallback to tensor conversion
-            out[k] = torch.tensor(vals)
-    return out
+            batch[k] = torch.cat(vals, dim=0)
+        elif k in {"input_ids", "labels", "attention_mask"}:
+            batch[k] = torch.nn.utils.rnn.pad_sequence(
+                vals, batch_first=True, padding_value=0
+            )
+    return batch
 
 # ---------------------------------------------------------------------------
 # Main
