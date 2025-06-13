@@ -13,7 +13,7 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 # ── 2.  Python deps (pinned) ────────────────────────────────────────────────
 RUN pip install --no-cache-dir \
       transformers==4.41.0 \
-      trl==0.9.0 \
+      trl==0.9.6 \
       accelerate==0.28.0 \
       peft==0.10.0 \
       bitsandbytes==0.43.1 \
