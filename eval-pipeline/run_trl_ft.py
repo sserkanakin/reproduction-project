@@ -23,30 +23,30 @@ from trl import SFTTrainer
 #    3. final fallback: git clone to /tmp and add to sys.path
 import subprocess, importlib, sys, pathlib, tempfile, os
 
-# def _import_collator():
-#     return importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
-#
-# try:
-#     vl_data_collator = _import_collator()
-# except ModuleNotFoundError:
-#     print("[INFO] 'llava' not found – installing from GitHub…", flush=True)
-#     try:
-#         subprocess.check_call([
-#             sys.executable, "-m", "pip", "install",
-#             "git+https://github.com/haotian-liu/LLaVA.git@main",
-#             "--no-build-isolation"  # skip editable / pep‑660
-#         ])
-#         vl_data_collator = _import_collator()
-#     except Exception as e:
-#         print("[WARN] pip install failed (", e, "). Falling back to git clone.", flush=True)
-#         tmp_dir = tempfile.mkdtemp(prefix="llava_")
-#         subprocess.check_call(["git", "clone", "--depth", "1", "https://github.com/haotian-liu/LLaVA.git", tmp_dir])
-#         sys.path.insert(0, tmp_dir)
-#         vl_data_collator = _import_collator()
-# except ModuleNotFoundError:
-#     print("[INFO] 'llava' package not found — installing from GitHub…", flush=True)
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/haotian-liu/LLaVA.git@main"])
-#     vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
+def _import_collator():
+    return importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
+
+try:
+    vl_data_collator = _import_collator()
+except ModuleNotFoundError:
+    print("[INFO] 'llava' not found – installing from GitHub…", flush=True)
+    try:
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "git+https://github.com/haotian-liu/LLaVA.git@main",
+            "--no-build-isolation"  # skip editable / pep‑660
+        ])
+        vl_data_collator = _import_collator()
+    except Exception as e:
+        print("[WARN] pip install failed (", e, "). Falling back to git clone.", flush=True)
+        tmp_dir = tempfile.mkdtemp(prefix="llava_")
+        subprocess.check_call(["git", "clone", "--depth", "1", "https://github.com/haotian-liu/LLaVA.git", tmp_dir])
+        sys.path.insert(0, tmp_dir)
+        vl_data_collator = _import_collator()
+except ModuleNotFoundError:
+    print("[INFO] 'llava' package not found — installing from GitHub…", flush=True)
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/haotian-liu/LLaVA.git@main"])
+    vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
 
 disable_caching()
 
@@ -85,24 +85,6 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
         return inputs
 
     return _fn
-
-def vl_data_collator(batch: List[Dict]):
-    import torch, itertools
-    out: Dict[str, torch.Tensor] = {}
-
-    # pixel_values: list of tensors (B, N, 3, H, W) → concat on dim 0
-    pix = [example["pixel_values"] for example in batch]
-    out["pixel_values"] = torch.cat(pix, dim=0)
-
-    for key in ("input_ids", "labels", "attention_mask"):
-        seqs = [torch.tensor(x, dtype=torch.long) for x in itertools.chain.from_iterable(
-            [[ex[key]] if isinstance(ex[key][0], int) else ex[key] for ex in batch]
-        )] if isinstance(batch[0][key], list) else [ex[key] for ex in batch]
-
-        out[key] = torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
-
-    return out
-
 
 # ---------------------------------------------------------------------------
 # Main
@@ -147,7 +129,7 @@ def main():
         args=training_args,
         train_dataset=ds["train"],
         eval_dataset=ds.get("eval"),
-        data_collator=vl_data_collator(processor.tokenizer),
+        data_collator=vl_data_collator,
         dataset_text_field=None,
         peft_config=lora_cfg,
         max_seq_length=args.max_seq_length,
