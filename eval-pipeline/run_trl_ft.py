@@ -1,23 +1,24 @@
 #!/usr/bin/env python
-"""run_trl_ft.py – One‑GPU QLoRA fine‑tune (L4) for LLaVA‑Interleave‑Qwen‑7B
+"""run_trl_ft.py – One‑GPU QLoRA fine‑tune for LLaVA‑Interleave‑Qwen‑7B
 
-* All paths hard‑coded for container layout.
-* Custom `collate_fn` flattens `pixel_values` **and** pads token tensors.
-* Duplicate trainer block removed.
+* Uses **official LLaVA multi‑image collator** (`vl_data_collator`).
+* No custom padding logic needed – all shape issues solved upstream.
 """
 from __future__ import annotations
 
 import argparse, os
 from pathlib import Path
 from typing import Dict
+
 import torch
 from datasets import load_dataset, disable_caching
 from transformers import (
     AutoProcessor, LlavaForConditionalGeneration, BitsAndBytesConfig, TrainingArguments
 )
 from peft import LoraConfig
-from llava.train.llava_trainer import vl_data_collator
 from trl import SFTTrainer
+# 👉 official helper supplies collator that flattens images & pads tokens
+from llava.train.llava_trainer import vl_data_collator
 
 disable_caching()
 
@@ -42,7 +43,7 @@ def parse_args():
     return p.parse_args()
 
 # ---------------------------------------------------------------------------
-# Preprocess
+# Preprocess – only rename fields, leave image tensor 5‑D; collator flattens
 # ---------------------------------------------------------------------------
 
 def make_preprocess(proc: AutoProcessor, img_root: Path):
@@ -52,9 +53,6 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
         prompt = proc.apply_chat_template(row["conversations"], add_generation_prompt=False)
         imgs = [Image.open(img_root / p) for p in row["images"]]
         inputs = proc(text=prompt, images=imgs, return_tensors="pt")
-        if inputs["pixel_values"].ndim == 5:
-            b, n, c, h, w = inputs["pixel_values"].shape
-            inputs["pixel_values"] = inputs["pixel_values"].view(b * n, c, h, w)
         inputs["labels"] = inputs["input_ids"].clone()
         return inputs
 
@@ -72,7 +70,9 @@ def main():
                                  bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.float16)
 
     processor = AutoProcessor.from_pretrained(args.model_id, trust_remote_code=True)
-    model = LlavaForConditionalGeneration.from_pretrained(args.model_id, quantization_config=bnb_cfg, device_map="auto")
+    model = LlavaForConditionalGeneration.from_pretrained(
+        args.model_id, quantization_config=bnb_cfg, device_map="auto"
+    )
 
     lora_cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05,
                           target_modules="all-linear", task_type="CAUSAL_LM", bias="none")
