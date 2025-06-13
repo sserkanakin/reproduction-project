@@ -133,7 +133,6 @@ def main():
     ds = load_dataset("json", data_files=files)
     ds = ds.map(make_preprocess(processor, Path(args.image_root)), remove_columns=ds["train"].column_names, num_proc=8)
 
-    print("[INFO] Building model")
     training_args = TrainingArguments(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.per_device_train_batch_size,
@@ -147,8 +146,16 @@ def main():
         gradient_checkpointing=True,
     )
 
-    print("[INFO] Initializing SFTTrainer…")
-    trainer = SFTTrainer(
+        trainer = SFTTrainer(
+        model=model,
+        args=training_args,
+        train_dataset=ds["train"],
+        eval_dataset=ds.get("eval"),
+        dataset_text_field=None,
+        data_collator=collate_fn,
+        peft_config=lora_cfg,
+        max_seq_length=args.max_seq_length,
+    )
         model=model,
         args=training_args,
         train_dataset=ds["train"],
