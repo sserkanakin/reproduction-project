@@ -31,13 +31,15 @@ ENV HF_HOME=/workspace/.cache/huggingface \
     NCCL_P2P_DISABLE=1
 WORKDIR /workspace
 
-RUN echo "from transformers import AutoProcessor, LlavaForConditionalGeneration
-model_id = 'llava-hf/llava-interleave-qwen-7b-hf'
-print(f'↓ Caching {model_id} in image …')
+RUN python - <<'PY'
+from transformers import AutoProcessor, LlavaForConditionalGeneration
+model_id = "llava-hf/llava-interleave-qwen-7b-hf"
+print(f"↓ Caching {model_id} in image …")
 AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
-LlavaForConditionalGeneration.from_pretrained(model_id, device_map={'': 'meta'})
-print('✓ Model cached')
-" | python -
+# device_map={"": "meta"} -> load weights to CPU-less “meta” tensors (no VRAM)
+LlavaForConditionalGeneration.from_pretrained(model_id, device_map={"": "meta"})
+print("✓ Model cached in image layer")
+PY
 
 # ── 6. Tiny entrypoint so container stays PID 1-clean ────────────────────────
 ENTRYPOINT ["/usr/bin/tini", "--"]
