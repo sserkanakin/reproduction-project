@@ -17,7 +17,6 @@ RUN pip install --no-cache-dir \
       accelerate==0.28.0 \
       peft==0.10.0 \
       bitsandbytes==0.43.1 \
-      deepspeed==0.14.2 \
       datasets==2.19.0 \
       Pillow einops sentencepiece tqdm python-dotenv \
       openai>=1.25.0
