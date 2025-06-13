@@ -82,6 +82,25 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
     return _fn
 
 # ---------------------------------------------------------------------------
+# Collate that flattens images across batch
+# ---------------------------------------------------------------------------
+
+def collate_fn(features: list[Dict]):
+    """Stack text fields, **concatenate pixel_values along dim=0** so vision
+    tower sees 4‑D tensors (B_total_imgs, 3, H, W)."""
+    import torch
+    out = {}
+    keys = features[0].keys()
+    for k in keys:
+        if k == "pixel_values":
+            out[k] = torch.cat([f[k] for f in features], dim=0)
+        else:
+            out[k] = torch.nn.utils.rnn.pad_sequence(
+                [f[k] for f in features], batch_first=True, padding_value=0
+            ) if k in {"input_ids", "labels"} else torch.stack([f[k] for f in features])
+    return out
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
