@@ -17,8 +17,15 @@ from transformers import (
 )
 from peft import LoraConfig
 from trl import SFTTrainer
-# 👉 official helper supplies collator that flattens images & pads tokens
-from llava.train.llava_trainer import vl_data_collator
+# 👉 try to import the official LLaVA collator; if the package
+#    is missing inside the container, install it on‑the‑fly.
+import subprocess, importlib, sys
+try:
+    vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
+except ModuleNotFoundError:
+    print("[INFO] 'llava' package not found — installing from GitHub…", flush=True)
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/haotian-liu/LLaVA.git@main"])
+    vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
 
 disable_caching()
 
