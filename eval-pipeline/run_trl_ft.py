@@ -9,13 +9,14 @@ from __future__ import annotations
 
 import argparse, os
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 import torch
 from datasets import load_dataset, disable_caching
 from transformers import (
     AutoProcessor, LlavaForConditionalGeneration, BitsAndBytesConfig, TrainingArguments
 )
 from peft import LoraConfig
+from llava.train.llava_trainer import vl_data_collator
 from trl import SFTTrainer
 
 disable_caching()
@@ -60,27 +61,6 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
     return _fn
 
 # ---------------------------------------------------------------------------
-# Collate
-# ---------------------------------------------------------------------------
-
-def collate_fn(features: List[Dict]):
-    """Pad token tensors and flatten pixel_values.
-    All non‑tensor fields are ignored.
-    """
-    batch: Dict[str, torch.Tensor] = {}
-
-    # Stack/concat pixel values first (always a tensor)
-    pix = [f["pixel_values"] for f in features]
-    batch["pixel_values"] = torch.cat(pix, dim=0)
-
-    for key in ("input_ids", "labels", "attention_mask"):
-        if key in features[0]:
-            seqs = [f[key] for f in features]
-            batch[key] = torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
-
-    return batch
-
-# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -121,7 +101,7 @@ def main():
         args=training_args,
         train_dataset=ds["train"],
         eval_dataset=ds.get("eval"),
-        data_collator=collate_fn,
+        data_collator=vl_data_collator(processor.tokenizer),
         dataset_text_field=None,
         peft_config=lora_cfg,
         max_seq_length=args.max_seq_length,
