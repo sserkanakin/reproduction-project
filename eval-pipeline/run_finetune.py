@@ -211,6 +211,7 @@ def main():
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
         data_collator=data_collator,
+        label_names=ds["labels"],
     )
 
     trainer.train()
