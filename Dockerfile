@@ -1,52 +1,47 @@
-# === Stage 1: Base Image ===
-# Use NVIDIA CUDA base image
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+##############################################################################
+# LLaVA-Interleave-Qwen-7B fine-tuning image – CUDA 12.1, PyTorch 2.2, Debian-11 host
+##############################################################################
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
 
-# === Environment Variables ===
-ENV PYTHONUNBUFFERED=1
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PIP_DISABLE_PIP_VERSION_CHECK=on
-
-# === System Dependencies ===
+# ---------- OS utilities ----------
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        git \
-        build-essential \
-        ffmpeg \
-        libgl1 \
-        libglib2.0-0 \
-        python3.10 \
-        python3.10-dev \
-        python3.10-venv \
-        python3-pip && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        build-essential git curl jq tini && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# === Python Configuration ===
-# Make python3.10 the default
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
-# Upgrade pip and install PyTorch with CUDA support
-RUN python -m pip install --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu121 \
-        torch torchvision torchaudio
+# Make Ctrl-C propagate properly
+ENTRYPOINT ["/usr/bin/tini", "--"]
 
-# === Application Setup ===
-# Since the Dockerfile lives inside `reproduction-project/`, copy the entire context
-WORKDIR /app
-COPY . /app
+# ---------- Python dependencies ----------
+# Pinned versions verified in the earlier instructions
+RUN pip install --no-cache-dir \
+      transformers==4.41.0 \
+      trl==0.9.0 \
+      accelerate==0.28.0 \
+      peft==0.10.0 \
+      bitsandbytes==0.43.1 \
+      deepspeed==0.14.2 \
+      datasets==2.19.0 \
+      sentencepiece einops Pillow tqdm python-dotenv \
+      openai>=1.25.0
 
-# Install Python dependencies from your project
-RUN pip install --no-cache-dir -r requirements.txt
+# ---------- Set workdir & caches ----------
+WORKDIR /workspace
+ENV HF_HOME=/workspace/.cache/huggingface \
+    TRANSFORMERS_CACHE=/workspace/.cache/transformers \
+    PYTHONUNBUFFERED=1 \
+    NCCL_P2P_DISABLE=1
 
-# === (Optional) Cache Hugging Face models ===
-# Uncomment to pre-download heavy models into /app/hf_cache
-# ENV HF_HOME=/app/hf_cache
-# RUN mkdir -p $HF_HOME && \
-#     python -c "from transformers import AutoProcessor, AutoModelForVision2Seq; \
-# import torch; MODEL='llava-hf/llava-interleave-qwen-7b-hf'; \
-# AutoProcessor.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True); \
-# AutoModelForVision2Seq.from_pretrained(MODEL, cache_dir='$HF_HOME', trust_remote_code=True)"
+# ---------- Copy project scripts ----------
+#   host:  project/scripts/prepare_temporal_dataset.py
+#   host:  project/scripts/run_trl_ft.py
+COPY scripts/ /workspace/scripts/
 
-# === Flexible CMD ===
-# Default to bash so you can run any script: `docker run <image> python your_script.py`
+# Make them executable for convenience
+RUN chmod +x /workspace/scripts/*.py
+
+# Add scripts to PATH so we can call them as entrypoints
+ENV PATH="/workspace/scripts:${PATH}"
+
+# ---------- Default command ----------
 CMD ["bash"]
