@@ -73,61 +73,57 @@ def resolve_image_path(path: str) -> str:
 ###############################################################################
 
 def preprocess(ex, *, processor, max_images: int, max_target: int):
-    """Ensure **exact alignment** between number of images and `<image>` tokens.
+    """Prepare a *fixed‑shape* sample so the default HF collator can stack it.
 
-    1. Choose *n_images* = min(max_images, len(source_images)).
-    2. Load exactly *n_images* pictures.
-    3. Rewrite the prompt so it contains **exactly** *n_images* `<image>`
-       placeholders (keeping the original wording around them).
-    4. If we had to add new placeholders, we also add blank images so the
-       counts stay equal.
+    * **Always** output exactly `max_images` pictures → tensor `(max_images, 3, H, W)`.
+    * The prompt is rewritten to contain exactly the same number of `<image>`
+      placeholders so the model’s patch/tokens alignment holds.
+    * This avoids the *"expected sequence of length 4 at dim 1 (got 6)"*
+      crash which was caused by variable‑length image tensors in a batch.
     """
 
-    raw_text: str = ex["instruction"].strip()
-    img_paths: List[str] = ex["source_images"]
-
-    # 1️⃣  Decide how many images we will actually use ----------------------
-    n_images = min(max_images, len(img_paths))
-
-    # 2️⃣  Load those images --------------------------------------------------
+    prompt: str = ex["instruction"].strip()
+    img_paths: List[str] = ex["source_images"][:max_images]  # honour CLI cap
     imgs: List[Image.Image] = [
         Image.open(resolve_image_path(fp)).convert("RGB")
-        for fp in img_paths[:n_images]
+        for fp in img_paths
     ]
 
-    # 3️⃣  Normalise the placeholder count -----------------------------------
-    def keep_first_n_placeholders(text: str, n: int) -> str:
-        segments = text.split("<image>")
-        rebuilt = segments[0]
-        used = 0
-        for seg in segments[1:]:
-            if used < n:
-                rebuilt += "<image>"  # keep this placeholder
-                used += 1
-            # else: drop extra placeholders
-            rebuilt += seg
-        return rebuilt
+    # ------------------------------------------------------------------
+    # ① Normalise `<image>` token count to exactly *max_images*
+    # ------------------------------------------------------------------
+    current_tokens = prompt.count("<image>")
+    if current_tokens > max_images:
+        # keep only the first *max_images* placeholders
+        parts = prompt.split("<image>")
+        prompt = "<image>".join(parts[:max_images]) + parts[-1]
+    elif current_tokens < max_images:
+        prompt = prompt + " " + " ".join(["<image>"] * (max_images - current_tokens))
 
-    current_tokens = raw_text.count("<image>")
-    if current_tokens > n_images:
-        raw_text = keep_first_n_placeholders(raw_text, n_images)
-    elif current_tokens < n_images:
-        missing = n_images - current_tokens
-        raw_text = raw_text + " " + " ".join(["<image>"] * missing)
+    # ------------------------------------------------------------------
+    # ② Pad missing images with black squares so len(imgs) == max_images
+    # ------------------------------------------------------------------
+    if imgs:
+        w, h = imgs[0].size
+    else:
+        w = h = 256  # fallback if dataset had *zero* real images
+    while len(imgs) < max_images:
+        imgs.append(Image.new("RGB", (w, h), (0, 0, 0)))
 
-    # After correction they **must** be equal
-    assert raw_text.count("<image>") == n_images, "Still mismatched after normalisation"
+    # Sanity: shapes and counts are now invariant
+    assert len(imgs) == max_images == prompt.count("<image>"), "Invariant broken"  # noqa: E501
 
-    # 4️⃣  Processor ---------------------------------------------------------
+    # ------------------------------------------------------------------
+    # ③ Processor: returns *tensors*, not numpy arrays, for fast collation
+    # ------------------------------------------------------------------
     proc_inputs = processor(
         images=imgs,
-        text=raw_text,
+        text=prompt,
         padding=False,
         truncation=False,
         return_tensors="pt",
     )
 
-    # 🎯 Targets -------------------------------------------------------------
     labels = processor.tokenizer(
         ex["output"],
         padding="max_length",
@@ -138,15 +134,10 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
     labels[labels == processor.tokenizer.pad_token_id] = -100
 
     return {
-        "pixel_values": proc_inputs.pixel_values.squeeze(0),
+        "pixel_values": proc_inputs.pixel_values.squeeze(0),  # (max_images, 3, H, W)
         "input_ids": proc_inputs.input_ids.squeeze(0),
         "attention_mask": proc_inputs.attention_mask.squeeze(0),
         "labels": labels,
-        "source_images": img_paths[:n_images],  # Keep original paths
-        "instruction": raw_text,  # Keep the final prompt
-        "n_images": n_images,  # How many images we actually used
-        "max_source_length": max_images * 3 + len(raw_text.split()),  # Rough estimate
-        "max_target_length": max_target,
     }
 
 
