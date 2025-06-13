@@ -1,19 +1,20 @@
 ###############################################################################
 #  LLaVA-Interleave-Qwen-7B LoRA fine-tune  –  single NVIDIA L4 (CUDA 12.1)   #
-#  Debian base, model baked into the image, code bind-mounted at runtime      #
+#  Debian-compatible image, model cached, code bind-mounted at runtime        #
 ###############################################################################
 
-# ── 1. Base: Debian 11 + CUDA 12.1 runtime + Python 3.10 ─────────────────────
+# 1. CUDA 12.1 runtime (Ubuntu 22.04, Debian-compatible)
 FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
-# ── 2. System deps ───────────────────────────────────────────────────────────
+# 2. System + Python deps
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential git curl jq ca-certificates tini && \
+        build-essential git curl jq ca-certificates tini \
+        python3 python3-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# ── 3. Python libs (pins match run_trl_ft.py) ────────────────────────────────
-RUN pip install --no-cache-dir \
+# 3. Python libraries (pins match run_trl_ft.py)
+RUN pip3 install --no-cache-dir \
         torch==2.2.* --extra-index-url https://download.pytorch.org/whl/cu121 \
         transformers==4.45.1 \
         trl==0.9.6 \
@@ -24,23 +25,23 @@ RUN pip install --no-cache-dir \
         pillow einops sentencepiece tqdm python-dotenv tensorboard \
         openai>=1.25.0
 
-# ── 4. ENV + workspace ───────────────────────────────────────────────────────
+# 4. ENV + workspace
 ENV HF_HOME=/workspace/.cache/huggingface \
     TRANSFORMERS_CACHE=/workspace/.cache/huggingface \
     PYTHONUNBUFFERED=1 \
     NCCL_P2P_DISABLE=1
 WORKDIR /workspace
 
-RUN python - <<'PY'
+# 5. Pre-download the 7-B model (≈13 GB, done once at build time)
+RUN python3 - <<'PY'
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 model_id = "llava-hf/llava-interleave-qwen-7b-hf"
-print(f"↓ Caching {model_id} in image …")
+print(f"↓ Caching {model_id} …")
 AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
-# device_map={"": "meta"} -> load weights to CPU-less “meta” tensors (no VRAM)
 LlavaForConditionalGeneration.from_pretrained(model_id, device_map={"": "meta"})
 print("✓ Model cached in image layer")
 PY
 
-# ── 6. Tiny entrypoint so container stays PID 1-clean ────────────────────────
+# 6. Tiny entrypoint
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["bash"]
