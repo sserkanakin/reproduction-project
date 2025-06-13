@@ -114,14 +114,20 @@ def preprocess(ex, *, processor, max_images: int, max_target: int):
 ###############################################################################
 # Collator
 ###############################################################################
+###############################################################################
+# Collator: **keep** 5‑D `(B, N, 3, H, W)`
+###############################################################################
 class LlavaMultiImageCollator(DataCollatorForSeq2Seq):
+    """Pad the *text* but leave the image tensor shape untouched (B, N, 3, H, W).
+
+    No collapsing here any more – we handle the 5‑D → 4‑D flattening in a
+    **vision‑tower monkey‑patch** so the alignment between image features and
+    `<image>` patch tokens stays intact.
+    """
+
     def __call__(self, features, return_tensors=None):
         batch = super().__call__(features, return_tensors="pt")
-        pix = batch["pixel_values"]
-        if pix.ndim == 5:  # (B, N, 3, H, W) → (B·N, 3, H, W)
-            b, n, c, h, w = pix.shape
-            batch["pixel_values"] = pix.view(b * n, c, h, w)
-            batch["num_images"] = torch.tensor([n] * b)
+        # nothing to do – just return what HF stacked for us (B, N, 3, H, W)
         return batch
 
 ###############################################################################
@@ -179,6 +185,26 @@ def main():
         report_to="none",
     )
 
+        # ------------------------------------------------------------------
+    # Monkey‑patch the vision tower so **SigLIP** happily accepts 5‑D input
+    # ------------------------------------------------------------------
+    vt = model.base_model.vision_tower  # Peft wraps the base model
+
+    if not hasattr(vt, "_orig_forward"):
+        vt._orig_forward = vt.forward  # save for later
+
+        def vt_forward(pixel_values, *args, **kwargs):  # noqa: D401, E501
+            if pixel_values.dim() == 5:                 # (B, N, 3, H, W)
+                b, n, c, h, w = pixel_values.shape
+                pixel_values = pixel_values.view(b * n, c, h, w)  # flatten N
+            return vt._orig_forward(pixel_values, *args, **kwargs)
+
+        vt.forward = vt_forward
+        print("🔧 Patched vision‑tower forward() for 5‑D inputs → flatten to 4‑D")
+
+    # ------------------------------------------------------------------
+    # Trainer
+    # ------------------------------------------------------------------
     trainer = Trainer(
         model=model,
         args=training_args,
