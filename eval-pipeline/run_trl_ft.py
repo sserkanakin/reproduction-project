@@ -64,15 +64,20 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
 # ---------------------------------------------------------------------------
 
 def collate_fn(features: List[Dict]):
-    batch = {}
-    for k in features[0]:
-        vals = [f[k] for f in features]
-        if k == "pixel_values":
-            batch[k] = torch.cat(vals, dim=0)
-        elif k in {"input_ids", "labels", "attention_mask"}:
-            batch[k] = torch.nn.utils.rnn.pad_sequence(
-                vals, batch_first=True, padding_value=0
-            )
+    """Pad token tensors and flatten pixel_values.
+    All non‑tensor fields are ignored.
+    """
+    batch: Dict[str, torch.Tensor] = {}
+
+    # Stack/concat pixel values first (always a tensor)
+    pix = [f["pixel_values"] for f in features]
+    batch["pixel_values"] = torch.cat(pix, dim=0)
+
+    for key in ("input_ids", "labels", "attention_mask"):
+        if key in features[0]:
+            seqs = [f[key] for f in features]
+            batch[key] = torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
+
     return batch
 
 # ---------------------------------------------------------------------------
