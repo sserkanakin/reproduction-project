@@ -32,7 +32,7 @@ WORKDIR /workspace
 ENV HF_HOME=/workspace/.cache/huggingface \
     TRANSFORMERS_CACHE=/workspace/.cache/transformers \
     PYTHONUNBUFFERED=1 \
-    NCCL_P2P_DISABLE=1        # avoids an occasional NCCL P2P bug on GCP
+    NCCL_P2P_DISABLE=1
 
 # ── 4.  Copy project code ──────────────────────────────────────────────────
 # Everything under eval-pipeline/ ends up at /workspace/eval-pipeline/
