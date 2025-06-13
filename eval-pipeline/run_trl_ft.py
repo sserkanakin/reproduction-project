@@ -17,11 +17,32 @@ from transformers import (
 )
 from peft import LoraConfig
 from trl import SFTTrainer
-# 👉 try to import the official LLaVA collator; if the package
-#    is missing inside the container, install it on‑the‑fly.
-import subprocess, importlib, sys
+# 👉 import the official multi‑image collator.
+#    1. try normal import
+#    2. if missing, install LLaVA repo with --no-build-isolation (avoids PEP‑660)
+#    3. final fallback: git clone to /tmp and add to sys.path
+import subprocess, importlib, sys, pathlib, tempfile, os
+
+def _import_collator():
+    return importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
+
 try:
-    vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
+    vl_data_collator = _import_collator()
+except ModuleNotFoundError:
+    print("[INFO] 'llava' not found – installing from GitHub…", flush=True)
+    try:
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "git+https://github.com/haotian-liu/LLaVA.git@main",
+            "--no-build-isolation"  # skip editable / pep‑660
+        ])
+        vl_data_collator = _import_collator()
+    except Exception as e:
+        print("[WARN] pip install failed (", e, "). Falling back to git clone.", flush=True)
+        tmp_dir = tempfile.mkdtemp(prefix="llava_")
+        subprocess.check_call(["git", "clone", "--depth", "1", "https://github.com/haotian-liu/LLaVA.git", tmp_dir])
+        sys.path.insert(0, tmp_dir)
+        vl_data_collator = _import_collator()
 except ModuleNotFoundError:
     print("[INFO] 'llava' package not found — installing from GitHub…", flush=True)
     subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/haotian-liu/LLaVA.git@main"])
