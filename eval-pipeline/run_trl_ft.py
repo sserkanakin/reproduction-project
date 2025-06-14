@@ -80,7 +80,7 @@ def collate_fn(batch: List[Dict]):
             _, n, c, h, w = pix.shape
             pix = pix.view(n, c, h, w)
         img_tensors.append(pix)
-    pixel_values = torch.cat(img_tensors, dim=0)  # (B·N, 3, H, W)
+    pixel_values = torch.stack(img_tensors, dim=0)  # (B·N, 3, H, W)
 
     # 2) text --------------------------------------------------------------
     def _pad(name):
