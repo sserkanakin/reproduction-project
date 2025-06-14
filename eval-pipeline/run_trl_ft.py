@@ -64,47 +64,38 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
 # Collator — flatten images & pad token tensors
 # ---------------------------------------------------------------------------
 
-def collate_fn(batch: List[Dict]):
-    """`batch` is a list of dicts with keys: pixel_values (5‑D), input_ids,
-    labels, attention_mask (1‑D lists or tensors).
-    Returns a dict of padded tensors suitable for LLaVA forward.
-    """
-    # 1) images -------------------------------------------------------------
-    img_tensors = []
-    for ex in batch:
-        pix = ex["pixel_values"]  # could be list or tensor
-        if isinstance(pix, list):
-            pix = torch.stack([torch.tensor(t) if not torch.is_tensor(t) else t for t in pix])
+# ---------------------------------------------------------------------------
+# LLaVA-style collator (self-contained)
+# ---------------------------------------------------------------------------
+def collate_fn(features: List[Dict]):
+    import torch, itertools
 
-        if pix.ndim == 5:  # (B, N, 3, H, W) but B==1 here
-            _, n, c, h, w = pix.shape
-            pix = pix.view(n, c, h, w)
-        img_tensors.append(pix)
-    pixel_values = torch.stack(img_tensors, dim=0)  # (B·N, 3, H, W)
+    # 1) pixel values --------------------------------------------------------
+    #   each feature["pixel_values"] is (N,3,H,W) OR list[N] of CHW tensors
+    imgs = []
+    for f in features:
+        pv = f["pixel_values"]
+        if isinstance(pv, list):
+            pv = torch.stack([torch.as_tensor(t) for t in pv])   # (N,3,H,W)
+        if pv.ndim == 5:                                        # (1,N,3,H,W)
+            pv = pv.squeeze(0)
+        pv = pv.view(-1, *pv.shape[-3:])                        # (N,3,H,W)
+        imgs.append(pv)
+    pixel_values = torch.cat(imgs, dim=0)                       # (B·N,3,H,W)
 
-    # 2) text --------------------------------------------------------------
+    # 2) token tensors ------------------------------------------------------
     def _pad(name):
-        seqs_raw = [ex[name] for ex in batch]
-        # flatten one level if nested
-        seqs = []
-        for s in seqs_raw:
-            if isinstance(s[0], (list, tuple)):
-                seqs.extend(s)
-            else:
-                seqs.append(s)
-        seqs = [torch.tensor(x, dtype=torch.long) if not torch.is_tensor(x) else x for x in seqs]
-        return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
-
-    input_ids = _pad("input_ids")
-    labels = _pad("labels")
-    attention_mask = _pad("attention_mask")
+        seqs = [torch.as_tensor(f[name]) for f in features]
+        pad_id = processor.tokenizer.pad_token_id or 0
+        return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=pad_id)
 
     return {
-        "pixel_values": pixel_values,
-        "input_ids": input_ids,
-        "labels": labels,
-        "attention_mask": attention_mask,
+        "pixel_values":   pixel_values,
+        "input_ids":      _pad("input_ids"),
+        "labels":         _pad("labels"),
+        "attention_mask": _pad("attention_mask"),
     }
+
 
 # ---------------------------------------------------------------------------
 # Main
