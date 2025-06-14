@@ -1,29 +1,32 @@
-###############################################################################
-#  LLaVA 1.2.2.post1  •  CUDA 12.1 • single–GPU LoRA finetune                 #
-###############################################################################
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+# MODIFIED: Use a base image that matches your Google VM (Debian 11, CUDA 12.1)
+FROM nvidia/cuda:12.1.1-cudnn8-devel-debian11
 
-# 1. system deps
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        git build-essential curl jq ca-certificates python3 python3-pip tini && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# Avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
-# 2. python libs (exact working pins)
-RUN pip3 install --no-cache-dir \
-        torch==2.2.* --extra-index-url https://download.pytorch.org/whl/cu121 \
-        transformers==4.52.0 accelerate==1.7.0 peft==0.15.2 \
-        bitsandbytes==0.43.1 sentencepiece einops pillow tqdm gradio \
-        datasets==2.19.0
+# Install Python 3.10 (which matches your VM), pip, and Git
+RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# 3. LLaVA   (contains train.py & its Trainer/ collator)
-RUN git clone --depth 1 --branch v1.2.2.post1 https://github.com/haotian-liu/LLaVA.git /opt/LLaVA \
- && pip3 install /opt/LLaVA
+# Set the Hugging Face cache directory inside the image
+ENV HF_HOME=/huggingface_cache
 
-ENV HF_HOME=/workspace/.cache/huggingface \
-    TRANSFORMERS_CACHE=/workspace/.cache/huggingface \
-    PYTHONUNBUFFERED=1 NCCL_P2P_DISABLE=1
-WORKDIR /workspace
+# Copy the requirements file into the image
+COPY requirements.txt /tmp/requirements.txt
 
-ENTRYPOINT ["/usr/bin/tini","--"]
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# --- Pre-download the model to cache it within the image layer ---
+# Copy and run the download script
+COPY download_model.py /tmp/download_model.py
+RUN python3 /tmp/download_model.py
+
+# Set the working directory for when we run the container
+WORKDIR /app
+
+# By default, when the container runs, it will start a bash shell
 CMD ["bash"]
