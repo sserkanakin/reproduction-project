@@ -1,14 +1,18 @@
 #!/usr/bin/env python
-"""run_trl_ft.py – One‑GPU QLoRA fine‑tune for LLaVA‑Interleave‑Qwen‑7B
+"""run_trl_ft.py — one‑GPU 4‑bit QLoRA fine‑tune for **LLaVA‑Interleave‑Qwen‑7B**
 
-* Uses **official LLaVA multi‑image collator** (`vl_data_collator`).
-* No custom padding logic needed – all shape issues solved upstream.
+No external `llava` package required.  A self‑contained `collate_fn` does:
+1. **Flatten** 5‑D `pixel_values` → `(B·N, 3, H, W)`.
+2. Pad `input_ids`, `labels`, `attention_mask` with zeros.
+
+This avoids all import/install headaches and works on a single NVIDIA L4
+(24 GB) with batch 1 × grad‑accum 16.
 """
 from __future__ import annotations
 
 import argparse, os
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 import torch
 from datasets import load_dataset, disable_caching
@@ -17,36 +21,6 @@ from transformers import (
 )
 from peft import LoraConfig
 from trl import SFTTrainer
-# 👉 import the official multi‑image collator.
-#    1. try normal import
-#    2. if missing, install LLaVA repo with --no-build-isolation (avoids PEP‑660)
-#    3. final fallback: git clone to /tmp and add to sys.path
-import subprocess, importlib, sys, pathlib, tempfile, os
-
-def _import_collator():
-    return importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
-
-try:
-    vl_data_collator = _import_collator()
-except ModuleNotFoundError:
-    print("[INFO] 'llava' not found – installing from GitHub…", flush=True)
-    try:
-        subprocess.check_call([
-            sys.executable, "-m", "pip", "install",
-            "git+https://github.com/haotian-liu/LLaVA.git@main",
-            "--no-build-isolation"  # skip editable / pep‑660
-        ])
-        vl_data_collator = _import_collator()
-    except Exception as e:
-        print("[WARN] pip install failed (", e, "). Falling back to git clone.", flush=True)
-        tmp_dir = tempfile.mkdtemp(prefix="llava_")
-        subprocess.check_call(["git", "clone", "--depth", "1", "https://github.com/haotian-liu/LLaVA.git", tmp_dir])
-        sys.path.insert(0, tmp_dir)
-        vl_data_collator = _import_collator()
-except ModuleNotFoundError:
-    print("[INFO] 'llava' package not found — installing from GitHub…", flush=True)
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/haotian-liu/LLaVA.git@main"])
-    vl_data_collator = importlib.import_module("llava.train.llava_trainer").vl_data_collator  # type: ignore
 
 disable_caching()
 
@@ -71,7 +45,7 @@ def parse_args():
     return p.parse_args()
 
 # ---------------------------------------------------------------------------
-# Preprocess – only rename fields, leave image tensor 5‑D; collator flattens
+# Pre‑process — leave pixel tensor 5‑D; collator will flatten
 # ---------------------------------------------------------------------------
 
 def make_preprocess(proc: AutoProcessor, img_root: Path):
@@ -87,6 +61,41 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
     return _fn
 
 # ---------------------------------------------------------------------------
+# Collator — flatten images & pad token tensors
+# ---------------------------------------------------------------------------
+
+def collate_fn(batch: List[Dict]):
+    """`batch` is a list of dicts with keys: pixel_values (5‑D), input_ids,
+    labels, attention_mask (1‑D lists or tensors).
+    Returns a dict of padded tensors suitable for LLaVA forward.
+    """
+    # 1) images -------------------------------------------------------------
+    img_tensors = []
+    for ex in batch:
+        pix = ex["pixel_values"]  # (1, N, 3, H, W) or (N,3,H,W)
+        if pix.ndim == 5:  # (B, N, 3, H, W) but B==1 here
+            _, n, c, h, w = pix.shape
+            pix = pix.view(n, c, h, w)
+        img_tensors.append(pix)
+    pixel_values = torch.cat(img_tensors, dim=0)  # (B·N, 3, H, W)
+
+    # 2) text --------------------------------------------------------------
+    def _pad(name):
+        seqs = [torch.tensor(ex[name], dtype=torch.long) if not torch.is_tensor(ex[name]) else ex[name] for ex in batch]
+        return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
+
+    input_ids = _pad("input_ids")
+    labels = _pad("labels")
+    attention_mask = _pad("attention_mask")
+
+    return {
+        "pixel_values": pixel_values,
+        "input_ids": input_ids,
+        "labels": labels,
+        "attention_mask": attention_mask,
+    }
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -94,6 +103,7 @@ def main():
     args = parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
+    # 4‑bit NF4 QLoRA ------------------------------------------
     bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
                                  bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.float16)
 
@@ -105,6 +115,7 @@ def main():
     lora_cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05,
                           target_modules="all-linear", task_type="CAUSAL_LM", bias="none")
 
+    # dataset ---------------------------------------------------
     files = {"train": args.train_jsonl}
     if Path(args.eval_jsonl).exists():
         files["eval"] = args.eval_jsonl
@@ -129,7 +140,7 @@ def main():
         args=training_args,
         train_dataset=ds["train"],
         eval_dataset=ds.get("eval"),
-        data_collator=vl_data_collator,
+        data_collator=collate_fn,
         dataset_text_field=None,
         peft_config=lora_cfg,
         max_seq_length=args.max_seq_length,
