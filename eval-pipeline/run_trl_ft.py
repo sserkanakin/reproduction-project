@@ -74,8 +74,8 @@ def collate_fn(batch: List[Dict]):
     for ex in batch:
         pix = ex["pixel_values"]  # could be list or tensor
         if isinstance(pix, list):
-            # list of per‑image CHW tensors -> stack
-            pix = torch.stack(pix, dim=0)
+            pix = torch.stack([torch.tensor(t) if not torch.is_tensor(t) else t for t in pix])
+
         if pix.ndim == 5:  # (B, N, 3, H, W) but B==1 here
             _, n, c, h, w = pix.shape
             pix = pix.view(n, c, h, w)
@@ -84,7 +84,15 @@ def collate_fn(batch: List[Dict]):
 
     # 2) text --------------------------------------------------------------
     def _pad(name):
-        seqs = [torch.tensor(ex[name], dtype=torch.long) if not torch.is_tensor(ex[name]) else ex[name] for ex in batch]
+        seqs_raw = [ex[name] for ex in batch]
+        # flatten one level if nested
+        seqs = []
+        for s in seqs_raw:
+            if isinstance(s[0], (list, tuple)):
+                seqs.extend(s)
+            else:
+                seqs.append(s)
+        seqs = [torch.tensor(x, dtype=torch.long) if not torch.is_tensor(x) else x for x in seqs]
         return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
 
     input_ids = _pad("input_ids")
