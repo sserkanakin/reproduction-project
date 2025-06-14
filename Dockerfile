@@ -1,5 +1,5 @@
-# MODIFIED: Use a base image that matches your Google VM (Debian 11, CUDA 12.1)
-FROM nvidia/cuda:12.1.1-cudnn8-devel-debian11
+# CORRECTED: Use a valid, existing base image tag for Debian 11 and CUDA 12.1
+FROM nvidia/cuda:12.1.1-devel-debian11
 
 # Avoid prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
