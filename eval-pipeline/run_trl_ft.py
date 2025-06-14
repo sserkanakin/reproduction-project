@@ -64,30 +64,27 @@ def make_preprocess(proc: AutoProcessor, img_root: Path):
 # Collator — flatten images & pad token tensors
 # ---------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------
-# LLaVA-style collator (self-contained)
-# ---------------------------------------------------------------------------
-def collate_fn(features: List[Dict]):
-    import torch, itertools
-
-    # 1) pixel values --------------------------------------------------------
-    #   each feature["pixel_values"] is (N,3,H,W) OR list[N] of CHW tensors
-    imgs = []
-    for f in features:
-        pv = f["pixel_values"]
+def collate_fn(batch: List[Dict]):
+    """Build a batch for LLaVA.
+    * Flattens images to 4‑D `(B·N,3,H,W)` required by SigLIP.
+    * Pads token fields with zeros (pad‑id 0).
+    """
+    # ── images ─────────────────────────────────────────────────────────────
+    img_tensors = []
+    for ex in batch:
+        pv = ex["pixel_values"]  # list[N] or tensor
         if isinstance(pv, list):
-            pv = torch.stack([torch.as_tensor(t) for t in pv])   # (N,3,H,W)
-        if pv.ndim == 5:                                        # (1,N,3,H,W)
+            pv = torch.stack([torch.as_tensor(t) for t in pv], dim=0)  # (N,3,H,W)
+        if pv.ndim == 5:                                              # (1,N,3,H,W)
             pv = pv.squeeze(0)
-        pv = pv.view(-1, *pv.shape[-3:])                        # (N,3,H,W)
-        imgs.append(pv)
-    pixel_values = torch.cat(imgs, dim=0)                       # (B·N,3,H,W)
+        pv = pv.view(-1, *pv.shape[-3:])                              # (N,3,H,W)
+        img_tensors.append(pv)
+    pixel_values = torch.cat(img_tensors, dim=0)                      # (B·N,3,H,W)
 
-    # 2) token tensors ------------------------------------------------------
-    def _pad(name):
-        seqs = [torch.as_tensor(f[name]) for f in features]
-        pad_id = processor.tokenizer.pad_token_id or 0
-        return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=pad_id)
+    # ── tokens ─────────────────────────────────────────────────────────────
+    def _pad(name: str):
+        seqs = [torch.as_tensor(ex[name], dtype=torch.long) for ex in batch]
+        return torch.nn.utils.rnn.pad_sequence(seqs, batch_first=True, padding_value=0)
 
     return {
         "pixel_values":   pixel_values,
@@ -95,7 +92,6 @@ def collate_fn(features: List[Dict]):
         "labels":         _pad("labels"),
         "attention_mask": _pad("attention_mask"),
     }
-
 
 # ---------------------------------------------------------------------------
 # Main
