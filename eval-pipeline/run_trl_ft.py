@@ -72,7 +72,10 @@ def collate_fn(batch: List[Dict]):
     # 1) images -------------------------------------------------------------
     img_tensors = []
     for ex in batch:
-        pix = ex["pixel_values"]  # (1, N, 3, H, W) or (N,3,H,W)
+        pix = ex["pixel_values"]  # could be list or tensor
+        if isinstance(pix, list):
+            # list of per‑image CHW tensors -> stack
+            pix = torch.stack(pix, dim=0)
         if pix.ndim == 5:  # (B, N, 3, H, W) but B==1 here
             _, n, c, h, w = pix.shape
             pix = pix.view(n, c, h, w)
