@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # --- Pre-download the model to cache it within the image layer ---
 # Copy and run the download script
-COPY download_model.py /tmp/download_model.py
+COPY eval-pipeline/download_model.py /tmp/download_model.py
 RUN python3 /tmp/download_model.py
 
 # Set the working directory for when we run the container
