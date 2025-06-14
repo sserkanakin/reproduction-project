@@ -1,10 +1,10 @@
-# CORRECTED: Use a valid, existing base image tag for Debian 11 and CUDA 12.1
-FROM nvidia/cuda:12.1.1-devel-debian11
+# FINAL VERSION: Use the most stable and common base image: Ubuntu 22.04 with CUDA 12.1
+FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 
 # Avoid prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python 3.10 (which matches your VM), pip, and Git
+# Install Python 3.10, pip, and Git using apt-get (works on Ubuntu/Debian)
 RUN apt-get update && apt-get install -y \
     python3.10 \
     python3-pip \
