@@ -37,37 +37,14 @@ for f in "$DATA" "$EVAL"; do
   head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || { echo "ERROR: $f not LLaVA‑JSONL" >&2; exit 1; }
 done
 
-# ----------------------- Ensure LLaVA & re‑export class ----------------------
 python3 - <<'PY'
-import sys, subprocess, importlib, pkgutil, inspect, types
-
-if importlib.util.find_spec('llava') is None:
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q',
-                           'git+https://github.com/haotian-liu/LLaVA.git@main'])
-
-import llava, importlib.util
-# Minimal stub so downstream import path exists even if __init__ fails later
-llava.model = types.ModuleType('llava.model')
-sys.modules.setdefault('llava.model', llava.model)
-
-found = None
-for modinfo in pkgutil.walk_packages(llava.__path__, prefix='llava.'):
-    try:
-        m = importlib.import_module(modinfo.name)
-        for name, cls in inspect.getmembers(m, inspect.isclass):
-            if name.endswith('ForCausalLM') and 'llava.model' in cls.__module__:
-                found = (name, cls, modinfo.name)
-                break
-        if found: break
-    except Exception:
-        continue
-
-if not found:
-    print('❌  No *ForCausalLM class found in llava.*', file=sys.stderr); sys.exit(1)
-
-name, cls, mod_name = found
-setattr(llava.model, 'LlavaLlamaForCausalLM', cls)
-print(f"✅  Patched {name} from {mod_name}", file=sys.stderr)
+# ---- convert dict -> LlamaConfig so resize_token_embeddings works ----
+import llava.model as M, transformers, json, os
+if isinstance(M.LlavaLlamaForCausalLM.config_class.text_config, dict):
+    txt = M.LlavaLlamaForCausalLM.config_class.text_config
+    from transformers import LlamaConfig
+    M.LlavaLlamaForCausalLM.config_class.text_config = LlamaConfig(**txt)
+    print("✅  Patched text_config to LlamaConfig", flush=True)
 PY
 
 # ------------------------------- Training -----------------------------------
