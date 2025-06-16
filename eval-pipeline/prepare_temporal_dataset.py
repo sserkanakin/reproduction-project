@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 from dotenv import load_dotenv
 import tiktoken
+from tqdm import tqdm
 
 load_dotenv()  # Load environment variables from a .env file
 
@@ -67,20 +68,37 @@ def call_openai_reasoning(gt: List[int], sample: dict[str, Any], model: str) -> 
     )
     return resp.choices[0].message.content.strip()
 
-def convert(sample: dict[str, Any], add_reason: bool, model: str) -> dict[str, Any]:
-    order = parse_options(sample["options"])[sample["output"].strip()]
+def convert(sample: dict[str, any], add_reason: bool, model: str) -> dict[str, any]:
+    # Retrieve input_image_path from the nested "input" field
+    input_image_paths = sample.get("input", {}).get("input_image_path")
+    if not input_image_paths:
+        raise KeyError("Key 'input_image_path' not found in sample['input']")
+    # Extract the id from the image path
+    sample_id = Path(input_image_paths[0]).stem
+    # Retrieve output value
+    output_val = sample["output"]["output_text"] if isinstance(sample["output"], dict) else sample["output"]
+    key = output_val.strip()
+    options = parse_options(sample["options"])
+    if not key:
+        if options:
+            key = list(options.keys())[0]
+        else:
+            raise KeyError("No options found in sample['options'].")
+    if key not in options:
+        raise KeyError(f"Key '{key}' not found in options: {options}")
+    order = options[key]
     answer = f"The correct order is {order}."
     if add_reason:
         try:
             answer += "\n\n" + call_openai_reasoning(order, sample, model)
         except Exception as e:
-            answer += f"\n\n**Reasoning**: (fallback – {e})"
+            answer += f"\n\n**Reasoning**: (fallback \\u2013 {e})"
     return {
-        "id": Path(sample["input_image_path"][0]).stem,
-        "images": sample["input_image_path"],
+        "id": sample_id,
+        "images": input_image_paths,
         "conversations": [
-            {"from": "human", "value": build_prompt(sample["input_image_path"], sample["question"])},
-            {"from": "gpt",   "value": answer},
+            {"from": "human", "value": build_prompt(input_image_paths, sample["input"]["question"])},
+            {"from": "gpt", "value": answer},
         ],
     }
 
@@ -103,19 +121,20 @@ def main() -> None:
     if len(raw) < args.train_size:
         raise SystemExit(f"train_size {args.train_size} > dataset size {len(raw)}")
 
-    random.seed(args.seed); random.shuffle(raw)
+    random.seed(args.seed)
+    random.shuffle(raw)
     train_raw, test_raw = raw[:args.train_size], raw[args.train_size:]
 
     have_key = bool(os.getenv("OPENAI_API_KEY"))
     if not have_key:
         print("⚠️  OPENAI_API_KEY not set – reasoning will be placeholder", flush=True)
 
-    train = [convert(s, add_reason=have_key, model=args.reasoning_model) for s in train_raw]
-    test  = [convert(s, add_reason=False,    model=args.reasoning_model) for s in test_raw]
+    train = [convert(s, add_reason=have_key, model=args.reasoning_model) for s in tqdm(train_raw, desc="Processing train samples")]
+    test  = [convert(s, add_reason=False,    model=args.reasoning_model) for s in tqdm(test_raw, desc="Processing test samples")]
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     (args.output_dir / "train.json").write_text(json.dumps(train, ensure_ascii=False, indent=2))
-    (args.output_dir / "test.json" ).write_text(json.dumps(test,  ensure_ascii=False, indent=2))
+    (args.output_dir / "test.json").write_text(json.dumps(test, ensure_ascii=False, indent=2))
     print(f"✓ Wrote {len(train)} train / {len(test)} test samples to {args.output_dir}")
 
 if __name__ == "__main__":
