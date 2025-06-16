@@ -48,7 +48,6 @@ done
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
-  --tokenizer_name_or_path        "$TOK_DIR" \
   --version                       v0 \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
