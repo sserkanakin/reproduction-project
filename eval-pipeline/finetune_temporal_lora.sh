@@ -10,10 +10,9 @@ set -euo pipefail
 
 # ---------------------------- CLI & defaults --------------------------------
 DATA= EVAL= IMG_ROOT= OUT=
-EPOCHS=1 BATCH=4 GRAD_ACC=4 LR=5e-5
+EPOCHS=1 BATCH=2 GRAD_ACC=8 LR=5e-5
 MODEL="llava-hf/llava-interleave-qwen-0.5b-hf"
-VIT="openai/clip-vit-large-patch14-336"
-TOK_DIR="/tmp/qwen_pad_tok"       # temp folder for patched tokenizer
+VIT="openai/clip-vit-large-patch14-336"       # temp folder for patched tokenizer
 
 usage() {
   echo "Usage: $0 --data TRAIN.json[l] --eval TEST.json[l] --images_root DIR --out DIR [--epochs N]" >&2
@@ -48,6 +47,7 @@ done
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
+  --bits                          4 \
   --version                       v0 \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
@@ -55,7 +55,7 @@ python3 -m llava.train.train_mem \
   --mm_projector_type             mlp2x_gelu \
   --tune_mm_mlp_adapter           true \
   --lora_enable                   true \
-  --lora_r                        64 \
+  --lora_r                        32 \
   --lora_alpha                    16 \
   --lora_dropout                  0.05 \
   --per_device_train_batch_size   $BATCH \
