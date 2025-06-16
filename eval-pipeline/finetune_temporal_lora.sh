@@ -11,7 +11,7 @@ DATA= EVAL= IMG_ROOT= OUT=
 EPOCHS=3 BATCH=4 GRAD_ACC=4 LR=5e-5
 MODEL="llava-hf/llava-interleave-qwen-7b-hf"
 VISION="openai/clip-vit-large-patch14-336"
-DO_INSTALL=true   # set false with --no-install
+DO_INSTALL=True   # set false with --no-install
 
 usage() {
   cat <<EOF
