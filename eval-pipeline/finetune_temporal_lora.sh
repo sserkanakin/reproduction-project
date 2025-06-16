@@ -42,7 +42,7 @@ done
 python3 - <<'PY'
 import importlib, sys
 tok_mod = importlib.import_module('llava.train.train').tokenizers
-tokenizer = tok_mod.get_tokenizer(model_name="llava-hf/llava-interleave-qwen-7b-hf")
+tokenizer = tok_mod.pre_tokenizers(model_name="llava-hf/llava-interleave-qwen-7b-hf")
 if tokenizer.pad_token_id is None:
     tokenizer.pad_token = tokenizer.eos_token          # id = 0
     tokenizer.save_pretrained("/tmp/llava_tmp_tok")    # saved once
