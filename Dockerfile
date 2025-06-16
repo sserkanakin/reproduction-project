@@ -1,19 +1,23 @@
-# Torch 2.3 + CUDA 12.1 base
 FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
-RUN apt-get update && apt-get install -y git jq && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git jq ninja-build && rm -rf /var/lib/apt/lists/*
 
-ENV TORCH_CUDA_ARCH_LIST=8.9  PYTHONUNBUFFERED=1
+ENV CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release" \
+    TORCH_CUDA_ARCH_LIST=8.9 \
+    PYTHONUNBUFFERED=1
 
-# Fast, ABI-matched Flash-Attention 2.6 wheel (cu121 / torch230)
+# 1️⃣  Build flash-attn from source (10 min on L4)
 RUN pip install --upgrade pip && \
-    pip install flash-attn==2.6.0 bitsandbytes==0.43.1
+    pip install --no-build-isolation flash-attn==2.5.9.post1 \
+        --extra-index-url https://pypi.org/simple
 
-# Clone *latest* LLaVA and install in editable mode
-RUN git clone --depth 1 https://github.com/haotian-liu/LLaVA.git /llava && \
-    pip install -e /llava
+# 2️⃣  BitsAndBytes for 4-bit LoRA
+RUN pip install bitsandbytes==0.43.1
 
-# Extra deps
+# 3️⃣  Latest LLaVA
+RUN pip install "git+https://github.com/haotian-liu/LLaVA.git@main"
+
+# 4️⃣  Helpers
 RUN pip install transformers==4.41.2 peft==0.10.0 accelerate==0.29.3 datasets tqdm
 
 WORKDIR /workspace
