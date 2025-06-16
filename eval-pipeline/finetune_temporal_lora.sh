@@ -38,13 +38,22 @@ for f in "$DATA" "$EVAL"; do
 done
 
 python3 - <<'PY'
-# ---- convert dict -> LlamaConfig so resize_token_embeddings works ----
-import llava.model as M, transformers, json, os
-if isinstance(M.LlavaLlamaForCausalLM.config_class.text_config, dict):
-    txt = M.LlavaLlamaForCausalLM.config_class.text_config
-    from transformers import LlamaConfig
-    M.LlavaLlamaForCausalLM.config_class.text_config = LlamaConfig(**txt)
-    print("✅  Patched text_config to LlamaConfig", flush=True)
+"""Patch *instance* config dict → LlamaConfig via hooks."""
+import gc, transformers, importlib
+LlamaConfig = transformers.LlamaConfig
+LLM = importlib.import_module("llava.model").LlavaLlamaForCausalLM
+
+def after_init(model, *_, **__):
+    if isinstance(model.config.text_config, dict):
+        model.config.text_config = LlamaConfig(**model.config.text_config)
+        print("✅ Patched instance text_config → LlamaConfig", flush=True)
+
+# register a hook that fires when the model is first instantiated
+orig_init = LLM.__init__
+def wrapped_init(self, *a, **kw):
+    orig_init(self, *a, **kw)
+    after_init(self)
+LLM.__init__ = wrapped_init
 PY
 
 # ------------------------------- Training -----------------------------------
