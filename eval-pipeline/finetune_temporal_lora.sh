@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+##############################################################################
+# finetune_temporal_lora.sh                                                   #
+# ----------------------------------------------------------------------------#
+# One‑liner LoRA fine‑tuning of the `llava-hf/llava-interleave-qwen-7b-hf`     #
+# model on the **multi‑image temporal‑ordering dataset** produced by          #
+# `prepare_temporal_dataset.py`. Everything below follows the public LLaVA    #
+# training interface, so *no code modifications* are required inside LLaVA.   #
+#                                                                             #
+# ʟ4 GPU tested (24 GB) – uses:                                               #
+#   • 4‑bit weight loading (`bitsandbytes`)                                    #
+#   • LoRA on Q, K, V, O + cross‑modal MLP (≈ 25 M tunable params)             #
+#   • Gradient Accumulation to fit batch size                                  #
+##############################################################################
+
+set -euo pipefail
+
+# ---------------------------- Helper & defaults -----------------------------
+usage() {
+  echo "Usage: $0 --data TRAIN.jsonl --eval TEST.jsonl --images_root DIR --out CKPT_DIR [--epochs N]" >&2
+  exit 1
+}
+
+# sensible defaults for a single‑GPU L4 box
+EPOCHS=3
+BATCH=4           # per‑device batch (4 × 7 images × 576 tokens ≈ 13 k)
+GRAD_ACC=4        # effective batch 16
+LR=5e-5           # LoRA learning‑rate
+MODEL="llava-hf/llava-interleave-qwen-7b-hf"
+VISION_TOWER="openai/clip-vit-large-patch14-336"
+
+# ------------------------------- CLI parse ----------------------------------
+DATA=""
+EVAL=""
+IMG_ROOT=""
+OUT=""
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --data)        DATA=$2; shift 2;;
+    --eval)        EVAL=$2; shift 2;;
+    --images_root) IMG_ROOT=$2; shift 2;;
+    --out)         OUT=$2; shift 2;;
+    --epochs)      EPOCHS=$2; shift 2;;
+    --batch)       BATCH=$2; shift 2;;
+    --grad_acc)    GRAD_ACC=$2; shift 2;;
+    --lr)          LR=$2; shift 2;;
+    *) usage;;
+  esac
+done
+
+[[ -z "$DATA" || -z "$EVAL" || -z "$IMG_ROOT" || -z "$OUT" ]] && usage
+
+# ----------------------------- Sanity checks --------------------------------
+for p in "$DATA" "$EVAL"; do
+  [[ ! -f "$p" ]] && { echo "File not found: $p" >&2; exit 1; }
+  # Read first line only (JSONL) and verify an `images` key exists
+  head -n 1 "$p" | jq -e '.images' >/dev/null 2>&1 || {
+    echo "ERROR: $p does not look like JSONL with LLaVA format" >&2; exit 1; }
+done
+
+# ------------------------------- Training -----------------------------------
+python3 -m llava.train.train_mem \
+  --model_name_or_path            "$MODEL" \
+  --version                       plain \
+  --data_path                     "$DATA" \
+  --val_data_path                 "$EVAL" \
+  --image_folder                  "$IMG_ROOT" \
+  --vision_tower                  "$VISION_TOWER" \
+  --mm_projector_type             mlp2x_gelu \
+  --tune_mm_mlp_adapter           true \
+  --lora_enable                   true \
+  --lora_r                        64 \
+  --lora_alpha                    16 \
+  --lora_dropout                  0.05 \
+  --per_device_train_batch_size   $BATCH \
+  --per_device_eval_batch_size    $BATCH \
+  --gradient_accumulation_steps   $GRAD_ACC \
+  --num_train_epochs              $EPOCHS \
+  --learning_rate                 $LR \
+  --warmup_ratio                  0.03 \
+  --lr_scheduler_type             cosine \
+  --save_strategy                 steps \
+  --save_steps                    200 \
+  --logging_steps                 20 \
+  --model_max_length              8192 \
+  --fp16                          true \
+  --bf16                          false \
+  --tf32                          true \
+  --output_dir                    "$OUT"
+
+##############################################################################
+# POST‑RUN:                                                                  #
+#  • The LoRA adapters + projector are stored in $OUT                        #
+#  • Merge into a standalone checkpoint with `python -m llava.merge_lora ...`#
+#  • Evaluate: `python -m llava.eval.run_eval --data-path $EVAL --model ...`  #
+##############################################################################
