@@ -42,25 +42,6 @@ for f in "$DATA" "$EVAL"; do
     echo "ERROR: $f not LLaVA-JSONL" >&2; exit 1; }
 done
 
-## ----------------------- Ensure LLaVA & re-export class ----------------------
-#python3 - <<'PY'
-#import sys, subprocess, importlib, types
-#
-#if importlib.util.find_spec('llava') is None:
-#    print('⏳  Installing LLaVA …', file=sys.stderr)
-#    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--quiet',
-#                           'git+https://github.com/haotian-liu/LLaVA.git@main'])
-#
-## build stub first
-#stub = types.ModuleType('llava'); stub.__path__ = []
-#stub.model = types.ModuleType('llava.model')
-#sys.modules.update({'llava': stub, 'llava.model': stub.model})
-#
-#deep = importlib.import_module('llava.model.language_model.llava_llama')
-#stub.model.LlavaLlamaForCausalLM = deep.LlavaLlamaForCausalLM
-#print('✅  Patched LlavaLlamaForCausalLM', file=sys.stderr)
-#PY
-
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
