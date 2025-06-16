@@ -11,8 +11,8 @@ RUN pip install --upgrade pip && \
     pip install --no-build-isolation flash-attn==2.5.9.post1 \
         --extra-index-url https://pypi.org/simple
 
-RUN pip uninstall -y flash_attn flash_attn_2_cuda \
-    && pip install flash-attn==2.5.5 \
+RUN pip uninstall -y flash_attn flash_attn_2_cuda && \
+     pip install flash-attn==2.5.5 \
 
 
 
