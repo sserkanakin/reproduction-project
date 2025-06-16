@@ -1,32 +1,51 @@
-# FINAL VERSION: Use the most stable and common base image: Ubuntu 22.04 with CUDA 12.1
-FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+# CUDA‑enabled base image with PyTorch 2.3 (CUDA 12.1) – perfectly matches NVIDIA L4 (sm_89)
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
-# Avoid prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
+###############################################################################
+# System deps
+###############################################################################
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git build-essential cmake \
+        libjpeg-dev libpng-dev jq && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install Python 3.10, pip, and Git using apt-get (works on Ubuntu/Debian)
-RUN apt-get update && apt-get install -y \
-    python3.10 \
-    python3-pip \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    TORCH_CUDA_ARCH_LIST=8.9
 
-# Set the Hugging Face cache directory inside the image
-ENV HF_HOME=/huggingface_cache
+###############################################################################
+# Python deps – keep this layer stable so you **don’t** need to rebuild when
+# you tweak local scripts. Only re‑build if you change these versions.
+###############################################################################
 
-# Copy the requirements file into the image
+# Copy *only* requirements.txt (enables Docker cache).  None of your project
+# code is copied, so subsequent edits don’t invalidate the image – just mount
+# the repo at runtime.
 COPY requirements.txt /tmp/requirements.txt
 
-# Install the Python dependencies
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --upgrade pip && \
+    # Flash‑Attention 2.5.5 (compiled for sm_89) – provides efficient MHA
+    pip install --no-build-isolation flash-attn==2.5.5 && \
+    # bitsandbytes 0.43.1 – 4‑bit quantisation for QLoRA
+    pip install --no-build-isolation bitsandbytes==0.43.1 && \
+    # Project‑specific Python deps
+    pip install --requirement /tmp/requirements.txt && \
+    # LLaVA (main branch) – includes llava.train.train_mem
+    pip install git+https://github.com/haotian-liu/LLaVA.git@main && \
+    rm /tmp/requirements.txt
 
-# --- Pre-download the model to cache it within the image layer ---
-# Copy and run the download script
-COPY eval-pipeline/download_model.py /tmp/download_model.py
-RUN python3 /tmp/download_model.py
+###############################################################################
+# Runtime
+###############################################################################
+WORKDIR /workspace
 
-# Set the working directory for when we run the container
-WORKDIR /app
+# All scripts + data stay on the *host* and are bind‑mounted, so there’s no
+# need to copy them here.  Example:
+#   docker run --gpus all -it -v $(pwd):/workspace llava-temporal
+# Now `/workspace` inside the container shows your live repo, including:
+#   Dockerfile  README.md  eval-pipeline/  requirements.txt  run-inference.py
+#   … plus the new finetune_data you generate.
+###############################################################################
 
-# By default, when the container runs, it will start a bash shell
-CMD ["bash"]
+ENTRYPOINT ["/bin/bash"]
