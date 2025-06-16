@@ -65,6 +65,7 @@ PY
 
 # ---------------------- Monkey-patch pad_sequence ------------------------
 python3 - <<'PY'
+import transformers, os, sys
 import torch.nn.utils.rnn as rnn
 orig_pad = rnn.pad_sequence
 
