@@ -38,16 +38,6 @@ for f in "$DATA" "$EVAL"; do
   echo "ERROR: $f is neither JSON‑array nor JSONL with .images field" >&2; exit 1;
 done
 
-# -------------------------- Install LLaVA & patch it ------------------------
-python3 - <<'PY'
-import importlib, sys
-tok_mod = importlib.import_module('llava.train.train').tokenizers
-tokenizer = tok_mod.pre_tokenizers(model_name="llava-hf/llava-interleave-qwen-0.5b-hf")
-if tokenizer.pad_token_id is None:
-    tokenizer.pad_token = tokenizer.eos_token          # id = 0
-    tokenizer.save_pretrained("/tmp/llava_tmp_tok")    # saved once
-    print("✅ pad_token set to eos_token (id 0)", file=sys.stderr)
-PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
