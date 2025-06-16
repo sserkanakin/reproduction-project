@@ -41,7 +41,7 @@ done
 # -------------------------- Install LLaVA & patch it ------------------------
 python3 - <<'PY'
 import importlib, sys
-tok_mod = importlib.import_module('llava.train.train').tokenizer
+tok_mod = importlib.import_module('llava.train.train').tokenizers
 tokenizer = tok_mod.get_tokenizer(model_name="llava-hf/llava-interleave-qwen-7b-hf")
 if tokenizer.pad_token_id is None:
     tokenizer.pad_token = tokenizer.eos_token          # id = 0
