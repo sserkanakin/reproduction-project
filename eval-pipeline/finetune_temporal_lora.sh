@@ -87,8 +87,8 @@ python -m llava.train.train_mem \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VISION" \
   --mm_projector_type             mlp2x_gelu \
-  --tune_mm_mlp_adapter           true \
-  --lora_enable                   true \
+  --tune_mm_mlp_adapter           True \
+  --lora_enable                   True \
   --lora_r                        64 \
   --lora_alpha                    16 \
   --lora_dropout                  0.05 \
@@ -103,5 +103,5 @@ python -m llava.train.train_mem \
   --save_steps                    200 \
   --logging_steps                 20 \
   --model_max_length              8192 \
-  --fp16                          true \
+  --fp16                          True \
   --output_dir                    "$OUT"
