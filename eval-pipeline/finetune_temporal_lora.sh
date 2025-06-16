@@ -11,7 +11,7 @@ set -euo pipefail
 # ---------------------------- CLI & defaults --------------------------------
 DATA= EVAL= IMG_ROOT= OUT=
 EPOCHS=1 BATCH=4 GRAD_ACC=4 LR=5e-5
-MODEL="llava-hf/llava-interleave-qwen-7b-hf"
+MODEL="llava-hf/llava-interleave-qwen-0.5b-hf"
 VIT="openai/clip-vit-large-patch14-336"
 TOK_DIR="/tmp/qwen_pad_tok"       # temp folder for patched tokenizer
 
