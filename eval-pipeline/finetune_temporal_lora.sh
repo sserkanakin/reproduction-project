@@ -14,7 +14,6 @@ DATA= EVAL= IMG_ROOT= OUT=
 EPOCHS=1 BATCH=2 GRAD_ACC=4 LR=5e-5
 MODEL="llava-hf/llava-interleave-qwen-7b-hf"
 VIT="openai/clip-vit-large-patch14-336"
-TOK_DIR="/tmp/qwen_pad_tok"       # temp folder for patched tokenizer
 MAX_LEN=1024
 
 usage() { echo "Usage: $0 --data TRAIN.json[l] --eval TEST.json[l] --images_root DIR --out DIR [--epochs N]" >&2; exit 1; }
