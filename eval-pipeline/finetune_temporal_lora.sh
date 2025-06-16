@@ -26,7 +26,19 @@ EPOCHS=3
 BATCH=4           # per‑device batch (4 × 7 images × 576 tokens ≈ 13 k)
 GRAD_ACC=4        # effective batch 16
 LR=5e-5           # LoRA learning‑rate
-MODEL="llava-hf/llava-interleave-qwen-7b-hf"
+MODEL="llava-hf/llava-inbash eval-pipeline/finetune_temporal_lora.sh   --data   eval-pipeline/data/finetune_data/train.jsonl   --eval   eval-pipeline/data/finetune_data/test.jsonl   --images_root  eval-pipeline/data   --out    checkpoints/temporal_lora   --epochs 1
+⏳  Installing LLaVA from GitHub …
+WARNING: typer 0.16.0 does not provide the extra 'all'
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+⚠️  Patch failed: cannot import name 'LlavaLlamaForCausalLM' from 'llava.model' (/opt/conda/lib/python3.10/site-packages/llava/model/__init__.py)
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/runpy.py", line 187, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/opt/conda/lib/python3.10/runpy.py", line 110, in _get_module_details
+    __import__(pkg_name)
+  File "/opt/conda/lib/python3.10/site-packages/llava/__init__.py", line 1, in <module>
+    from .model import LlavaLlamaForCausalLM
+ImportError: cannot import name 'LlavaLlamaForCausalLM' from 'llava.model' (/opt/conda/lib/python3.10/site-packages/llava/model/__init__.py)terleave-qwen-7b-hf"
 VISION_TOWER="openai/clip-vit-large-patch14-336"
 
 # ------------------------------- CLI parse ----------------------------------
