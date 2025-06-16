@@ -47,7 +47,8 @@ python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
   --version                       plain \
   --data_path                     "$DATA" \
-  --val_data_path                 "$EVAL" \
+  --validation_file               "$EVAL" \
+  --do_eval                       True \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VIT" \
   --mm_projector_type             mlp2x_gelu \
