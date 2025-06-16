@@ -1,44 +1,20 @@
-# Dockerfile for LLaVA LoRA fine-tuning on NVIDIA L4 (24 GB)
-# Base image with CUDA 12.1 and Python 3.10 (via Ubuntu 22.04) to match your environment
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+# Torch 2.3 + CUDA 12.1 base
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
-# Set non-interactive frontend to avoid prompts during build
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y git jq && rm -rf /var/lib/apt/lists/*
 
-# Install system dependencies in a single layer for better caching
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    build-essential \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    jq \
-    python3 \
-    pip \
-    && rm -rf /var/lib/apt/lists/*
+ENV TORCH_CUDA_ARCH_LIST=8.9  PYTHONUNBUFFERED=1
 
-# Set the working directory
+# Fast, ABI-matched Flash-Attention 2.6 wheel (cu121 / torch230)
+RUN pip install --upgrade pip && \
+    pip install flash-attn==2.5.5 bitsandbytes==0.43.1
+
+# Clone *latest* LLaVA and install in editable mode
+RUN git clone --depth 1 https://github.com/haotian-liu/LLaVA.git /llava && \
+    pip install -e /llava
+
+# Extra deps
+RUN pip install transformers==4.41.2 peft==0.10.0 accelerate==0.29.3 datasets tqdm
+
 WORKDIR /workspace
-
-# Copy requirements file first to leverage Docker layer caching.
-# This build step will only re-run if requirements.txt changes.
-COPY requirements.txt .
-
-# Upgrade pip and install all Python dependencies from the requirements file
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
-
-# Now that dependencies are installed, copy the rest of your project code
-COPY . .
-
-# Install LLaVA from a specific commit for a reproducible build.
-# This prevents your build from breaking if the main branch changes.
-RUN pip install "git+https://github.com/haotian-liu/LLaVA.git"
-
-# Make the workspace a volume (optional, good practice)
-VOLUME ["/workspace"]
-
-# Default to bash shell when the container starts
-CMD ["bash"]
+ENTRYPOINT ["/bin/bash"]
