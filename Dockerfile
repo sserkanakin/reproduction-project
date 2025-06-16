@@ -17,7 +17,7 @@ RUN pip install bitsandbytes==0.43.1
 RUN pip install "git+https://github.com/haotian-liu/LLaVA.git@main"
 
 # 4️⃣  Helpers
-RUN pip install transformers==4.40.0 peft==0.10.0 accelerate==0.29.3 datasets tqdm
+RUN pip install transformers==4.40.0 peft==0.10.0 accelerate==0.29.3 datasets tqdm deepspeed
 
 
 # 1️⃣  Build flash-attn from source (10 min on L4)
