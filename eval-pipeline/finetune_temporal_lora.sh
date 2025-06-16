@@ -45,42 +45,16 @@ for f in "$DATA" "$EVAL"; do
   }
 done
 
-# ------------- Prepare tokenizer copy with pad_token = eos ---------------
-python3 <<PY
-import os, sys
+echo "### Patching tokenizer to set pad_token=eos_token ###"
+python3 -c "
 from transformers import AutoTokenizer
-# use shell variable expansion for TOK_DIR and MODEL
-TOK_DIR = os.path.expanduser("${TOK_DIR}")
-MODEL = "${MODEL}"
-if not os.path.isdir(TOK_DIR):
-    tok = AutoTokenizer.from_pretrained(MODEL)
-    if tok.pad_token_id is None:
-        tok.pad_token = tok.eos_token
-    tok.save_pretrained(TOK_DIR, safe_serialization=True)
-    print(f"✅ tokenizer saved with pad_token → {TOK_DIR}", file=sys.stderr)
-# monkey-patch AutoTokenizer to redirect MODEL to TOK_DIR
-import transformers
-def patched_from_pretrained(name_or_path, *args, **kwargs):
-    if name_or_path == MODEL:
-        return transformers.AutoTokenizer.from_pretrained(TOK_DIR, *args, **kwargs)
-    return transformers.AutoTokenizer.from_pretrained.__wrapped__(name_or_path, *args, **kwargs)
-transformers.AutoTokenizer.from_pretrained = patched_from_pretrained
-PY
-
-# ---------------------- Monkey-patch pad_sequence ------------------------
-python3 <<PY
-import sys
-import torch.nn.utils.rnn as rnn
-orig_pad = rnn.pad_sequence
-
-def pad_sequence(sequences, batch_first=False, padding_value=None):
-    if padding_value is None:
-        padding_value = 0.0
-    return orig_pad(sequences, batch_first=batch_first, padding_value=padding_value)
-
-rnn.pad_sequence = pad_sequence
-print('✅ patched pad_sequence to default padding_value 0.0', file=sys.stderr)
-PY
+tokenizer = AutoTokenizer.from_pretrained('$MODEL')
+if tokenizer.pad_token is None:
+    print('Tokenizer has no pad_token, setting it to eos_token')
+    tokenizer.pad_token = tokenizer.eos_token
+tokenizer.save_pretrained('$TOK_DIR')
+print('Patched tokenizer saved to $TOK_DIR')
+"
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
