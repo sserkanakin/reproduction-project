@@ -43,18 +43,6 @@ for f in "$DATA" "$EVAL"; do
   }
 done
 
-# ---------------------- Monkey-patch pad_sequence ------------------------
-python3 <<PY
-import torch.nn.utils.rnn as rnn
-orig_pad = rnn.pad_sequence
-
-def pad_sequence(sequences, batch_first=False, padding_value=None):
-    if padding_value is None:
-        padding_value = 0.0
-    return orig_pad(sequences, batch_first=batch_first, padding_value=padding_value)
-rnn.pad_sequence = pad_sequence
-print('✅ patched pad_sequence to default padding_value 0.0', file=sys.stderr)
-PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
