@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 ##############################################################################
-# finetune_temporal_lora.sh – L4‑ready LoRA fine‑tune for latest LLaVA (2025‑06‑16)
-# • Accepts either JSONL (one‑sample‑per‑line) **or** JSON array files.
-# • Auto‑installs/patches LLaVA, injects LoRA, runs BF16 training.
+# finetune_temporal_lora.sh – single-GPU LoRA finetune for latest LLaVA (L4)
+# ---------------------------------------------------------------------------
+# • Handles JSON or JSONL datasets.
+# • Creates a tokenizer copy with pad_token=eos_token so collate_fn works.
+# • Streams JSONL via --lazy_preprocess and lifts max_length to 2 048.
 ##############################################################################
 set -euo pipefail
 
 # ---------------------------- CLI & defaults --------------------------------
 DATA= EVAL= IMG_ROOT= OUT=
 EPOCHS=1 BATCH=4 GRAD_ACC=4 LR=5e-5
-MODEL="llava-hf/llava-interleave-qwen-0.5b-hf"
+MODEL="llava-hf/llava-interleave-qwen-7b-hf"
 VIT="openai/clip-vit-large-patch14-336"
+TOK_DIR="/tmp/qwen_pad_tok"       # temp folder for patched tokenizer
 
-usage() {
-  echo "Usage: $0 --data TRAIN.json[l] --eval TEST.json[l] --images_root DIR --out DIR [--epochs N]" >&2
-  exit 1
-}
+usage() { echo "Usage: $0 --data TRAIN.json[l] --eval TEST.json[l] --images_root DIR --out DIR [--epochs N]" >&2; exit 1; }
 
+# --------------------------- Parse arguments -------------------------------
 while [[ $# -gt 0 ]]; do case $1 in
   --data)        DATA=$2; shift 2;;
   --eval)        EVAL=$2; shift 2;;
@@ -30,20 +31,36 @@ while [[ $# -gt 0 ]]; do case $1 in
 esac; done
 [[ -z $DATA || -z $EVAL || -z $IMG_ROOT || -z $OUT ]] && usage
 
-# ---------- sanity: file exists + has .images field (JSON or JSONL) ----------
+# ---------------- sanity: dataset exists & has .images field (JSON/JSONL)-----
 for f in "$DATA" "$EVAL"; do
   [[ ! -f $f ]] && { echo "File not found: $f" >&2; exit 1; }
-  if jq -e '.[0].images' "$f" >/dev/null 2>&1; then continue; fi
-  if head -n1 "$f" | jq -e '.images' >/dev/null 2>&1; then continue; fi
-  echo "ERROR: $f is neither JSON‑array nor JSONL with .images field" >&2; exit 1;
+  jq -e '.[0].images' "$f" >/dev/null 2>&1 || \
+    head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || {
+    echo "ERROR: $f missing .images field" >&2; exit 1;
+  }
 done
 
+# ------------- Prepare tokenizer copy with pad_token = eos ---------------
+python3 - <<'PY'
+from transformers import AutoTokenizer
+import os, sys
+
+TOK_DIR = os.environ.get('TOK_DIR', '/tmp/qwen_pad_tok')
+if not os.path.isdir(TOK_DIR):
+    tok = AutoTokenizer.from_pretrained('llava-hf/llava-interleave-qwen-7b-hf')
+    if tok.pad_token_id is None:
+        tok.pad_token = tok.eos_token
+        tok.save_pretrained(TOK_DIR, safe_serialization=True)
+        print('✅ tokenizer saved with pad_token →', TOK_DIR, file=sys.stderr)
+PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
+  --tokenizer_name                "$TOK_DIR" \
   --version                       plain \
   --data_path                     "$DATA" \
+  --evaluation_file               "$EVAL" \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VIT" \
   --mm_projector_type             mlp2x_gelu \
