@@ -73,5 +73,5 @@ python3 -m llava.train.train_mem \
   --learning_rate                 $LR \
   --logging_steps                 20 \
   --bf16                          true \
-  --lazy_preprocess               true \
+  --lazy_preprocess               True \
   --output_dir                    "$OUT"
