@@ -45,22 +45,11 @@ for f in "$DATA" "$EVAL"; do
   }
 done
 
-echo "### Patching tokenizer to set pad_token=eos_token ###"
-python3 -c "
-from transformers import AutoTokenizer
-tokenizer = AutoTokenizer.from_pretrained('$MODEL')
-if tokenizer.pad_token is None:
-    print('Tokenizer has no pad_token, setting it to eos_token')
-    tokenizer.pad_token = tokenizer.eos_token
-tokenizer.save_pretrained('$TOK_DIR')
-print('Patched tokenizer saved to $TOK_DIR')
-"
-
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
   --tokenizer_name_or_path        "$TOK_DIR" \
-  --version                       plain \
+  --version                       v0 \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VIT" \
