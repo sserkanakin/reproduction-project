@@ -47,7 +47,7 @@ done
 
 # ------------- Prepare tokenizer copy with pad_token = eos ---------------
 python3 <<PY
-import os
+import os, sys
 from transformers import AutoTokenizer
 # use shell variable expansion for TOK_DIR and MODEL
 TOK_DIR = os.path.expanduser("${TOK_DIR}")
@@ -69,6 +69,7 @@ PY
 
 # ---------------------- Monkey-patch pad_sequence ------------------------
 python3 <<PY
+import sys
 import torch.nn.utils.rnn as rnn
 orig_pad = rnn.pad_sequence
 
