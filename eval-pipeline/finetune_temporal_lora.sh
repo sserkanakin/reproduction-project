@@ -59,6 +59,7 @@ print('Patched tokenizer saved to $TOK_DIR')
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
+  --tokenizer_name                "$TOK_DIR" \
   --version                       plain \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
