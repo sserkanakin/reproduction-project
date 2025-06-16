@@ -47,7 +47,6 @@ done
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
-  --bits                          4 \
   --version                       v0 \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
