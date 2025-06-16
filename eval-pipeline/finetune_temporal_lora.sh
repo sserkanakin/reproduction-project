@@ -64,7 +64,6 @@ python3 -m llava.train.train_mem \
   --num_train_epochs              $EPOCHS \
   --learning_rate                 $LR \
   --logging_steps                 20 \
-  --bf16                          true \
   --model_max_length              2048 \
   --lazy_preprocess               true \
   --output_dir                    "$OUT"
