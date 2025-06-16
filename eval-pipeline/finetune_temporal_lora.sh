@@ -56,6 +56,7 @@ done
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
+  --attn_implementation           torch \
   --version                       plain \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
@@ -74,4 +75,5 @@ python3 -m llava.train.train_mem \
   --logging_steps                 20 \
   --bf16                          true \
   --lazy_preprocess               true \
+  --device_map                    "auto" \
   --output_dir                    "$OUT"
