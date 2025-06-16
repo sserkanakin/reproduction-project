@@ -8,6 +8,7 @@
 # • Uses 4-bit quantization (bnb) to fit in 24 GB VRAM.
 ##############################################################################
 set -euo pipefail
+export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
 
 # ---------------------------- CLI & defaults --------------------------------
 DATA= EVAL= IMG_ROOT= OUT=
@@ -56,6 +57,7 @@ python3 -m llava.train.train_mem \
   --lora_r                        32 \
   --lora_alpha                    8 \
   --lora_dropout                  0.05 \
+  --gradient_checkpointing         true \
   --per_device_train_batch_size   $BATCH \
   --per_device_eval_batch_size    $BATCH \
   --gradient_accumulation_steps   $GRAD_ACC \
