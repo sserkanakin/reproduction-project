@@ -37,22 +37,6 @@ for f in "$DATA" "$EVAL"; do
   head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || { echo "ERROR: $f not LLaVA‑JSONL" >&2; exit 1; }
 done
 
-#python3 - <<'PY'
-#import gc, importlib, sys
-#from transformers import LlamaConfig
-#
-#LLM = importlib.import_module('llava.model').LlavaLlamaForCausalLM
-#
-#orig_init = LLM.__init__
-#def wrapped_init(self, *a, **kw):
-#    orig_init(self, *a, **kw)
-#    if isinstance(self.config.text_config, dict):
-#        self.config.text_config = LlamaConfig(**self.config.text_config)
-#        print("✅ patched instance text_config → LlamaConfig", file=sys.stderr)
-#LLM.__init__ = wrapped_init
-#PY
-
-
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
@@ -73,5 +57,4 @@ python3 -m llava.train.train_mem \
   --learning_rate                 $LR \
   --logging_steps                 20 \
   --bf16                          true \
-  --lazy_preprocess               True \
   --output_dir                    "$OUT"
