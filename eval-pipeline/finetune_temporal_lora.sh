@@ -37,15 +37,15 @@ for f in "$DATA" "$EVAL"; do
   head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || { echo "ERROR: $f not LLaVA‑JSONL" >&2; exit 1; }
 done
 
-python3 - <<'PY'
-# ---- convert dict -> LlamaConfig so resize_token_embeddings works ----
-import llava.model as M, transformers, json, os
-if isinstance(M.LlavaLlamaForCausalLM.config_class.text_config, dict):
-    txt = M.LlavaLlamaForCausalLM.config_class.text_config
-    from transformers import LlamaConfig
-    M.LlavaLlamaForCausalLM.config_class.text_config = LlamaConfig(**txt)
-    print("✅  Patched text_config to LlamaConfig", flush=True)
-PY
+#python3 - <<'PY'
+## ---- convert dict -> LlamaConfig so resize_token_embeddings works ----
+#import llava.model as M, transformers, json, os
+#if isinstance(M.LlavaLlamaForCausalLM.config_class.text_config, dict):
+#    txt = M.LlavaLlamaForCausalLM.config_class.text_config
+#    from transformers import LlamaConfig
+#    M.LlavaLlamaForCausalLM.config_class.text_config = LlamaConfig(**txt)
+#    print("✅  Patched text_config to LlamaConfig", flush=True)
+#PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
