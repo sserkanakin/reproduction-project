@@ -8,7 +8,7 @@ ENV CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release" \
 
 # 1️⃣  Build flash-attn from source (10 min on L4)
 RUN pip install --upgrade pip && \
-    pip install --no-build-isolation flash-attn==2.5.9.post1 \
+    pip install --no-build-isolation flash-attn==2.5.5 \
         --extra-index-url https://pypi.org/simple
 
 # 2️⃣  BitsAndBytes for 4-bit LoRA

@@ -56,8 +56,6 @@ python3 -m llava.train.train_mem \
   --lora_r                        32 \
   --lora_alpha                    8 \
   --lora_dropout                  0.05 \
-  --load_in_4bit                  true \
-  --bnb_4bit_compute_dtype        bf16 \
   --per_device_train_batch_size   $BATCH \
   --per_device_eval_batch_size    $BATCH \
   --gradient_accumulation_steps   $GRAD_ACC \
