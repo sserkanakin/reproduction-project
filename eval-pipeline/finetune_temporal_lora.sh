@@ -1,71 +1,93 @@
 #!/usr/bin/env bash
 ##############################################################################
-# run_temporal_lora.sh
-#
-# LoRA-fine-tune `llava-hf/llava-interleave-qwen-7b-hf`
-# on the multi-image temporal-ordering dataset created with
-# `prepare_temporal_dataset.py`, using **any** recent LLaVA install.
-#
-# It first injects the missing symbol `LlavaLlamaForCausalLM`
-# into `llava.model` when newer commits no longer export it.
+# finetune_temporal_lora.sh                                                   #
+# ----------------------------------------------------------------------------#
+# One‑liner LoRA fine‑tuning of the `llava-hf/llava-interleave-qwen-7b-hf`     #
+# model on the **multi‑image temporal‑ordering dataset** produced by          #
+# `prepare_temporal_dataset.py`. Everything below follows the public LLaVA    #
+# training interface, so *no code modifications* are required inside LLaVA.   #
+#                                                                             #
+# ʟ4 GPU tested (24 GB) – uses:                                               #
+#   • 4‑bit weight loading (`bitsandbytes`)                                    #
+#   • LoRA on Q, K, V, O + cross‑modal MLP (≈ 25 M tunable params)             #
+#   • Gradient Accumulation to fit batch size                                  #
 ##############################################################################
 
 set -euo pipefail
 
-# ---------- user args ----------
-EPOCHS=3 BATCH=4 GRAD_ACC=4 LR=5e-5
-DATA= EVAL= IMG_ROOT= OUT=
-MODEL="llava-hf/llava-interleave-qwen-7b-hf"
-VISION="openai/clip-vit-large-patch14-336"
+# ---------------------------- Helper & defaults -----------------------------
+usage() {
+  echo "Usage: $0 --data TRAIN.jsonl --eval TEST.jsonl --images_root DIR --out CKPT_DIR [--epochs N]" >&2
+  exit 1
+}
 
-usage() { echo "Usage: $0 --data train.jsonl --eval test.jsonl --images_root DIR --out OUT_DIR [--epochs N]" >&2; exit 1; }
+# sensible defaults for a single‑GPU L4 box
+EPOCHS=3
+BATCH=4           # per‑device batch (4 × 7 images × 576 tokens ≈ 13 k)
+GRAD_ACC=4        # effective batch 16
+LR=5e-5           # LoRA learning‑rate
+MODEL="llava-hf/llava-interleave-qwen-7b-hf"
+VISION_TOWER="openai/clip-vit-large-patch14-336"
+
+# ------------------------------- CLI parse ----------------------------------
+DATA=""
+EVAL=""
+IMG_ROOT=""
+OUT=""
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --data) DATA=$2; shift 2;;
-    --eval) EVAL=$2; shift 2;;
+    --data)        DATA=$2; shift 2;;
+    --eval)        EVAL=$2; shift 2;;
     --images_root) IMG_ROOT=$2; shift 2;;
-    --out) OUT=$2; shift 2;;
-    --epochs) EPOCHS=$2; shift 2;;
-    --batch) BATCH=$2; shift 2;;
-    --grad_acc) GRAD_ACC=$2; shift 2;;
-    --lr) LR=$2; shift 2;;
+    --out)         OUT=$2; shift 2;;
+    --epochs)      EPOCHS=$2; shift 2;;
+    --batch)       BATCH=$2; shift 2;;
+    --grad_acc)    GRAD_ACC=$2; shift 2;;
+    --lr)          LR=$2; shift 2;;
     *) usage;;
   esac
 done
-[[ -z $DATA || -z $EVAL || -z $IMG_ROOT || -z $OUT ]] && usage
 
-# ---------- sanity ----------
-for f in "$DATA" "$EVAL"; do
-  [[ ! -f $f ]] && { echo "File not found: $f" >&2; exit 1; }
-  head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 \
-    || { echo "ERROR: $f not LLaVA-JSONL" >&2; exit 1; }
+[[ -z "$DATA" || -z "$EVAL" || -z "$IMG_ROOT" || -z "$OUT" ]] && usage
+
+# ----------------------------- Sanity checks --------------------------------
+for p in "$DATA" "$EVAL"; do
+  [[ ! -f "$p" ]] && { echo "File not found: $p" >&2; exit 1; }
+  # Read first line only (JSONL) and verify an `images` key exists
+  head -n 1 "$p" | jq -e '.images' >/dev/null 2>&1 || {
+    echo "ERROR: $p does not look like JSONL with LLaVA format" >&2; exit 1; }
 done
 
-# ---------- HOT-PATCH ----------
-python - <<'PY'
-"""
-Patch newer LLaVA builds so that `from llava.model import LlavaLlamaForCausalLM`
-works again (needed by train_mem.py).
-"""
-import importlib, sys, types
+# -------------------- Ensure LLaVA is present + hot‑patch ------------------
+python3 - <<'PY'
+import importlib, subprocess, sys, textwrap, shutil, os
 
+# 1. Install LLaVA if missing ----------------------------------------------
+if importlib.util.find_spec('llava') is None:
+    print('⏳  Installing LLaVA from GitHub …', file=sys.stderr)
+    cmd = [sys.executable, '-m', 'pip', 'install', '--quiet',
+           'git+https://github.com/haotian-liu/LLaVA.git@main']
+    subprocess.check_call(cmd)
+
+# 2. Re‑export LlavaLlamaForCausalLM for newer commits ----------------------
 try:
     import llava.model as _root
-    import llava.model.language_model.llava_llama as _llm
-    setattr(_root, "LlavaLlamaForCausalLM", _llm.LlavaLlamaForCausalLM)
+    _llm = importlib.import_module('llava.model.language_model.llava_llama')
+    setattr(_root, 'LlavaLlamaForCausalLM', _llm.LlavaLlamaForCausalLM)
+    print('✅  LLaVA present & patched', file=sys.stderr)
 except Exception as e:
-    print("⚠️  Hot-patch skipped:", e, file=sys.stderr)
+    print('⚠️  Patch failed:', e, file=sys.stderr)
 PY
 
-# ---------- train ----------
-python -m llava.train.train_mem \
+# ------------------------------- Training -----------------------------------
+python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
   --version                       plain \
   --data_path                     "$DATA" \
   --val_data_path                 "$EVAL" \
   --image_folder                  "$IMG_ROOT" \
-  --vision_tower                  "$VISION" \
+  --vision_tower                  "$VISION_TOWER" \
   --mm_projector_type             mlp2x_gelu \
   --tune_mm_mlp_adapter           true \
   --lora_enable                   true \
@@ -84,4 +106,13 @@ python -m llava.train.train_mem \
   --logging_steps                 20 \
   --model_max_length              8192 \
   --fp16                          true \
+  --bf16                          false \
+  --tf32                          true \
   --output_dir                    "$OUT"
+
+##############################################################################
+# POST‑RUN:                                                                  #
+#  • The LoRA adapters + projector are stored in $OUT                        #
+#  • Merge into a standalone checkpoint with `python -m llava.merge_lora ...`#
+#  • Evaluate: `python -m llava.eval.run_eval --data-path $EVAL --model ...`  #
+##############################################################################
