@@ -38,23 +38,20 @@ for f in "$DATA" "$EVAL"; do
 done
 
 python3 - <<'PY'
-"""Patch *instance* config dict → LlamaConfig via hooks."""
-import gc, transformers, importlib
-LlamaConfig = transformers.LlamaConfig
-LLM = importlib.import_module("llava.model").LlavaLlamaForCausalLM
+import gc, importlib, sys
+from transformers import LlamaConfig
 
-def after_init(model, *_, **__):
-    if isinstance(model.config.text_config, dict):
-        model.config.text_config = LlamaConfig(**model.config.text_config)
-        print("✅ Patched instance text_config → LlamaConfig", flush=True)
+LLM = importlib.import_module('llava.model').LlavaLlamaForCausalLM
 
-# register a hook that fires when the model is first instantiated
 orig_init = LLM.__init__
 def wrapped_init(self, *a, **kw):
     orig_init(self, *a, **kw)
-    after_init(self)
+    if isinstance(self.config.text_config, dict):
+        self.config.text_config = LlamaConfig(**self.config.text_config)
+        print("✅ patched instance text_config → LlamaConfig", file=sys.stderr)
 LLM.__init__ = wrapped_init
 PY
+
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
