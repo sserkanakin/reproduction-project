@@ -14,7 +14,7 @@ EPOCHS=1
 # CHANGED: Reduced batch size to 1 and increased grad_acc to 16 to save memory
 # while keeping the effective batch size (1*16 = 16)
 BATCH=1 GRAD_ACC=16 LR=5e-5
-MODEL="llava-hf/llava-interleave-qwen-7b-hf"
+MODEL="llava-hf/llava-interleave-qwen-0.5b-hf"
 VIT="openai/clip-vit-large-patch14-336"
 
 usage() {
@@ -67,7 +67,6 @@ python3 -m llava.train.train_mem \
   --learning_rate                 $LR \
   --logging_steps                 20 \
   --bf16                          true \
-  --bits                          4 \
   --model_max_length              2048 \
   --lazy_preprocess               true \
   --output_dir                    "$OUT"
