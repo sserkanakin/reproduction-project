@@ -1,202 +1,141 @@
 #!/usr/bin/env python3
 """
-eval-pipeline/prepare_temporal_dataset.py
+prepare_temporal_dataset.py  –  adds real reasoning with GPT-4o
 
-This script processes a temporal ordering dataset.
-For training data, it uses the OpenAI reasoning API to generate explanations.
-It writes the output to `train.json` and keeps the test samples unchanged.
+• Reads MMIU file (.json or .jsonl)
+• Adds <image> + <image_0> … placeholders
+• Generates chain-of-thought via OpenAI if OPENAI_API_KEY is set
+• Writes train.json (with reasoning) / test.json (no reasoning)
 """
-
-import os
-import json
-import argparse
-import base64
-import re
-import logging
-from openai import OpenAI
+from __future__ import annotations
+import argparse, json, os, random, re
+from pathlib import Path
+from typing import Any, Dict, List
 from dotenv import load_dotenv
+import tiktoken
 from tqdm import tqdm
 
-logging.basicConfig(level=logging.INFO, format=r'%(asctime)s - %(levelname)s - %(message)s')
-load_dotenv()
+load_dotenv()  # Load environment variables from a .env file
 
-# --- Helper Functions ---
+DEFAULT_IMAGE_TOKEN = "<image>"
+SEP = "\n"
 
-def encode_image_to_base64(image_path: str) -> str | None:
-    """Encodes an image file to a base64 string."""
+# --------------------------------------------------------------------------- helpers
+def count_tokens(text: str, model: str = "gpt-4.1") -> int:
     try:
-        with open(image_path, "rb") as image_file:
-            return base64.b64encode(image_file.read()).decode("utf-8")
-    except FileNotFoundError:
-        logging.error(f"Image file not found: {image_path}")
-        return None
-    except Exception as e:
-        logging.error(f"Error encoding image {image_path}: {e}")
-        return None
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        encoding = tiktoken.get_encoding("cl100k_base")
+    return len(encoding.encode(text))
 
-def parse_correct_order(options_str: str, correct_option_char: str) -> list | None:
-    """
-    Parses the options string to find the list corresponding to the correct option.
-    Example: A: [3, 5, 1, 2, 0, 4]
-    """
-    pattern = re.compile(f"^{re.escape(correct_option_char)}:\\s*(\\[.*?\\])", re.MULTILINE)
-    match = pattern.search(options_str)
-    if match:
-        try:
-            order_list_str = match.group(1)
-            return json.loads(order_list_str)
-        except json.JSONDecodeError:
-            logging.error(f"Failed to parse JSON from order string: {order_list_str}")
-            return None
-    logging.warning(f"Could not find option {correct_option_char} in options: {options_str}")
-    return None
+def truncate_text(text: str, model: str, max_tokens: int) -> str:
+    encoding = tiktoken.encoding_for_model(model)
+    tokens = encoding.encode(text)
+    if len(tokens) > max_tokens:
+        tokens = tokens[:max_tokens]
+    return encoding.decode(tokens)
 
-def get_explanation_from_openai(client: OpenAI, image_paths: list[str], correct_order: list) -> str:
-    """
-    Generates a step-by-step explanation for the given sequence using an OpenAI vision model.
-    """
-    base64_images = [encode_image_to_base64(p) for p in image_paths]
-    if any(img is None for img in base64_images):
-        return "Error: Could not process one or more images."
+def parse_options(block: str) -> Dict[str, List[int]]:
+    out: Dict[str, List[int]] = {}
+    for ln in block.strip().splitlines():
+        if (m := re.match(r"([A-Z]):\s*\[(.*)\]", ln.strip())):
+            out[m[1]] = [int(x) for x in m[2].split(",")]
+    return out
 
-    messages = [
-        {
-            "role": "system",
-            "content": (
-                "You are an AI assistant that analyzes sequences. Your task is to explain why the given sequence is correct. "
-                "Provide a concise, step-by-step explanation that justifies why this ordering is the right one."
-            )
-        },
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": (
-                        f"I have {len(image_paths)} images that represent a sequence. The images are provided out of their "
-                        f"chronological order. The correct order is given by the list: {correct_order}. "
-                        "Please explain why this sequence is correct in a step-by-step manner, focusing on the key indicators "
-                        "that justify this ordering."
-                    )
-                }
-            ]
-        }
-    ]
+def build_prompt(imgs: list[str], q: str) -> str:
+    return SEP.join([DEFAULT_IMAGE_TOKEN, *[f"<image_{i}>" for i in range(len(imgs))], "", q])
 
-    for b64_image in base64_images:
-        messages[1]["content"].append(
-            {
-                "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{b64_image}"}
-            }
-        )
-
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=messages,
-            max_tokens=500
-        )
-        explanation = response.choices[0].message.content.strip()
-        return f"Here’s a concise step-by-step explanation:\n\n{explanation}"
-    except Exception as e:
-        logging.error(f"OpenAI API call failed: {e}")
-        return "Failed to generate explanation from the AI model due to an API error."
-
-def process_item(item: dict, client: OpenAI, mmiu_file_dir: str) -> dict | None:
-    """
-    Processes a single training item from the source JSON and converts it to the target format.
-    Reasoning is obtained via the OpenAI API.
-    """
-    original_image_paths = item.get("input_image_path", [])
-    if not original_image_paths:
-        logging.warning("Item has no image paths, skipping.")
-        return None
-
-    full_image_paths = [os.path.normpath(os.path.join(mmiu_file_dir, p)) for p in original_image_paths]
-    correct_option_char = item.get("output")
-    options_str = item.get("options")
-
-    if not correct_option_char or not options_str:
-        logging.warning("Item is missing output or options, skipping.")
-        return None
-
-    correct_order = parse_correct_order(options_str, correct_option_char)
-    if correct_order is None:
-        logging.warning("Could not parse the correct order for the item. Skipping.")
-        return None
-
-    logging.info(f"Processing sequence with correct order: {correct_order}")
-
-    explanation = get_explanation_from_openai(client, full_image_paths, correct_order)
-    item_id = os.path.splitext(os.path.basename(original_image_paths[0]))[0]
-    human_message = (
-        "<image>\n" * len(original_image_paths)
-        + "\nPlease predict the order of the following pictures, and give each picture a sequential index. "
-          "This index starts from 0. The larger the index, the later the order."
+def call_openai_reasoning(gt: List[int], sample: dict[str, Any], model: str) -> str:
+    """Ask GPT-4o to explain the ordering."""
+    import openai, textwrap
+    client = openai.OpenAI()   # uses env var OPENAI_API_KEY
+    ordering = ", ".join(map(str, gt))
+    user_msg = textwrap.dedent(f"""\
+        The correct order of the {len(gt)} frames is {ordering}.
+        Explain step-by-step how the visual evidence in each frame supports
+        this temporal sequence. Mention concrete cues (e.g. body posture,
+        motion trails, object state) rather than generic statements. You do not need to create a any tables. Give you full reasoning and final answer.
+    """)
+    # Truncate prompt to ensure it does not exceed 300 tokens.
+    max_prompt_tokens = 300
+    if count_tokens(user_msg, model) > max_prompt_tokens:
+        user_msg = truncate_text(user_msg, model, max_prompt_tokens)
+    resp = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": user_msg}],
+        temperature=0.3,
+        max_tokens=2048,  # Adjust as needed
     )
-    gpt_message = f"The correct order is {correct_order}.\n\n{explanation}"
+    return resp.choices[0].message.content.strip()
 
+def convert(sample: dict[str, any], add_reason: bool, model: str) -> dict[str, any]:
+    # Retrieve input_image_path from the nested "input" field
+    input_image_paths = sample.get("input", {}).get("input_image_path")
+    if not input_image_paths:
+        raise KeyError("Key 'input_image_path' not found in sample['input']")
+    # Extract the id from the image path
+    sample_id = Path(input_image_paths[0]).stem
+    # Retrieve output value
+    output_val = sample["output"]["output_text"] if isinstance(sample["output"], dict) else sample["output"]
+    key = output_val.strip()
+    options = parse_options(sample["options"])
+    if not key:
+        if options:
+            key = list(options.keys())[0]
+        else:
+            raise KeyError("No options found in sample['options'].")
+    if key not in options:
+        raise KeyError(f"Key '{key}' not found in options: {options}")
+    order = options[key]
+    answer = f"The correct order is {order}."
+    if add_reason:
+        try:
+            answer += "\n\n" + call_openai_reasoning(order, sample, model)
+        except Exception as e:
+            answer += f"\n\n**Reasoning**: (fallback \\u2013 {e})"
     return {
-        "id": item_id,
-        "images": original_image_paths,
+        "id": sample_id,
+        "images": input_image_paths,
         "conversations": [
-            {"from": "human", "value": human_message},
-            {"from": "gpt", "value": gpt_message}
-        ]
+            {"from": "human", "value": build_prompt(input_image_paths, sample["input"]["question"])},
+            {"from": "gpt", "value": answer},
+        ],
     }
 
-# --- Main Execution ---
+def load(path: Path) -> list[dict[str, Any]]:
+    txt = path.read_text(encoding="utf-8").lstrip()
+    return json.loads(txt) if txt.startswith("[") else [json.loads(l) for l in txt.splitlines() if l.strip()]
 
-def main():
-    parser = argparse.ArgumentParser(description="Prepare a temporal ordering dataset for fine-tuning.")
-    parser.add_argument("--mmiu_file", required=True, help="Path to the source JSON file (e.g., to-data.json).")
-    parser.add_argument("--output_dir", required=True, help="Directory to save the output files.")
-    parser.add_argument("--train_size", type=int, default=1, help="Number of samples for training data.")
-    args = parser.parse_args()
+# --------------------------------------------------------------------------- main
+def main() -> None:
+    pa = argparse.ArgumentParser()
+    pa.add_argument("--mmiu_file",   type=Path, required=True)
+    pa.add_argument("--output_dir",  type=Path, required=True)
+    pa.add_argument("--train_size",  type=int,  default=150)
+    pa.add_argument("--seed",        type=int,  default=42)
+    pa.add_argument("--reasoning_model", type=str, default="gpt-4.1",
+                    help="OpenAI model for chain-of-thought generation")
+    args = pa.parse_args()
 
-    logging.info("Starting dataset preparation script.")
+    raw = load(args.mmiu_file)
+    if len(raw) < args.train_size:
+        raise SystemExit(f"train_size {args.train_size} > dataset size {len(raw)}")
 
-    if not os.getenv("OPENAI_API_KEY"):
-        logging.error("OPENAI_API_KEY not found in .env file or environment variables.")
-        return
-    client = OpenAI()
+    random.seed(args.seed)
+    random.shuffle(raw)
+    train_raw, test_raw = raw[:args.train_size], raw[args.train_size:]
 
-    os.makedirs(args.output_dir, exist_ok=True)
+    have_key = bool(os.getenv("OPENAI_API_KEY"))
+    if not have_key:
+        print("⚠️  OPENAI_API_KEY not set – reasoning will be placeholder", flush=True)
 
-    try:
-        with open(args.mmiu_file, "r") as f:
-            source_data = json.load(f)
-    except FileNotFoundError:
-        logging.error(f"Source file not found: {args.mmiu_file}")
-        return
-    except json.JSONDecodeError:
-        logging.error(f"Error decoding JSON from source file: {args.mmiu_file}")
-        return
+    train = [convert(s, add_reason=have_key, model=args.reasoning_model) for s in tqdm(train_raw, desc="Processing train samples")]
+    test  = [convert(s, add_reason=False,    model=args.reasoning_model) for s in tqdm(test_raw, desc="Processing test samples")]
 
-    train_data = source_data[:args.train_size]
-    test_data = source_data[args.train_size:]
-    logging.info(f"Processing {len(train_data)} train items and keeping {len(test_data)} test items unchanged.")
-
-    mmiu_file_dir = os.path.dirname(os.path.abspath(args.mmiu_file))
-    train_dataset = []
-
-    for item in tqdm(train_data, desc="Processing train items"):
-        processed_item = process_item(item, client, mmiu_file_dir)
-        if processed_item:
-            train_dataset.append(processed_item)
-
-    train_output = os.path.join(args.output_dir, "train.json")
-    test_output = os.path.join(args.output_dir, "test.json")
-    try:
-        with open(train_output, "w") as f:
-            json.dump(train_dataset, f, indent=2)
-        with open(test_output, "w") as f:
-            json.dump(test_data, f, indent=2)
-        logging.info(f"✅ Successfully created train data at: {train_output}")
-        logging.info(f"✅ Successfully created test data at: {test_output}")
-    except Exception as e:
-        logging.error(f"Failed to write output files: {e}")
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    (args.output_dir / "train.json").write_text(json.dumps(train, ensure_ascii=False, indent=2))
+    (args.output_dir / "test.json").write_text(json.dumps(test, ensure_ascii=False, indent=2))
+    print(f"✓ Wrote {len(train)} train / {len(test)} test samples to {args.output_dir}")
 
 if __name__ == "__main__":
     main()
