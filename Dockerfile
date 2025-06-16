@@ -12,7 +12,7 @@ RUN pip install --upgrade pip && \
         --extra-index-url https://pypi.org/simple
 
 RUN pip uninstall -y flash_attn flash_attn_2_cuda && \
-     pip install flash-attn==2.5.5 \
+     pip install flash-attn==2.5.5
 
 
 
