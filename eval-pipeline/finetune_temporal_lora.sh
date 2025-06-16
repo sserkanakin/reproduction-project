@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 ##############################################################################
-# finetune_temporal_lora.sh
-# Robust LoRA fine-tuning launcher for the **latest** LLaVA main branch on an
-# NVIDIA L4 (Ada, BF16-capable). It:
-#   • auto-installs/updates LLaVA if missing,
-#   • creates a stub module so `train_mem.py` can import
-#     `LlavaLlamaForCausalLM` after the repo refactor,
-#   • launches training with BF16 + LoRA, matching official hyperparams.
+# finetune_temporal_lora.sh  –  2025‑06‑16                                    #
+# LoRA fine‑tune for the latest LLaVA main branch (Torch 2.3 + Flash‑Attn 2.6)#
+# Works on a single NVIDIA L4 (24 GB):                                        #
+#   • auto‑installs LLaVA if missing                                          #
+#   • locates any *ForCausalLM class in llava.* and re‑exports it             #
+#   • launches `llava.train.train_mem` with BF16 + LoRA                       #
 ##############################################################################
 set -euo pipefail
 
@@ -16,10 +15,7 @@ EPOCHS=1 BATCH=4 GRAD_ACC=4 LR=5e-5
 MODEL="llava-hf/llava-interleave-qwen-7b-hf"
 VIT="openai/clip-vit-large-patch14-336"
 
-usage() {
-  echo "Usage: $0 --data TRAIN.jsonl --eval TEST.jsonl --images_root DIR --out DIR [--epochs N]" >&2
-  exit 1
-}
+usage() { echo "Usage: $0 --data TRAIN.jsonl --eval TEST.jsonl --images_root DIR --out DIR [--epochs N]" >&2; exit 1; }
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -38,17 +34,48 @@ done
 
 for f in "$DATA" "$EVAL"; do
   [[ ! -f $f ]] && { echo "File not found: $f" >&2; exit 1; }
-  head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || {
-    echo "ERROR: $f not LLaVA-JSONL" >&2; exit 1; }
+  head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || { echo "ERROR: $f not LLaVA‑JSONL" >&2; exit 1; }
 done
+
+# ----------------------- Ensure LLaVA & re‑export class ----------------------
+python3 - <<'PY'
+import sys, subprocess, importlib, pkgutil, inspect, types
+
+if importlib.util.find_spec('llava') is None:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q',
+                           'git+https://github.com/haotian-liu/LLaVA.git@main'])
+
+import llava, importlib.util
+# Minimal stub so downstream import path exists even if __init__ fails later
+llava.model = types.ModuleType('llava.model')
+sys.modules.setdefault('llava.model', llava.model)
+
+found = None
+for modinfo in pkgutil.walk_packages(llava.__path__, prefix='llava.'):
+    try:
+        m = importlib.import_module(modinfo.name)
+        for name, cls in inspect.getmembers(m, inspect.isclass):
+            if name.endswith('ForCausalLM') and 'llava.model' in cls.__module__:
+                found = (name, cls, modinfo.name)
+                break
+        if found: break
+    except Exception:
+        continue
+
+if not found:
+    print('❌  No *ForCausalLM class found in llava.*', file=sys.stderr); sys.exit(1)
+
+name, cls, mod_name = found
+setattr(llava.model, 'LlavaLlamaForCausalLM', cls)
+print(f"✅  Patched {name} from {mod_name}", file=sys.stderr)
+PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
   --version                       plain \
   --data_path                     "$DATA" \
-  --validation_file               "$EVAL" \
-  --do_eval                       True \
+  --evaluation_file               "$EVAL" \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VIT" \
   --mm_projector_type             mlp2x_gelu \
