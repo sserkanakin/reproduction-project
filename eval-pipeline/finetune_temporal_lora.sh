@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 ##############################################################################
-# finetune_temporal_lora.sh  –  2025‑06‑16                                    #
-# LoRA fine‑tune for the latest LLaVA main branch (Torch 2.3 + Flash‑Attn 2.6)#
-# Works on a single NVIDIA L4 (24 GB):                                        #
-#   • auto‑installs LLaVA if missing                                          #
-#   • locates any *ForCausalLM class in llava.* and re‑exports it             #
-#   • launches `llava.train.train_mem` with BF16 + LoRA                       #
+# finetune_temporal_lora.sh – L4‑ready LoRA fine‑tune for latest LLaVA (2025‑06‑16)
+# • Accepts either JSONL (one‑sample‑per‑line) **or** JSON array files.
+# • Auto‑installs/patches LLaVA, injects LoRA, runs BF16 training.
 ##############################################################################
 set -euo pipefail
 
@@ -15,26 +12,30 @@ EPOCHS=1 BATCH=4 GRAD_ACC=4 LR=5e-5
 MODEL="llava-hf/llava-interleave-qwen-7b-hf"
 VIT="openai/clip-vit-large-patch14-336"
 
-usage() { echo "Usage: $0 --data TRAIN.jsonl --eval TEST.jsonl --images_root DIR --out DIR [--epochs N]" >&2; exit 1; }
+usage() {
+  echo "Usage: $0 --data TRAIN.json[l] --eval TEST.json[l] --images_root DIR --out DIR [--epochs N]" >&2
+  exit 1
+}
 
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --data)        DATA=$2; shift 2;;
-    --eval)        EVAL=$2; shift 2;;
-    --images_root) IMG_ROOT=$2; shift 2;;
-    --out)         OUT=$2; shift 2;;
-    --epochs)      EPOCHS=$2; shift 2;;
-    --batch)       BATCH=$2; shift 2;;
-    --grad_acc)    GRAD_ACC=$2; shift 2;;
-    --lr)          LR=$2; shift 2;;
-    *) usage;;
-  esac
-done
+while [[ $# -gt 0 ]]; do case $1 in
+  --data)        DATA=$2; shift 2;;
+  --eval)        EVAL=$2; shift 2;;
+  --images_root) IMG_ROOT=$2; shift 2;;
+  --out)         OUT=$2; shift 2;;
+  --epochs)      EPOCHS=$2; shift 2;;
+  --batch)       BATCH=$2; shift 2;;
+  --grad_acc)    GRAD_ACC=$2; shift 2;;
+  --lr)          LR=$2; shift 2;;
+  *) usage;;
+esac; done
 [[ -z $DATA || -z $EVAL || -z $IMG_ROOT || -z $OUT ]] && usage
 
+# ---------- sanity: file exists + has .images field (JSON or JSONL) ----------
 for f in "$DATA" "$EVAL"; do
   [[ ! -f $f ]] && { echo "File not found: $f" >&2; exit 1; }
-  head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || { echo "ERROR: $f not LLaVA‑JSONL" >&2; exit 1; }
+  if jq -e '.[0].images' "$f" >/dev/null 2>&1; then continue; fi
+  if head -n1 "$f" | jq -e '.images' >/dev/null 2>&1; then continue; fi
+  echo "ERROR: $f is neither JSON‑array nor JSONL with .images field" >&2; exit 1;
 done
 
 # ------------------------------- Training -----------------------------------
@@ -42,6 +43,7 @@ python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
   --version                       plain \
   --data_path                     "$DATA" \
+  --evaluation_file               "$EVAL" \
   --image_folder                  "$IMG_ROOT" \
   --vision_tower                  "$VIT" \
   --mm_projector_type             mlp2x_gelu \
@@ -57,4 +59,5 @@ python3 -m llava.train.train_mem \
   --learning_rate                 $LR \
   --logging_steps                 20 \
   --bf16                          true \
+  --lazy_preprocess               true \
   --output_dir                    "$OUT"
