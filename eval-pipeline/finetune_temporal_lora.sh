@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ##############################################################################
-# finetune_temporal_lora.sh – single-GPU LoRA finetune for latest LLaVA (L4)
+# finetune_temporal_lora.sh – single‑GPU LoRA finetuning for LLaVA on an L4
 # ---------------------------------------------------------------------------
-# • Handles JSON or JSONL datasets.
+# • Handles JSON/JSONL datasets.
 # • Creates a tokenizer copy with pad_token=eos_token so collate_fn works.
-# • Streams JSONL via --lazy_preprocess and lifts max_length to 2 048.
+# • Streams JSONL via --lazy_preprocess and sets max_length to 2048.
 ##############################################################################
 set -euo pipefail
 
@@ -31,33 +31,41 @@ while [[ $# -gt 0 ]]; do case $1 in
 esac; done
 [[ -z $DATA || -z $EVAL || -z $IMG_ROOT || -z $OUT ]] && usage
 
-# ---------------- sanity: dataset exists & has .images field (JSON/JSONL)-----
+# ---------- sanity: dataset exists & has .images field (JSON/JSONL) ----------
 for f in "$DATA" "$EVAL"; do
   [[ ! -f $f ]] && { echo "File not found: $f" >&2; exit 1; }
-  jq -e '.[0].images' "$f" >/dev/null 2>&1 || \
-    head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || {
-    echo "ERROR: $f missing .images field" >&2; exit 1;
-  }
+  jq -e '.[0].images' "$f" >/dev/null 2>&1 || head -n1 "$f" | jq -e '.images' >/dev/null 2>&1 || {
+    echo "ERROR: $f missing .images field" >&2; exit 1; }
 done
 
 # ------------- Prepare tokenizer copy with pad_token = eos ---------------
 python3 - <<'PY'
-from transformers import AutoTokenizer
-import os, sys
+from transformers import AutoTokenizer, AutoConfig
+import transformers, os, sys
 
+# Save a copy of the tokenizer with pad_token=eos_token
 TOK_DIR = os.environ.get('TOK_DIR', '/tmp/qwen_pad_tok')
 if not os.path.isdir(TOK_DIR):
-    tok = AutoTokenizer.from_pretrained('llava-hf/llava-interleave-qwen-7b-hf')
+    tok = AutoTokenizer.from_pretrained(MODEL := 'llava-hf/llava-interleave-qwen-7b-hf')
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token
-        tok.save_pretrained(TOK_DIR, safe_serialization=True)
-        print('✅ tokenizer saved with pad_token →', TOK_DIR, file=sys.stderr)
+    tok.save_pretrained(TOK_DIR, safe_serialization=True)
+    print('✅ tokenizer saved with pad_token →', TOK_DIR, file=sys.stderr)
+
+# Monkey‑patch AutoTokenizer to load from TOK_DIR for our model
+orig_from_pretrained = transformers.AutoTokenizer.from_pretrained
+def patched_from_pretrained(name_or_path, *args, **kwargs):
+    if name_or_path == MODEL:
+        return orig_from_pretrained(TOK_DIR, *args, **kwargs)
+    return orig_from_pretrained(name_or_path, *args, **kwargs)
+transformers.AutoTokenizer.from_pretrained = patched_from_pretrained
+# Let HF cache the config as well
+transformers.AutoConfig.from_pretrained = lambda name, *a, **k: AutoConfig.from_pretrained(TOK_DIR if name==MODEL else name, *a, **k)
 PY
 
 # ------------------------------- Training -----------------------------------
 python3 -m llava.train.train_mem \
   --model_name_or_path            "$MODEL" \
-  --tokenizer_name                "$TOK_DIR" \
   --version                       plain \
   --data_path                     "$DATA" \
   --image_folder                  "$IMG_ROOT" \
