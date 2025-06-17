@@ -32,14 +32,17 @@
 #
 #WORKDIR /workspace
 #ENTRYPOINT ["/bin/bash"]
+
+
+
+
 # -- Base Image --
-# We select a base image from NVIDIA that matches your VM's key specs:
-# CUDA 12.1.1 (compatible with host's 12.1), Python 3.10, on Debian 11.
-# The 'devel' tag includes the CUDA compiler (nvcc), which is needed for some packages.
+# CORRECTED: This tag exists and is well-supported.
+# We use Ubuntu 22.04, which has Python 3.10 as its default Python 3.
+# It still has CUDA 12.1.1 and the 'devel' tools, matching your needs.
 ARG CUDA_VERSION=12.1.1
-ARG PYTHON_VERSION=3.10
-ARG OS=debian11
-FROM nvidia/cuda:${CUDA_VERSION}-devel-python${PYTHON_VERSION}-${OS}
+ARG OS=ubuntu22.04
+FROM nvidia/cuda:${CUDA_VERSION}-devel-${OS}
 
 # -- Metadata --
 LABEL maintainer="Your Name"
@@ -55,9 +58,11 @@ WORKDIR /app
 
 # -- System Dependencies --
 # Install git to clone the repository and build-essential for any C++ extensions.
+# The commands are the same for Ubuntu as for Debian.
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # -- Application Code --
@@ -66,11 +71,11 @@ RUN git clone https://github.com/zjysteven/lmms-finetune.git .
 
 # -- Python Dependencies --
 # Upgrade pip and install all required packages from the repository's requirements file.
-# Using --no-cache-dir keeps the image layer smaller.
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+# We use 'pip3' to be explicit.
+RUN pip3 install --no-cache-dir --upgrade pip
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # -- Entrypoint --
 # The default command when the container starts.
-# We will drop into a bash shell to allow for interactive use (e.g., editing a script before running).
+# We will drop into a bash shell to allow for interactive use.
 CMD ["bash"]
