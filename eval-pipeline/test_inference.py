@@ -1,73 +1,58 @@
-# eval-pipeline/test_inference_final.py
-import os
-import shutil
-import tempfile
-import json
+# eval-pipeline/test_inference_builder.py
 import torch
+from llava.model.builder import load_pretrained_model
+from llava.mm_utils import preprocess_images
 
-# 1) Manually register LlavaConfig → LlavaLlamaForCausalLM in HF’s Auto mappings
-from transformers.models.auto.configuration_auto import CONFIG_MAPPING
-from transformers.models.auto.modeling_auto import MODEL_FOR_CAUSAL_LM_MAPPING
-from llava.model.language_model.llava_llama import LlavaConfig, LlavaLlamaForCausalLM
+# 1) Paths
+# ──────────────────────────────────────────────────────────────────────────────
+# This is your merged LoRA checkpoint:
+MODEL_PATH = "checkpoints/llava_merged_0.5b"
+# And the base model ID you originally fine-tuned from:
+MODEL_BASE = "llava-hf/llava-interleave-qwen-0.5b-hf"
 
-CONFIG_MAPPING[LlavaConfig.model_type]                      = LlavaConfig
-MODEL_FOR_CAUSAL_LM_MAPPING[LlavaConfig]                   = LlavaLlamaForCausalLM
+# 2) Load everything on GPU
+# ──────────────────────────────────────────────────────────────────────────────
+print("Loading checkpoint via builder.load_pretrained_model…")
+tokenizer, model, image_processor, context_len = load_pretrained_model(
+    checkpoint_path=MODEL_PATH,
+    model_base=MODEL_BASE,
+    device="cuda",
+)
 
-# 2) Now import the HF factories
-from transformers import AutoTokenizer, AutoModelForCausalLM
+model.eval()
 
-# Point to your merged‐LoRA folder:
-SRC_DIR = "checkpoints/llava_merged_0.5b"
+# 3) Prepare dummy image batch
+# ──────────────────────────────────────────────────────────────────────────────
+# image_processor expects a list of PIL Images or tensors, but we can
+# create a zero‐tensor in CLIP’s expected shape (3×336×336) directly:
+dummy_image = torch.zeros(3, 336, 336, dtype=torch.float32)  # CLIP expects float32
+pixel_values = image_processor(dummy_image, return_tensors="pt")["pixel_values"]
+# Batch it:
+pixel_values = pixel_values.to("cuda")  # shape (1,3,336,336)
+image_sizes  = [[336, 336]]
 
-def main():
-    # Copy to a temp dir so we can patch config.json
-    tmp = tempfile.mkdtemp(prefix="llava_test_")
-    dst = os.path.join(tmp, "model")
-    shutil.copytree(SRC_DIR, dst)
+# 4) Tokenize a prompt (with the <image> placeholder)
+# ──────────────────────────────────────────────────────────────────────────────
+prompt = "<image>\nOnce upon a time"
+inputs = tokenizer(
+    prompt,
+    return_tensors="pt",
+).to("cuda")
 
-    # Remove nested text_config (raw dict) to avoid to_dict() errors
-    cfgf = os.path.join(dst, "config.json")
-    cfg  = json.load(open(cfgf))
-    if isinstance(cfg.get("text_config"), dict):
-        print("🔧 Stripping nested text_config…")
-        del cfg["text_config"]
-        with open(cfgf, "w") as f:
-            json.dump(cfg, f)
-
-    print("Loading tokenizer…")
-    tokenizer = AutoTokenizer.from_pretrained(
-        dst,
-        trust_remote_code=True,
-    )
-
-    print("Loading model…")
-    model = AutoModelForCausalLM.from_pretrained(
-        dst,
-        trust_remote_code=True,
-        device_map="auto",
-        torch_dtype=torch.bfloat16,
-    ).eval().to("cuda")
-
-    print("Model loaded successfully.")
-
-    # Test inference
-    print("Running inference test…")
-
-    dummy_images = torch.zeros(1, 3, 336, 336, device=model.device, dtype=torch.bfloat16)
-    dummy_image_sizes = [[336, 336]]
-
-    prompt = "<image>\nOnce upon a time"
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-
+# 5) Generate
+# ──────────────────────────────────────────────────────────────────────────────
+print("Running generate()…")
+with torch.no_grad():
     outputs = model.generate(
-        **inputs,
-        images=dummy_images,
-        image_sizes=dummy_image_sizes,
-        max_new_tokens=50
+        input_ids=inputs.input_ids,
+        attention_mask=inputs.attention_mask,
+        images=pixel_values,
+        image_sizes=image_sizes,
+        max_new_tokens=50,
     )
 
-    print("\n> Prompt:   ", prompt)
-    print("> Generated:", tokenizer.decode(out[0], skip_special_tokens=True))
-
-if __name__ == "__main__":
-    main()
+# 6) Decode
+# ──────────────────────────────────────────────────────────────────────────────
+generated = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
+print("\n> Prompt:   ", prompt)
+print("> Generated:", generated)
