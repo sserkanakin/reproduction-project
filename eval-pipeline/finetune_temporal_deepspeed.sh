@@ -7,7 +7,7 @@ VERSION="llava_v1"
 TRAIN_JSON="eval-pipeline/data/finetune_data/train.json"
 #EVAL_JSON="eval-pipeline/data/finetune_data/test.jsonl"
 IMG_ROOT="eval-pipeline/data"
-PRETRAIN_PROJECTOR="checkpoints/llava-0.5b-pretrain/mm_projector.bin"
+#PRETRAIN_PROJECTOR="checkpoints/llava-0.5b-pretrain/mm_projector.bin"
 ZERO3_CFG="scripts/zero3.json"
 OUTDIR="checkpoints/temporal_lora_deepspeed"
 EPOCHS=3
@@ -27,7 +27,6 @@ deepspeed LLaVA/llava/train/train_mem.py \
   --lora_r                 $LORA_R \
   --lora_alpha             $LORA_ALPHA \
   --mm_projector_lr        $MM_PROJECTOR_LR \
-  --pretrain_mm_mlp_adapter $PRETRAIN_PROJECTOR \
   --model_name_or_path     $MODEL \
   --version                $VERSION \
   --data_path              $TRAIN_JSON \
