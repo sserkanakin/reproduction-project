@@ -1,27 +1,17 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM
 from peft import PeftModel
-import llava.model.language_model.llava_llama
 
-BASE = "llava-hf/llava-interleave-qwen-0.5b-hf"
-LORA = "checkpoints/temporal_lora_0.5b"
-OUT  = "checkpoints/temporal_lora_0.5b_merged"
-
-# 1) Load your base model (4-bit + BF16 compute)
-tokenizer = AutoTokenizer.from_pretrained(BASE, use_fast=False)
+# 1. Load your base model (quantization / bf16 / device_map as needed)
 base = AutoModelForCausalLM.from_pretrained(
-    BASE,
-    load_in_4bit=True,
-    bnb_4bit_compute_dtype="bf16",
+    "llava-hf/llava-interleave-qwen-0.5b-hf",
+    torch_dtype="auto", device_map="auto"
 )
 
-# 2) Overlay the LoRA adapters
-model = PeftModel.from_pretrained(base, LORA)
+# 2. Wrap in PEFT and load your adapters
+peft = PeftModel.from_pretrained(base, "checkpoints/temporal_lora_0.5b")
 
-# 3) Merge adapters into the base weights & unload PEFT wrappers
-merged = model.merge_and_unload()
+# 3. Merge LoRA into base weights, then free the adapter memory
+merged = peft.merge_and_unload()
 
-# 4) Save the merged, standalone checkpoint
-merged.save_pretrained(OUT)
-tokenizer.save_pretrained(OUT)
-
-print(f"Merged checkpoint written to {OUT}")
+# 4. Save the merged model
+merged.save_pretrained("checkpoints/temporal_lora_0.5b_merged")
