@@ -24,7 +24,7 @@ with TEST_JSON.open() as f:
         ])
         # call run_llava
         cmd = [
-            "python","run_llava.py",
+            "python","LLava/llava/eval/run_llava.py",
             "--model-path", MODEL_PATH,
             "--model-base", MODEL_BASE,
             "--image-file", imgs,
