@@ -22,7 +22,7 @@ LR=2e-5
 
 # -- FINETUNE ─────────────────────────────────────────────────────────────────
 deepspeed LLaVA/llava/train/train_mem.py \
-  --deepspeed              $ZERO3_CFG \
+  --deepspeed              scripts/zero3.json \
   --lora_enable            True \
   --lora_r                 $LORA_R \
   --lora_alpha             $LORA_ALPHA \
