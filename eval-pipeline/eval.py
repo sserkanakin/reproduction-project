@@ -11,7 +11,7 @@ total = correct = 0
 with TEST_JSON.open() as f:
     for line in f:
         sample = json.loads(line)
-        imgs = ",".join(sample["images"])
+        imgs = ",".join(sample["input_image_path"])
         context = sample.get("context","")
         question = sample.get("question","")
         options = sample.get("options","")
@@ -24,7 +24,7 @@ with TEST_JSON.open() as f:
         ])
         # call run_llava
         cmd = [
-            "python","LLava/llava/eval/run_llava.py",
+            "python","/LLava/llava/eval/run_llava.py",
             "--model-path", MODEL_PATH,
             "--model-base", MODEL_BASE,
             "--image-file", imgs,
