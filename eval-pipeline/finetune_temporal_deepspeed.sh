@@ -23,12 +23,11 @@ LR=2e-5
 # -- FINETUNE ─────────────────────────────────────────────────────────────────
 deepspeed LLaVA/llava/train/train_mem.py \
   --deepspeed              eval-pipeline/scripts/zero3.json \
-  --tokenizer_name /tmp/llava-with-pad \
   --lora_enable            True \
   --lora_r                 $LORA_R \
   --lora_alpha             $LORA_ALPHA \
   --mm_projector_lr        $MM_PROJECTOR_LR \
-  --model_name_or_path     $MODEL \
+  --model_name_or_path     /tmp/llava-0.5b-local \
   --version                $VERSION \
   --data_path              $TRAIN_JSON \
   --image_folder           $IMG_ROOT \
