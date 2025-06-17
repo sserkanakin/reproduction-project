@@ -3,7 +3,7 @@
 eval-pipeline/prepare_temporal_dataset.py
 
 This script processes a temporal ordering dataset.
-For training data, it uses the OpenAI reasoning API to generate explanations.
+For training data, it uses the OpenAI reasoning API to generate explanations and saves the output in a new format.
 It writes the output to `train.json` and keeps the test samples unchanged.
 """
 
@@ -20,7 +20,6 @@ from tqdm import tqdm
 logging.basicConfig(level=logging.INFO, format=r'%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 
-# --- Helper Functions ---
 
 def encode_image_to_base64(image_path: str) -> str | None:
     """Encodes an image file to a base64 string."""
@@ -33,6 +32,7 @@ def encode_image_to_base64(image_path: str) -> str | None:
     except Exception as e:
         logging.error(f"Error encoding image {image_path}: {e}")
         return None
+
 
 def parse_correct_order(options_str: str, correct_option_char: str) -> list | None:
     """
@@ -50,6 +50,7 @@ def parse_correct_order(options_str: str, correct_option_char: str) -> list | No
             return None
     logging.warning(f"Could not find option {correct_option_char} in options: {options_str}")
     return None
+
 
 def get_explanation_from_openai(client: OpenAI, image_paths: list[str], correct_order: list) -> str:
     """
@@ -103,9 +104,10 @@ def get_explanation_from_openai(client: OpenAI, image_paths: list[str], correct_
         logging.error(f"OpenAI API call failed: {e}")
         return "Failed to generate explanation from the AI model due to an API error."
 
+
 def process_item(item: dict, client: OpenAI, mmiu_file_dir: str) -> dict | None:
     """
-    Processes a single training item from the source JSON and converts it to the target format.
+    Processes a single training item from the source JSON and converts it to the new target format.
     Reasoning is obtained via the OpenAI API.
     """
     original_image_paths = item.get("input_image_path", [])
@@ -129,24 +131,22 @@ def process_item(item: dict, client: OpenAI, mmiu_file_dir: str) -> dict | None:
     logging.info(f"Processing sequence with correct order: {correct_order}")
 
     explanation = get_explanation_from_openai(client, full_image_paths, correct_order)
-    item_id = os.path.splitext(os.path.basename(original_image_paths[0]))[0]
-    human_message = (
-        "<image>\n" * len(original_image_paths)
-        + "\nPlease predict the order of the following pictures, and give each picture a sequential index. "
-          "This index starts from 0. The larger the index, the later the order."
+    # Build human message by concatenating <image> tokens without spaces
+    human_message = ("<image>" * len(original_image_paths)) + (
+        "\nPlease predict the order of the following pictures, and give each picture a sequential index. "
+        "This index starts from 0. The larger the index, the later the order."
     )
     gpt_message = f"The correct order is {correct_order}.\n\n{explanation}"
 
     return {
-        "id": item_id,
-        "images": original_image_paths,
+        "system_prompt": "Answer the following questions by considering all images.",
+        "image": original_image_paths,
         "conversations": [
             {"from": "human", "value": human_message},
             {"from": "gpt", "value": gpt_message}
         ]
     }
 
-# --- Main Execution ---
 
 def main():
     parser = argparse.ArgumentParser(description="Prepare a temporal ordering dataset for fine-tuning.")
@@ -197,6 +197,7 @@ def main():
         logging.info(f"✅ Successfully created test data at: {test_output}")
     except Exception as e:
         logging.error(f"Failed to write output files: {e}")
+
 
 if __name__ == "__main__":
     main()
