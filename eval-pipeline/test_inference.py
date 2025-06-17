@@ -1,7 +1,7 @@
 # eval-pipeline/test_inference_builder.py
 import torch
 from llava.model.builder import load_pretrained_model
-from llava.mm_utils import preprocess_images
+from LLaVA.llava.mm_utils import process_images
 
 # 1) Paths
 # ──────────────────────────────────────────────────────────────────────────────
