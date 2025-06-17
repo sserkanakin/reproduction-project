@@ -21,7 +21,7 @@ GRAD_ACC=4
 LR=2e-5
 
 # -- FINETUNE ─────────────────────────────────────────────────────────────────
-deepspeed LLaVa/llava/train/train_mem.py \
+deepspeed LLaVA/llava/train/train_mem.py \
   --deepspeed              $ZERO3_CFG \
   --lora_enable            True \
   --lora_r                 $LORA_R \
