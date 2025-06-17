@@ -21,6 +21,7 @@ def log_message(message, level=1):
     if VERBOSITY_LEVEL >= level:
         print(message)
 
+base_model_id = "llava-hf/llava-interleave-qwen-0.5b-hf"  # Default model ID
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Generalized MMIU Evaluation Pipeline using Hugging Face Datasets")
@@ -100,7 +101,7 @@ def initialize_model(model_id_arg, use_quantization, device_override=None):
         log_message(
             f"Model loaded. On device: {next(current_model.parameters()).device}, Dtype: {next(current_model.parameters()).dtype}",
             1)
-        current_processor = AutoProcessor.from_pretrained(model_id_arg, trust_remote_code=True)
+        current_processor = AutoProcessor.from_pretrained(base_model_id, trust_remote_code=True)
         log_message("Processor loaded.", 1)
     except Exception as e:
         log_message(f"Error loading model or processor for '{model_id_arg}': {e}", 0); raise
