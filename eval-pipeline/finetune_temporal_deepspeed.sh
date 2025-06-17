@@ -4,7 +4,7 @@ set -euo pipefail
 # -- CONFIGURATION ────────────────────────────────────────────────────────────
 MODEL="llava-hf/llava-interleave-qwen-0.5b-hf"
 VERSION="llava_v1"
-TRAIN_JSON="eval-pipeline/data/finetune_data/train.jsonl"
+TRAIN_JSON="eval-pipeline/data/finetune_data/train.json"
 #EVAL_JSON="eval-pipeline/data/finetune_data/test.jsonl"
 IMG_ROOT="eval-pipeline/data"
 PRETRAIN_PROJECTOR="checkpoints/llava-0.5b-pretrain/mm_projector.bin"
