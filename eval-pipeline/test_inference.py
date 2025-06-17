@@ -1,13 +1,20 @@
 from llava.model.builder import load_pretrained_model
+from llava.mm_utils import get_model_name_from_path
 import torch
+
+
 
 # 1. Load your merged LoRA model onto the GPU
 base_model = "llava-hf/llava-interleave-qwen-0.5b-hf"
 model_dir  = "checkpoints/temporal_merged_0.5b"
+
+# get model name
+model_name = get_model_name_from_path(model_dir)
+
 tokenizer, model, image_processor, _ = load_pretrained_model(
     model_dir,
     base_model,
-    None,
+    model_name,
     device_map="auto"
 )
 model = model.to("cuda").eval()

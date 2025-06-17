@@ -1,3 +1,5 @@
+### to build: docker build -t llava:latest .
+### to run: docker run --gpus all -it --rm -v $(pwd):/workspace llava:latest
 FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
 RUN apt-get update && apt-get install -y git jq ninja-build && rm -rf /var/lib/apt/lists/*
