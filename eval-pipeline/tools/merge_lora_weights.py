@@ -1,5 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
+import llava.model.language_model.llava_llama
 
 BASE = "llava-hf/llava-interleave-qwen-0.5b-hf"
 LORA = "checkpoints/temporal_lora_0.5b"
