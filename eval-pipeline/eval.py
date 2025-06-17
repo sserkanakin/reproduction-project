@@ -2,7 +2,7 @@
 import json, subprocess, re
 from pathlib import Path
 
-TEST_JSON = Path("eval-pipeline/data/finetune_data/test.jsonl")
+TEST_JSON = Path("eval-pipeline/data/to-data.jsonl")
 MODEL_PATH = "checkpoints/llava-merged"
 MODEL_BASE = "llava-hf/llava-interleave-qwen-0.5b-hf"
 
