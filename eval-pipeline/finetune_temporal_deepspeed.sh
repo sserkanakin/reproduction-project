@@ -23,6 +23,7 @@ LR=2e-5
 # -- FINETUNE ─────────────────────────────────────────────────────────────────
 deepspeed LLaVA/llava/train/train_mem.py \
   --deepspeed              eval-pipeline/scripts/zero3.json \
+  --tokenizer_name /tmp/llava-with-pad
   --lora_enable            True \
   --lora_r                 $LORA_R \
   --lora_alpha             $LORA_ALPHA \
