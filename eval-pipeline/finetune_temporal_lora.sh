@@ -65,6 +65,8 @@ python3 -m llava.train.train_mem \
   --learning_rate                 $LR \
   --logging_steps                 20 \
   --bf16                          true \
+  --load_in_4bit               true \
+  --bnb_4bit_compute_dtype     bf16 \
   --model_max_length              $MAX_LEN \
   --lazy_preprocess               true \
   --output_dir                    "$OUT"
