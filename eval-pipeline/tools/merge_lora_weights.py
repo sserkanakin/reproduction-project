@@ -21,6 +21,7 @@ def merge_lora(base_model_id: str, lora_dir: str, save_dir: str):
         base_model_id,         # same here
         model_name             # this folder holds your adapters
     )
+    print("✅ loaded base model and tokenizer")
 
     # move to CPU so we can merge without eating GPU memory
     model.cpu()
@@ -32,7 +33,7 @@ def merge_lora(base_model_id: str, lora_dir: str, save_dir: str):
         is_trainable=False
     )
     merged: torch.nn.Module = peft_model.merge_and_unload()
-
+    print("✅ merged LoRA weights into base model")
     # 3) save the result (tokenizer + merged model)
     Path(save_dir).mkdir(parents=True, exist_ok=True)
     merged.save_pretrained(save_dir)
