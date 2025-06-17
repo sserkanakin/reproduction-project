@@ -1,0 +1,1162 @@
+[
+  {
+    "id": "temporal_ordering_137_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_14.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_15.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_16.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_17.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_18.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_19.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_20.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_137_21.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n<image_15>\n<image_16>\n<image_17>\n<image_18>\n<image_19>\n<image_20>\n<image_21>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [19, 10, 12, 21, 3, 17, 11, 1, 20, 18, 9, 14, 5, 8, 6, 13, 15, 2, 4, 0, 16, 7]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_117_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_117_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_117_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_117_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_117_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_117_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 2, 4, 0, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_11_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_11_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_11_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_11_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_11_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 2, 0, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_67_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_67_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 0, 4, 5, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_88_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_14.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_15.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_16.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_17.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_18.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_19.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_20.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_21.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_22.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_23.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_24.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_25.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_26.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_27.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_28.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_29.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_88_30.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n<image_15>\n<image_16>\n<image_17>\n<image_18>\n<image_19>\n<image_20>\n<image_21>\n<image_22>\n<image_23>\n<image_24>\n<image_25>\n<image_26>\n<image_27>\n<image_28>\n<image_29>\n<image_30>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 2, 10, 30, 8, 15, 29, 22, 27, 12, 13, 3, 24, 11, 0, 25, 19, 16, 23, 17, 18, 21, 7, 20, 6, 1, 28, 14, 26, 9, 4]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_91_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_91_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_91_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_91_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_91_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 1, 3, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_24_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_24_9.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [8, 0, 2, 1, 6, 5, 9, 7, 4, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_97_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_97_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 6, 3, 1, 0, 2, 5]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_182_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_14.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_182_15.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n<image_15>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_190_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_190_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_190_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_190_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_190_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 0, 2, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_86_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_86_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 1, 6, 2, 0, 7, 3, 4]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_181_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_181_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_181_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_181_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_181_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 1, 3, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_39_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_39_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_39_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_39_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_39_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_39_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 0, 3, 4, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_168_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_168_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_168_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_168_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_168_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 0, 3, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_87_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_87_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 2, 1, 5, 4, 0, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_185_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_185_10.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_40_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_40_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 3, 1, 2, 4, 7, 6, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_1_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_1_11.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 8, 6, 5, 3, 2, 10, 9, 0, 4, 11, 7]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_71_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_71_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_71_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_71_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_71_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 1, 3, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_150_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_150_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 3, 1, 2, 4, 0, 6]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_114_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_114_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 3, 0, 4, 2, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_56_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_56_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 1, 2, 3, 5, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_107_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_107_13.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [8, 1, 12, 0, 9, 2, 11, 13, 5, 6, 4, 3, 10, 7]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_191_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_191_11.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_166_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_166_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [7, 2, 5, 4, 1, 0, 6, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_50_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_50_9.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 0, 1, 2, 7, 8, 3, 4, 6, 9]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_143_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_143_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_143_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_143_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_143_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 0, 3, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_197_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_197_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 0, 1, 7, 5, 4, 3, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_154_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_154_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_154_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_154_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_154_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_154_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 1, 2, 4, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_129_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_129_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 3, 7, 6, 2, 0, 5, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_59_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_14.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_59_15.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n<image_15>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 1, 2, 3, 14, 7, 0, 13, 11, 15, 8, 9, 12, 4, 10, 6]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_55_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_55_8.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 0, 5, 6, 1, 8, 4, 7]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_23_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_23_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 5, 0, 2, 1, 4, 6]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_7_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_14.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_15.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_16.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_7_17.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n<image_15>\n<image_16>\n<image_17>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [7, 9, 0, 3, 2, 12, 1, 17, 4, 10, 13, 6, 14, 8, 16, 15, 5, 11]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_8_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_8_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 2, 1, 4, 5, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_108_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_108_13.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 6, 10, 7, 9, 13, 2, 0, 5, 3, 4, 8, 12, 11]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_151_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_151_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 6, 0, 1, 2, 3, 5]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_22_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_22_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 3, 1, 0, 2, 5, 4]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_139_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_139_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_139_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_139_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_139_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 0, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_173_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_173_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_173_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_173_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_173_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 1, 0, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_26_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_6.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_7.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_8.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_9.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_10.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_11.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_12.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_13.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_26_14.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n<image_7>\n<image_8>\n<image_9>\n<image_10>\n<image_11>\n<image_12>\n<image_13>\n<image_14>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [10, 7, 13, 12, 3, 5, 1, 9, 6, 14, 8, 11, 0, 4, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_188_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_188_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_188_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_188_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_188_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 0, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_35_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_35_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_35_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_35_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_35_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 0, 2]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_57_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_57_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 4, 0, 2, 5]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_62_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_62_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_62_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_62_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_62_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 2, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_70_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_70_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_70_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_70_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_70_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 2, 0, 3]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_189_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_5.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_189_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n<image_6>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 2, 3, 0, 6, 4, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_6_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_6_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_6_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_6_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_6_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 2, 3, 1]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_28_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_28_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_28_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_28_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_28_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 1, 2, 0]."
+      }
+    ]
+  },
+  {
+    "id": "temporal_ordering_163_0",
+    "images": [
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_0.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_1.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_2.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_3.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_4.jpg",
+      "/mnt/hwfile/gveval/mengfanqing/MMIU/Continuous-temporal/temporal_ordering/temporal_ordering_163_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image>\n<image_0>\n<image_1>\n<image_2>\n<image_3>\n<image_4>\n<image_5>\n\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 5, 2, 0, 4]."
+      }
+    ]
+  }
+]

@@ -45,21 +45,56 @@ def parse_options(block: str) -> Dict[str, List[int]]:
 def build_prompt(imgs: list[str], q: str) -> str:
     return SEP.join([DEFAULT_IMAGE_TOKEN, *[f"<image_{i}>" for i in range(len(imgs))], "", q])
 
+
 def call_openai_reasoning(gt: List[int], sample: dict[str, Any], model: str) -> str:
-    """Ask GPT-4o to explain the ordering."""
-    import openai, textwrap
-    client = openai.OpenAI()   # uses env var OPENAI_API_KEY
+    """Ask GPT-4o to explain the ordering with full context."""
+    import openai
+    import textwrap
+
+    client = openai.OpenAI()  # uses env var OPENAI_API_KEY
+
+    # --- Extract full context from the sample ---
+    question = sample.get("input", {}).get("question", "No question provided.")
+    options_str = sample.get("options", "No options provided.")
+
+    # --- FIXED: Safely extract the correct key, handling both string and dict formats ---
+    output_field = sample.get("output")
+    if isinstance(output_field, dict):
+        # Handles cases like: "output": {"output_text": "C"}
+        correct_key = output_field.get("output_text", "N/A")
+    elif isinstance(output_field, str):
+        # Handles cases like: "output": "C"
+        correct_key = output_field
+    else:
+        correct_key = "N/A"  # Fallback for unexpected formats
+
+    correct_key = correct_key.strip()
     ordering = ", ".join(map(str, gt))
+
+    # --- Build a more detailed prompt ---
     user_msg = textwrap.dedent(f"""\
-        The correct order of the {len(gt)} frames is {ordering}.
-        Explain step-by-step how the visual evidence in each frame supports
-        this temporal sequence. Mention concrete cues (e.g. body posture,
-        motion trails, object state) rather than generic statements. You do not need to create a any tables. Give you full reasoning and final answer.
+        Here is a temporal ordering task.
+
+        **Question:**
+        {question}
+
+        **The available options are:**
+        {options_str}
+
+        The correct answer is **Option {correct_key}**, which corresponds to the sequence **[{ordering}]**.
+
+        Your task is to provide a detailed, step-by-step explanation for why this is the correct temporal sequence.
+        - Analyze the visual evidence in each frame of the correct sequence.
+        - Mention concrete cues (e.g., body posture, position of objects, motion trails, interaction with the environment).
+        - Explain the logical flow of the action from the first frame to the last in the correct order.
+        - Do not create any tables. Provide your full reasoning and final answer in a coherent paragraph.
     """)
-    # Truncate prompt to ensure it does not exceed 300 tokens.
-    max_prompt_tokens = 300
+
+    # Truncate prompt to ensure it does not exceed a reasonable token limit (e.g., 500)
+    max_prompt_tokens = 500
     if count_tokens(user_msg, model) > max_prompt_tokens:
         user_msg = truncate_text(user_msg, model, max_prompt_tokens)
+
     resp = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": user_msg}],
