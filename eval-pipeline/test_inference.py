@@ -1,4 +1,4 @@
-# test_inference_hf.py
+# eval-pipeline/test_inference.py
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
@@ -8,18 +8,18 @@ def main():
     print("Loading tokenizer")
     tokenizer = AutoTokenizer.from_pretrained(
         MODEL_DIR,
-        trust_remote_code=True,        # <-- allow custom Llava tokenizer
+        trust_remote_code=True,        # ← must be here
     )
 
     print("Loading model")
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_DIR,
-        trust_remote_code=True,        # <-- allow custom LlavaConfig + LlavaLlamaForCausalLM
+        trust_remote_code=True,        # ← and also here
         device_map="auto",
-        torch_dtype=torch.bfloat16
-    ).eval().to("cuda")
+        torch_dtype=torch.bfloat16,
+    )
+    model = model.eval().to("cuda")
 
-    # Simple text‐only prompt
     prompt = "Once upon a time,"
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     outputs = model.generate(**inputs, max_new_tokens=50)
