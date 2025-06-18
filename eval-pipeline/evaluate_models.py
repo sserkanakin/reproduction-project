@@ -139,7 +139,7 @@ def main():
 
         base_response = get_model_prediction(base_model, base_processor, image_paths, question)
         if base_response:
-            print("Base Model Raw Response:", base_response[:100] + "...")
+            print("Base Model Raw Response:", base_response + "...")
             base_choice = get_option_from_response(openai_client, base_response, options)
             print(f"Judged Choice for Base Model: {base_choice}")
             if base_choice == ground_truth:
@@ -147,7 +147,7 @@ def main():
 
         finetuned_response = get_model_prediction(finetuned_model, finetuned_processor, image_paths, question)
         if finetuned_response:
-            print("Finetuned Model Raw Response:", finetuned_response[:100] + "...")
+            print("Finetuned Model Raw Response:", finetuned_response + "...")
             finetuned_choice = get_option_from_response(openai_client, finetuned_response, options)
             print(f"Judged Choice for Finetuned Model: {finetuned_choice}")
             if finetuned_choice == ground_truth:
