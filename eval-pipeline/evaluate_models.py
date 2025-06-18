@@ -139,6 +139,9 @@ def main():
         print(f"\n--- Evaluating Sample {i + 1}/{total_samples} ---")
         image_paths = [os.path.join("eval-pipeline/data", path.lstrip("./")) for path in item["input_image_path"]]
         question = item["question"]
+        context = item["context"]
+        # conbining context with question
+        question = f"{context} {question}" if context else question
         options = item["options"]
         ground_truth = item["output"]
 
