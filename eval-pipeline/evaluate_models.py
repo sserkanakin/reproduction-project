@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 import torch
-from transformers import AutoProcessor, AutoModelForCausalLM
+from transformers import AutoProcessor, LlavaForConditionalGeneration
 from PIL import Image
 import json
 import openai
@@ -19,16 +19,16 @@ TEST_DATA_PATH = "eval-pipeline/data/finetune_data/test.json"
 OPENAI_JUDGE_MODEL = "gpt-4o"
 
 # --- HELPER FUNCTIONS ---
-def load_model_and_processor(model_path, is_finetuned=False):
+def load_model_and_processor(model_path):
     print(f"Loading model: {model_path}...")
-    model = AutoModelForCausalLM.from_pretrained(
+    model = LlavaForConditionalGeneration.from_pretrained(
         model_path,
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
         trust_remote_code=True
     ).to("cuda")
 
-    processor_path = BASE_MODEL_ID if is_finetuned else model_path
+    processor_path = BASE_MODEL_ID
     processor = AutoProcessor.from_pretrained(processor_path, trust_remote_code=True)
     print("...loading complete.")
     return model, processor
@@ -87,7 +87,7 @@ def main():
         return
 
     base_model, base_processor = load_model_and_processor(BASE_MODEL_ID)
-    finetuned_model, finetuned_processor = load_model_and_processor(FINETUNED_MODEL_PATH, is_finetuned=True)
+    finetuned_model, finetuned_processor = load_model_and_processor(FINETUNED_MODEL_PATH)
 
     try:
         with open(TEST_DATA_PATH, 'r') as f:
