@@ -33,24 +33,54 @@ def load_model_and_processor(model_path):
     print("...loading complete.")
     return model, processor
 
+
 def get_model_prediction(model, processor, image_paths, question):
+    """
+    Generates a free-text response from a model using the modern `apply_chat_template` method.
+    This function now handles image loading internally.
+    """
+    # 1. Construct the 'content' list for the chat template
+    # This combines the question and the paths to your images
+    content = [{"type": "text", "text": question}]
+    for img_path in image_paths:
+        content.append({"type": "image_url", "image_url": {"url": img_path}})
+
+    # 2. Structure the conversation for the chat template
+    messages = [{"role": "user", "content": content}]
+
+    # 3. Let `apply_chat_template` do all the work: loading, processing, and tokenizing
+    # This is the cleaner method from the documentation
     try:
-        images = [Image.open(p).convert("RGB") for p in image_paths]
+        inputs = processor.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_tensors="pt",
+            return_dict=True
+        )
     except FileNotFoundError as e:
-        print(f"Error loading images: {e}")
+        print(f"Error: An image file was not found. Please check paths in your JSON.")
+        print(e)
         return None
 
-    prompt_chat = [{"role": "user", "content": ("<image>" * len(images)) + "\n" + question}]
-    prompt_text = processor.tokenizer.apply_chat_template(
-        prompt_chat,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-    inputs = processor(text=prompt_text, images=images, return_tensors="pt").to("cuda")
+    # 4. Move inputs to GPU and ensure dtype consistency (to prevent our previous RuntimeError)
+    inputs = {k: v.to("cuda") for k, v in inputs.items()}
+    if 'pixel_values' in inputs:
+        inputs['pixel_values'] = inputs['pixel_values'].to(model.dtype)
 
-    generated_ids = model.generate(**inputs, max_new_tokens=512, do_sample=False)
-    generated_ids = generated_ids[:, inputs['input_ids'].shape[1]:]
-    response = processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+    # 5. Generate the response
+    generation_kwargs = {
+        "max_new_tokens": 512,
+        "do_sample": False,
+    }
+
+    generated_ids = model.generate(**inputs, **generation_kwargs)
+
+    # We only need to decode the newly generated tokens
+    input_len = inputs['input_ids'].shape[1]
+    response_ids = generated_ids[:, input_len:]
+
+    response = processor.batch_decode(response_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     return response
 
 def get_option_from_response(openai_client, model_response, options_text):
