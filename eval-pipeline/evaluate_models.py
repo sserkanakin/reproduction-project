@@ -27,6 +27,7 @@ def load_model_and_processor(model_path):
         model_path,
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
+        device_map="auto",
         trust_remote_code=True
     ).to("cuda")
 
