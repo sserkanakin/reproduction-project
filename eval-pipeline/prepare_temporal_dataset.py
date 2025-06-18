@@ -4,7 +4,8 @@ eval-pipeline/prepare_temporal_dataset.py
 
 This script processes a temporal ordering dataset.
 For training data, it uses the OpenAI reasoning API to generate explanations and saves the output in a new format.
-It writes the output to `train.json` and keeps the test samples unchanged.
+It writes the output to `train.json`, writes the unchanged test samples to `test.json`, and creates an additional
+evaluation file `eval.json` where the test samples are converted to the train format.
 """
 
 import os
@@ -107,7 +108,7 @@ def get_explanation_from_openai(client: OpenAI, image_paths: list[str], correct_
 
 def process_item(item: dict, client: OpenAI, mmiu_file_dir: str) -> dict | None:
     """
-    Processes a single training item from the source JSON and converts it to the new target format.
+    Processes a single item from the source JSON and converts it to the new target format.
     Reasoning is obtained via the OpenAI API.
     """
     original_image_paths = item.get("input_image_path", [])
@@ -180,21 +181,32 @@ def main():
 
     mmiu_file_dir = os.path.dirname(os.path.abspath(args.mmiu_file))
     train_dataset = []
+    eval_dataset = []
 
     for item in tqdm(train_data, desc="Processing train items"):
         processed_item = process_item(item, client, mmiu_file_dir)
         if processed_item:
             train_dataset.append(processed_item)
 
+    # Create eval dataset from test items in train format by processing them through process_item
+    for item in tqdm(test_data, desc="Processing eval items"):
+        processed_item = process_item(item, client, mmiu_file_dir)
+        if processed_item:
+            eval_dataset.append(processed_item)
+
     train_output = os.path.join(args.output_dir, "train.json")
     test_output = os.path.join(args.output_dir, "test.json")
+    eval_output = os.path.join(args.output_dir, "eval.json")
     try:
         with open(train_output, "w") as f:
             json.dump(train_dataset, f, indent=2)
         with open(test_output, "w") as f:
             json.dump(test_data, f, indent=2)
+        with open(eval_output, "w") as f:
+            json.dump(eval_dataset, f, indent=2)
         logging.info(f"✅ Successfully created train data at: {train_output}")
         logging.info(f"✅ Successfully created test data at: {test_output}")
+        logging.info(f"✅ Successfully created eval data at: {eval_output}")
     except Exception as e:
         logging.error(f"Failed to write output files: {e}")
 

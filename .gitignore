@@ -128,7 +128,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-eval-pipeline/scripts/.env
+eval-pipeline/.env
 .venv
 env/
 venv/

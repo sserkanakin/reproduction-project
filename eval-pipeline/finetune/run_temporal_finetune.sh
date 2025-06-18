@@ -8,7 +8,7 @@ DISTRIBUTED_ARGS="
 
 # arguments that are very likely to be changed
 # according to your own case
-MODEL_ID=llava-hf/llava-interleave-qwen-0.5b-hf                                  # model id; pick on by running `python supported_models.py`
+MODEL_ID=llava-hf/llava-interleave-qwen-7b-hf                                  # model id; pick on by running `python supported_models.py`
 TRAIN_DATA_PATH=~/projects/reproduction-project/eval-pipeline/data/new_finetune_data/train.json  # path to the training data json file
 #EVAL_DATA_PATH=./example_data/celeba_image_eval.json    # path to the evaluation data json file (optional)
 IMAGE_FOLDER=~/projects/reproduction-project/eval-pipeline/data                      # path to the image root folder; if provided, the image paths in the json should be relative

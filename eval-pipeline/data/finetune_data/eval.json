@@ -1,0 +1,1095 @@
+[
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_150_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 3, 1, 2, 4, 0, 6].\n\nHere\u2019s a concise step-by-step explanation:\n\nThe sequence depicts a person doing a pull-up. Let's analyze the progression:\n\n1. **Image 5**: The person is hanging with arms fully extended, preparing to pull upwards. This is the starting position.\n\n2. **Image 3**: The person has just started pulling up, with slight bending at the elbows.\n\n3. **Image 1**: The person is midway through the pull-up, with elbows more bent, pulling their body closer to the bar.\n\n4. **Image 2**: The person is nearing the top position, with the chin almost above the bar.\n\n5. **Image 4**: The person has reached the topmost position, with the chin at or above the bar.\n\n6. **Image 0**: The person is starting to lower their body, moving away from the bar.\n\n7. **Image 6**: The person is almost back to the starting position, with arms extending again.\n\nThis order effectively illustrates the process of completing one pull-up through key transitional positions."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_151_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 6, 0, 1, 2, 3, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the sequence of these images, let's look at the motion involved in a squat exercise. Here's a step-by-step explanation for the order [4, 6, 0, 1, 2, 3, 5]:\n\n1. **Image 4**: The person is at the starting point of the squat, slightly bent.\n2. **Image 6**: They begin descending into the squat position.\n3. **Image 0**: The squat deepens, as the person lowers further.\n4. **Image 1**: The lowest point in the squat is reached.\n5. **Image 2**: The person starts to push upwards from the deep squat.\n6. **Image 3**: The movement continues upwards, further extending the legs.\n7. **Image 5**: The person returns to the starting position, having completed the squat.\n\nThese indicate a proper sequence for executing a squat, demonstrating the transition from standing to squatting and back to standing."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_152_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_152_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_152_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_152_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 0, 2, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, let's analyze the key indicators of a tennis serve:\n\n1. **Preparation (Image 3)**:\n   - The player is in a ready stance, preparing for the serve. The racket is held with both hands, and the player's posture indicates they are getting set up. This is the initial phase before the serve.\n\n2. **Backswing (Image 0)**:\n   - The player begins the motion of bringing the racket back, preparing to swing forward. This is the backswing stage, where the racket is taken back to gain momentum for the serve.\n\n3. **Swing Forward (Image 2)**:\n   - The player is in the process of swinging the racket forward to hit the ball. The posture shows the transition from backswing to making contact with the ball.\n\n4. **Follow Through (Image 1)**:\n   - After the ball is hit, the player completes the serve by following through with the motion. The player\u2019s body and racket are in a forward position, indicating the serve's completion.\n\nIn summary, the sequence follows the logical progression of a tennis serve: preparing, backswing, swinging forward, and follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_10.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_11.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_12.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_153_13.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [11, 13, 7, 3, 1, 8, 5, 0, 4, 6, 12, 9, 10, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct order of the images in this sequence, let's analyze key physical actions that typically occur in a weightlifting sequence:\n\n1. **Approaching the Barbell (Image 11)**\n   - The lifter stands ready to lift, showing an initial setup.\n\n2. **Grasping the Barbell (Image 13)**\n   - The lifter bends down, securing their grip on the bar.\n\n3. **Lifting Off the Ground (Image 7)**\n   - The barbell begins to move upward as the lifter executes the lift.\n\n4. **Pulling Up (Image 3)**\n   - The lifter pulls the barbell close to their body, preparing for the next phase.\n\n5. **Passing the Knees (Image 1)**\n   - The bar passes the knees, and the lifter transitions to the power position.\n\n6. **The Catch (Image 8)**\n   - The lifter catches the barbell on their shoulders, or in a squat position.\n\n7. **Standing Up (Image 5)**\n   - The lifter rises from the squat position, fully extending the legs.\n\n8. **Balancing the Bar (Image 0)**\n   - Ensuring the bar is stable and controlled overhead.\n\n9. **Show of Control (Image 4)**\n   - Demonstrating control of the weight overhead, preparing to lower it.\n\n10. **Lowering (Image 6)**\n    - The lifter starts to lower the barbell back toward the ground.\n\n11. **Return to the Floor (Image 12)**\n    - The barbell makes contact with the floor as the lift completes.\n\n12. **Releasing the Bar (Image 9)**\n    - The lifter releases the bar and steps back, showcasing completion.\n\n13. **Posture Reset (Image 10)**\n    - Resetting the posture, possibly preparing for another attempt or reviewing performance.\n\n14. **Rest Position (Image 2)**\n    - Final rest state, indicating the sequence has ended.\n\nBy following these steps, the sequence effectively maps out the chronological process of a weightlifting event, from setup through execution to completion."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_154_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_154_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_154_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_154_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_154_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 1, 2, 4, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the correct sequence for these images, we need to observe the position of the person and the barbell in each image. Here's a step-by-step explanation for the sequence [0, 1, 2, 4, 3]:\n\n1. **Image 0**: The person is in the process of lifting the barbell. This position looks like the initial phase where the barbell is being pulled upwards. It's a preparatory movement before lowering into a squat position. \n\n2. **Image 1**: The person is slightly lower than in image 0, with the barbell still upward but closer to the shoulders. This indicates the ongoing progression towards the squat position.\n\n3. **Image 2**: The person is now in a deeper squat position, and the barbell is positioned at shoulder height. This is an intermediary phase of the movement, where the lift is transitioning.\n\n4. **Image 4**: The squat position has been reached fully here, as seen by the depth of the squat, with the barbell stabilized at shoulder height. This indicates the lowest point of the movement.\n\n5. **Image 3**: The person begins to rise from the squat. This image shows the upward movement as the squat is being completed, bringing the movement full circle back to an initial standing position.\n\nThis sequence follows the logical progression of a weightlifting movement typically found in exercises like the clean or the snatch. The sequence captures the lift from preparation to the full squat and then rising again."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_155_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_155_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_155_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_155_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 2, 1, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the correct sequence, [0, 2, 1, 3], let's analyze the images focusing on the key actions of the bowler:\n\n1. **Image 0**:\n   - The bowler is in the stance position, preparing to swing the ball. This is the initial action in the sequence.\n\n2. **Image 2**:\n   - The bowler has started to swing the ball backward. The ball is moving behind the bowler, indicating the start of the bowling motion.\n\n3. **Image 1**:\n   - The ball is now at its peak swing, with the bowler's arm fully extended backward. This occurs just before the bowler starts to move the ball forward.\n\n4. **Image 3**:\n   - The bowler has released the ball, and the follow-through motion is evident. The ball is heading down the lane, completing the sequence.\n\nThis step-by-step analysis of the bowler's actions illustrates the logical progression of the bowling process, confirming the sequence as [0, 2, 1, 3]."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_156_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_156_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_156_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_156_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 2, 1, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we can analyze the actions happening in each image as part of a sit-up exercise. Here\u2019s the step-by-step explanation:\n\n1. **Image 0:** \n   - The person is lying flat on the mat with knees bent, preparing to start a sit-up. This is typically the initial position in a sit-up sequence.\n\n2. **Image 2:** \n   - Here, the person has lifted their upper body slightly off the mat, starting the sit-up motion. This represents the movement from the initial, flat position toward sitting up.\n\n3. **Image 1:** \n   - The person is halfway through the sit-up, with the elbows closer to the knees as they continue to rise. This is further along in the sit-up motion.\n\n4. **Image 3:** \n   - The person is in the highest position of the sit-up, sitting upright with elbows touching or nearly touching the knees. This is the peak of the sit-up, completing the sequence.\n\nFollowing these observations, the sequence [0, 2, 1, 3] logically portrays the progression of a sit-up from start to finish."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_157_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_157_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_157_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_157_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_157_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 4, 2, 0, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we need to analyze the baseball pitcher's motion. Here's a step-by-step explanation for the sequence [1, 4, 2, 0, 3]:\n\n1. **Image 1**: \n   - The pitcher is in the winding-up phase of the pitch. His back leg is lifted, indicating the beginning of the pitching motion.\n\n2. **Image 4**: \n   - The pitcher has progressed further in the motion. His arm is moving forward and his torso is starting to rotate. This indicates he is transitioning from the wind-up to the delivery.\n\n3. **Image 2**: \n   - The pitcher's arm is fully extended back, and his body begins to face forward. His stride has lengthened, showing he is advancing the ball forward.\n\n4. **Image 0**: \n   - The pitcher has shifted his weight forward, his arm is coming over the top, and his body is opening up toward the target. This indicates that he is at the peak of his throw.\n\n5. **Image 3**: \n   - The pitcher's motion is complete. His arm has followed through, and his body is rotated. This shows the end of the pitch as he releases the ball.\n\nThis sequence logically represents the complete motion of a pitch from the wind-up to the release."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_158_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 2, 1, 4, 0, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the sequence [3, 2, 1, 4, 0, 5], let's analyze each image and the progression of the lifting motion:\n\n1. **Image 3**: The lifter is in a squat position with the barbell resting on the shoulders. This suggests the starting point of lifting from a squat.\n\n2. **Image 2**: The lifter begins to extend upwards from the squat, starting the push upwards with the legs.\n\n3. **Image 1**: The lifter continues to rise, showing further extension of the legs and upward momentum.\n\n4. **Image 4**: The lifter is now almost fully extended, indicating the middle phase of the lift, transitioning to stand fully.\n\n5. **Image 0**: The lifter has reached a fully standing position with the barbell, indicating the peak of the lift.\n\n6. **Image 5**: The lifter returns to the starting squat position, completing the full movement cycle.\n\nThis step-by-step analysis shows the natural progression of a lifting exercise, where the lifter moves from a squat to a full stand and back down again."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_159_9.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 1, 8, 6, 0, 3, 7, 9, 4, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine why the sequence [2, 1, 8, 6, 0, 3, 7, 9, 4, 5] is correct for these images, we should focus on the key actions involved in performing a clean and press weightlifting exercise. Each step in the sequence shows a progression in this exercise. \n\n1. **Image 2**: Starting position with the barbell resting mid-thigh, preparing to lift.\n2. **Image 1**: Beginning the pull, lifting the barbell upwards.\n3. **Image 8**: The barbell is at chest level, transitioning to the next phase.\n4. **Image 6**: The lifter is dropping under the bar, elbows moving forward.\n5. **Image 0**: The lifter is in the squat position with barbell racked on shoulders.\n6. **Image 3**: Standing up from the squat position, preparing to press.\n7. **Image 7**: Beginning the press, extending arms upwards.\n8. **Image 9**: Completing the press, arms fully extended.\n9. **Image 4**: Lowering the barbell down back to shoulders.\n10. **Image 5**: Returning to the resting position, barbell at mid-thigh.\n\nEach image transition shows a logical progression of the clean and press movement, from initial lift to final press and return to resting position."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_160_10.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 7, 10, 0, 9, 4, 3, 6, 1, 2, 8].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we need to analyze the key movements and positions involved, as it appears to be a physical exercise progression. Here's a step-by-step explanation:\n\n1. **Image 5**: This likely starts the sequence, as the person's torso is elevated, suggesting the beginning of a sit-up.\n\n2. **Image 7**: The torso is slightly more reclined compared to Image 5, indicating movement towards a lying position.\n\n3. **Image 10**: The person reclines further, approaching the ground, midway through the sequence.\n\n4. **Image 0**: The person\u2019s torso is even lower, close to the ground, continuing the descent.\n\n5. **Image 9**: This represents reaching the furthest back position, with the back near or on the ground.\n\n6. **Image 4**: The torso starts moving upward, beginning to return to the original position.\n\n7. **Image 3**: The person is rising further, continuing the sit-up motion.\n\n8. **Image 6**: The torso is elevated more, on the path to returning to the starting position.\n\n9. **Image 1**: Further elevation indicates nearing the upright starting posture.\n\n10. **Image 2**: This shows the person close to the upright position again, finishing the sit-up.\n\n11. **Image 8**: The sequence concludes with the person back in the original seated position.\n\nThis order reflects a typical sit-up exercise, transitioning from a seated start (Image 5), to a reclining/lying position (Image 9), and then returning to the seated position to complete the motion (Image 8)."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_161_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_161_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_161_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_161_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 0, 2, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we need to analyze the movement depicted in each one. The images show a person doing a pull-up, so the sequence should reflect the stages of this exercise.\n\n1. **Image 3**: The person is hanging from the bar with arms fully extended. This is typically the starting position of a pull-up.\n\n2. **Image 0**: The person begins to pull themselves up towards the bar. Their arms are bending, and they are moving upward.\n\n3. **Image 2**: The person is further along in the pull-up, with their chin approaching the bar, indicating they are nearing the peak of the movement.\n\n4. **Image 1**: The person is at the top of the pull-up, with their chin above the bar. This is the peak position before reversing the movement.\n\nThe sequence [3, 0, 2, 1] reflects the chronological order of stages in performing a pull-up, moving from the starting position to the peak."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_162_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 3, 1, 4, 5, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence, we need to analyze the motion depicted in the images, which likely captures phases of a weightlifting front squat. Let\u2019s examine the sequence using the given order: [0, 3, 1, 4, 5, 2].\n\n1. **Image 0 (Start Position):**\n   - The lifter is at the initial phase, standing straight with the barbell positioned on their shoulders.\n\n2. **Image 3:**\n   - The lifter begins to squat down. The hips start moving backward and the knees begin to bend.\n\n3. **Image 1:**\n   - The lifter is further into the squat, reaching closer to the bottom position. The legs are more bent compared to Image 3.\n\n4. **Image 4:**\n   - The lifter reaches the deepest point of the squat. This is the lowest position, with thighs parallel to or below parallel to the ground.\n\n5. **Image 5:**\n   - The lifter begins ascending from the squat. The movement is a reversal of the descent, pushing the hips forward and extending the knees.\n\n6. **Image 2 (Completion of Movement):**\n   - The lifter stands fully upright again, completing the squat. This mirrors the initial standing position with the barbell.\n\nThis step-by-step examination matches the typical flow of a squatting movement, starting from standing, descending into the squat, reaching the lowest position, then ascending back to standing."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_163_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 3, 5, 2, 0, 4].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the correct sequence of these images, we need to look at the key indicators that show the progression of a baseball pitching motion. Let's break it down according to the sequence [1, 3, 5, 2, 0, 4]:\n\n1. **Image 1**: The set-up position where the pitcher is standing still, about to begin the pitching motion. The pitcher is in a balanced position, preparing to raise his leg.\n\n2. **Image 3**: The pitcher lifts his leg, indicating the start of the pitching motion. This is where momentum begins to build.\n\n3. **Image 5**: The body is starting to transition forward. The pitcher begins the motion of throwing by extending the leg and preparing the arm.\n\n4. **Image 2**: The pitcher is in the mid-throw position. The arm is moving forward, and momentum is building up. \n\n5. **Image 0**: The pitcher has thrown the ball. The arm is fully extended, and the body is following through with the throw.\n\n6. **Image 4**: The follow-through. The pitcher completes the motion with the arm finishing low and the body continuing forward. This is the final stage, depicting the natural conclusion of the pitch.\n\nEach step progresses logically through the stages of a baseball pitch, from preparation to follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_164_10.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine why the sequence is [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1], we'll analyze the lifting motion step-by-step:\n\n1. **Image 4**: The barbell is on the chest, indicating the starting point of the lift.\n2. **Image 10**: The barbell is slightly elevated, suggesting the lifter has just begun to push the weight upward.\n3. **Image 3**: The barbell is higher than in the previous image, showing continued upward movement.\n4. **Image 2**: The barbell is almost halfway up, illustrating further progress in the lift.\n5. **Image 8**: The barbell is nearing the peak position, indicating that the lift is advancing.\n6. **Image 7**: The barbell is at the highest point, marking the top of the lift.\n7. **Image 0**: The barbell begins descending, starting the lowering phase.\n8. **Image 9**: The barbell is slightly lowered from the highest point, continuing the descent.\n9. **Image 5**: The barbell is halfway down, showing further downward movement.\n10. **Image 6**: The barbell is nearing the chest, concluding the descent phase.\n11. **Image 1**: The barbell rests on the chest, completing the sequence.\n\nThis sequence logically represents a single bench press lift from start to finish."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_165_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_165_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_165_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_165_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_165_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 4, 1, 3, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nThe sequence represents a series of pull-ups. Here's the step-by-step explanation for the correct order [2, 4, 1, 3, 0]:\n\n1. **Initial Position (Step 2):**\n   - The person starts with arms fully extended and feet slightly off the ground. This is the initial hanging position before pulling up.\n\n2. **Beginning of Pull-Up (Step 4):**\n   - The person begins to pull up. You can see a slight bend in the elbows, indicating the start of the upward motion.\n\n3. **Midway Through Pull-Up (Step 1):**\n   - The person's elbows are bent more significantly, and the body is higher, showing significant progress in the pull-up.\n\n4. **Near the Top (Step 3):**\n   - The chin is almost at the level of the bar, showing that the person is nearing the completion of the pull-up.\n\n5. **Completion (Step 0):**\n   - The person's chin is above the bar, completing the upward motion of the pull-up.\n\nThis sequence correctly shows the progression of a pull-up from start to completion."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_166_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [7, 2, 5, 4, 1, 0, 6, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the sequence [7, 2, 5, 4, 1, 0, 6, 3] of the images, follow these key steps:\n\n1. **Starting Action (Image 7)**:\n   - The cup is tilted and the pouring starts. This is the initial action, showing the cup is full.\n\n2. **Continuation (Image 2)**:\n   - The pouring continues, maintaining the same flow and amount reducing from the initial state.\n\n3. **Progression (Image 5)**:\n   - The liquid level in the cup being poured decreases further, indicating progress in the pouring sequence.\n\n4. **Further Progression (Image 4)**:\n   - The liquid level in the original cup reduces even more, continuing the action seamlessly.\n\n5. **Approach to Finish (Image 1)**:\n   - The pouring slows as the initial cup starts approaching being empty, showing nearing completion.\n\n6. **Near Completion (Image 0)**:\n   - The pouring cup is almost empty, suggesting the end of the pouring.\n\n7. **Final Drops (Image 6)**:\n   - Only a small amount of liquid is left in the pouring cup, marking the end of the liquid transfer.\n\n8. **Completion (Image 3)**:\n   - The cup is fully emptied, and both cups are now settled on the table.\n\nThe sequence logical steps are guided by the progressively decreasing level of liquid in the pouring cup, culminating in an empty state."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_10.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_11.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_12.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_13.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_167_14.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain why the sequence [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11] is correct, let\u2019s analyze the progression of an exercise performed in a series of movements, likely a weightlifting sequence like a clean or jerk. Here\u2019s a step-by-step explanation of the key indicators justifying the order:\n\n1. **Initial Position (4)**: The starting stance with the barbell on the floor. The lifter is crouched and ready to lift.\n\n2. **Pulling Phase (6, 7)**: The lifter begins to pull the barbell upwards. The transition from the ground to mid-thigh is crucial.\n\n3. **Acceleration (1)**: The barbell is pulled further up as the lifter straightens their legs and torso for maximum upward velocity.\n\n4. **Catch Phase (5)**: The lifter moves to catch the barbell at shoulder height. This involves a partial squat to secure the barbell.\n\n5. **Stabilization (10, 12)**: The lifter stands up from the squat position, ensuring balance and stability with the barbell firmly on the shoulders.\n\n6. **Jerk Preparation (2)**: The lifter adjusts their feet and prepares for the second portion, the jerk.\n\n7. **Dip Drive (0)**: The lifter bends their knees slightly and then drives upwards to propel the barbell overhead.\n\n8. **Final Movement (14, 13)**: The barbell is extended fully overhead, and the lifter achieves lockout.\n\n9. **Stabilization Overhead (8, 9)**: The lifter holds the barbell overhead and adjusts their position for stability.\n\n10. **Return to Ground (3, 11)**: The lifter completes the lift by carefully lowering the barbell back to the starting position.\n\nThis sequence reflects the technical movements involved in Olympic weightlifting, specifically capturing the key stages from start to finish."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_168_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_168_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_168_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_168_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 0, 3, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand why the sequence [1, 0, 3, 2] is correct, let's analyze each step in the context of a tennis serve:\n\n1. **Image 1 (Index 1 in Order):** \n   - The person is standing relaxed with the racket in one hand and two balls in the other. \n   - This position indicates the preparatory stage before the serve begins, where the server is selecting a ball.\n\n2. **Image 0 (Index 0 in Order):**\n   - The server is now positioning to serve, still holding the tennis ball in the hand that's resting by their side.\n   - This shows the stance before tossing the ball for the serve, indicating the next step in the sequence.\n\n3. **Image 3 (Index 3 in Order):**\n   - The player is in the process of tossing the ball and preparing to swing, with both arms extended.\n   - This stage shows the serve's wind-up phase, where the ball is tossed and the racket is brought back.\n\n4. **Image 2 (Index 2 in Order):**\n   - Here, the player is fully extended upward, in the motion of hitting the ball.\n   - This is the final part of the service action where the ball is struck.\n\nFollowing these steps shows a logical progression from the beginning of a tennis serve to its completion."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_169_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 5, 1, 3, 4, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand why the sequence [0, 5, 1, 3, 4, 2] is correct, let's analyze each step:\n\n1. **Image 0**: This image shows the weightlifter in the initial position with the barbell high and moving down toward the chest. This represents the start of the bench press sequence.\n\n2. **Image 5**: The barbell is slightly lower, indicating a continuation of the descent. This image follows Image 0 as the lifter further lowers the barbell.\n\n3. **Image 1**: The barbell is even closer to the chest, showing more progress in the descent. This image follows Image 5 as the barbell moves closer to the chest.\n\n4. **Image 3**: The barbell reaches the lowest point, touching or nearly touching the chest, marking the end of the downward movement. This logically follows Image 1.\n\n5. **Image 4**: The barbell begins to move upwards as the lifter starts to push it back up. This image follows Image 3 as the upward movement begins.\n\n6. **Image 2**: The barbell continues moving upwards, reaching a higher position, possibly back to the starting position. This image concludes the sequence as the lifter completes the bench press.\n\nEach step in the sequence shows a logical progression of the bench press movement, from start to finish, using the positioning of the barbell as a key indicator of order."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_170_8.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 7, 8, 4, 1, 6, 5, 3, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence from the given list [0, 7, 8, 4, 1, 6, 5, 3, 2], let's analyze each step depicted in the images:\n\n1. **Image 0**: The sequence begins with picking up the milk jug from the table. This indicates the start of the process.\n\n2. **Image 7**: The milk jug is being tilted towards the cup, a hint that the pouring action is about to start.\n\n3. **Image 8**: The milk begins to pour into the cup, showing the initial flow of milk.\n\n4. **Image 4**: The milk flow into the cup is stronger, indicating the continuation of pouring.\n\n5. **Image 1**: The milk fills the cup further, signaling the ongoing pour.\n\n6. **Image 6**: The jug is nearly vertical, showing the pouring action nearing completion.\n\n7. **Image 5**: The jug tilts back slightly, suggesting the slow down or end of the pouring process.\n\n8. **Image 3**: The jug is in the process of being moved away from the cup, indicating the end of pouring.\n\n9. **Image 2**: The jug is returned to an upright position and moved away from the cup, marking the completion of the sequence.\n\nEach step logically follows the progression of pouring milk from a jug into a cup, characterized by the position of the jug and the amount of milk in the cup. This order effectively captures the chronological flow of the action."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_171_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 5, 3, 1, 4, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine why the sequence [2, 5, 3, 1, 4, 0] is correct, we need to analyze the images based on the movement of the person likely completing a lifting exercise, probably a clean or a lift from the ground with a barbell.\n\n### Step-by-step Analysis:\n\n1. **Image 2**:\n   - The sequence begins here as the person is in a deep squat position with the barbell in front of them, preparing to stand upright. This represents the initial part of the lift where the person would begin to rise.\n\n2. **Image 5**:\n   - The person has begun to straighten their legs, raising their body higher from the deep squat. This indicates an upward movement as they initiate standing.\n\n3. **Image 3**:\n   - The lifter is now at a higher squat position, furthering the motion initiated in image 5. The barbell is being lifted further upwards.\n\n4. **Image 1**:\n   - Here, the person appears to be transitioning from the squat to a standing position. The legs are more extended, showing progress toward standing.\n\n5. **Image 4**:\n   - The person is now almost fully upright with the barbell in front of them. This indicates the lift is nearing completion as they continue to stand fully.\n\n6. **Image 0**:\n   - Finally, the person is fully standing, completing the lift. This represents the final phase of the movement where the lift is stable and complete.\n\n### Conclusion:\n\nThe sequence captures the phases of a lifting movement, likely a clean, from deep squat to standing fully upright with a barbell. The progression in leg extension and bar position from each image supports the chronological order of completion as shown in the sequence [2, 5, 3, 1, 4, 0]."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_172_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 0, 3, 4, 2, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we need to observe the action steps captured in the series. Let's analyze them in the order provided by the list: [1, 0, 3, 4, 2, 5].\n\n1. **Image 1**: The person is at the initial stage of a tennis serve, holding a preparatory stance with one leg raised, ready to begin the swing.\n\n2. **Image 0**: The stance is slightly advanced, with the person's body beginning to move forward, signaling the start of the serve motion.\n\n3. **Image 3**: The person\u2019s body has moved further forward with the leg starting to extend, indicating a continuation of the serving motion.\n\n4. **Image 4**: The leg is nearing full extension, and the person is in the process of swinging through the serve.\n\n5. **Image 2**: The leg is fully extended, and the person has completed the swing of the serve, showing full body extension and follow-through.\n\n6. **Image 5**: The action concludes with the person recovering and finishing the serving motion, preparing to regain balance.\n\nOverall, this sequence correctly represents the natural progression of a tennis serve from preparation, through the swing, to follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_173_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_173_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_173_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_173_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 1, 0, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct order of the images in the sequence, we must analyze the action of a person bowling. Let's break down each step:\n\n1. **Image 3**:\n   - The bowler is in the final stage of the approach, stepping forward, and preparing to deliver the ball.\n   - You can see the arm extended backward, which indicates the wind-up phase just before releasing the ball.\n\n2. **Image 1**:\n   - The bowler is at the moment of release.\n   - The ball is being let go, slightly further down the lane, with the arm following through forward.\n   - It\u2019s evident that this follows the preparation step from Image 3 as the motion continues smoothly.\n\n3. **Image 0**:\n   - The bowler has completed the release, with the arm fully extended in the follow-through position.\n   - This follow-through suggests the motion after the ball has already been delivered, making it the next logical step after the release.\n\n4. **Image 2**:\n   - The bowler's arm has swung to the side, and the body is in a relaxed posture, indicating the completion of the throw.\n   - This position marks the resolution of the movement sequence and typically happens last, as the bowler observes the ball rolling towards the pins.\n\nThis logical progression from the wind-up to release, follow-through, and completion of the swing justifies the correct order: [3, 1, 0, 2]."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_174_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 6, 5, 0, 1, 2, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nThe images represent a sequence of baseball pitching. Let's explain the correct order [4, 6, 5, 0, 1, 2, 3] step-by-step:\n\n1. **Image 4**: The pitcher is standing still with both feet on the ground and the ball in the glove. This represents the initial stance before starting the pitching motion.\n\n2. **Image 6**: The pitcher begins to lift his lead leg, showing the early phase of the pitching windup. This is the first movement after the initial stance.\n\n3. **Image 5**: The pitcher continues to lift his lead leg higher and prepares to shift his weight forward, indicating the progression of the windup.\n\n4. **Image 0**: The pitcher is now advancing into the stride towards the plate. The lead leg begins to move forward, and the throwing arm is starting to prepare for the throw.\n\n5. **Image 1**: The pitcher reaches the maximum stride position. The lead foot is about to land, and the throwing arm is moving towards the release point.\n\n6. **Image 2**: The pitcher is at the point of releasing the ball. The throwing arm is extended, indicating the ball has just been thrown.\n\n7. **Image 3**: The pitcher follows through after releasing the ball. The body rotates further, and the momentum carries the back leg upwards.\n\nThese descriptions indicate the order of movements required to complete a baseball pitch from start to finish."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_175_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 0, 1, 2, 4, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine why the sequence [5, 0, 1, 2, 4, 3] is correct, let's evaluate the series of images based on the sit-up exercise depicted:\n\n1. **Image 5**: The person is lying flat on their back, indicating the starting position of a sit-up.\n\n2. **Image 0**: The person begins to engage their core, starting to lift their shoulders off the ground.\n\n3. **Image 1**: The person lifts further, continuing through the range of motion for a sit-up.\n\n4. **Image 2**: The person reaches a midway point, sitting up partially while still having some distance to cover.\n\n5. **Image 4**: The person is nearing the top of the sit-up, almost fully upright.\n\n6. **Image 3**: The person reaches the peak of the sit-up, sitting fully upright.\n\nThis sequence shows a logical progression of performing a sit-up from the starting position to completion. Each step reflects a gradual increase in the angle of the torso relative to the ground, moving from lying flat to sitting up fully."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_176_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_176_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_176_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_176_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 2, 0, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the correct sequence [3, 2, 0, 1] for these images, I'll describe the step-by-step process, focusing on the key actions depicted:\n\n1. **Image 3**: The lifter starts with the barbell above their chest, arms fully extended. This position indicates the initial phase of the bench press, where the lifter is ready to begin the descent.\n\n2. **Image 2**: The barbell is gradually lowered towards the chest. This image captures the second phase, where the lifter is in the process of lowering the barbell.\n\n3. **Image 0**: The barbell is at its lowest point, touching or near the chest. This indicates the final part of the descent before the lifter begins to press the barbell back up.\n\n4. **Image 1**: The lifter is pressing the barbell back up, arms extending again. This image captures the upward movement, indicating the lifter is returning to the starting position, completing the bench press cycle.\n\nThis sequence [3, 2, 0, 1] effectively represents the flow of a bench press exercise: starting position, descent, lowest position, and ascent."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_177_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 0, 4, 1, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nThe sequence involves a workout, likely a squat, with these steps showing the movement progression. Here's a step-by-step explanation of why the sequence [2, 3, 0, 4, 1, 5] is correct:\n\n1. **Image 2**: The individual is starting the lift, bar slightly below shoulder level, signifying the beginning of the squat.\n\n2. **Image 3**: The squat progresses as the person lowers their body more deeply into the squat position. The barbell is lowered further as the knees bend.\n\n3. **Image 0**: The deepest point of the squat. The individual reaches the lowest squat position with the thighs parallel, or slightly below parallel, to the floor.\n\n4. **Image 4**: The person begins to rise from the deepest squat position. The thighs start to elevate, indicating the upward movement.\n\n5. **Image 1**: The upward movement continues further. The legs are extending as the person lifts the barbell upwards.\n\n6. **Image 5**: The completion of the lift. The individual is nearly back to a standing position, demonstrating the end of the squat movement.\n\nThis sequence illustrates the correct form of a squat from beginning to end, showing a fluid transition from standing to squat and back to standing."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_178_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_178_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_178_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_178_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 2, 0, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of the images representing a push-up exercise, we need to observe the body position changes:\n\n1. **Image 1**: This is the starting position where the person is in the lowered position of a push-up. It indicates the beginning of a push-up cycle.\n\n2. **Image 2**: The person's body begins to rise as they push up from the ground. This indicates the upward phase of the push-up.\n\n3. **Image 0**: This image shows the peak position where the person is fully elevated above the mat, arms extended. This is the top position of a push-up.\n\n4. **Image 3**: The person is lowering back towards the ground, indicating the descent phase of the push-up, completing the cycle and preparing to start a new one.\n\nThis order (1, 2, 0, 3) reflects the natural progression of a push-up exercise from start to finish."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_179_5.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 1, 5, 3, 2, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of the images, we'll follow the progression of a squat exercise. Each image shows a different stage of the lift:\n\n1. **Image 4 (Start)**: The lifter begins in the standing position with the barbell supported on the shoulders and is about to start squatting.\n\n2. **Image 1**: The lifter slightly lowers into the squat, beginning the descent.\n\n3. **Image 5**: The squat deepens, showing further descent as the lifter moves closer to the bottom of the squat.\n\n4. **Image 3**: The lifter reaches the lowest point of the squat, the deepest part of the movement.\n\n5. **Image 2**: The lifter starts ascending, pushing back up from the bottom position.\n\n6. **Image 0 (End)**: The lifter returns to the standing position, completing the squat.\n\nThis sequence represents the complete motion of a squat, from start to finish, based on the visible changes in the lifter's position throughout the exercise."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_180_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_180_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_180_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_180_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 1, 0, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand why the sequence [3, 1, 0, 2] is correct, let's analyze the images and the corresponding actions in a baseball pitch:\n\n1. **Image 3:**\n   - The pitcher is standing upright and has just started the pitching motion by taking a step forward with one leg raised.\n   - This indicates the beginning of the pitching sequence.\n\n2. **Image 1:**\n   - The pitcher is further into the pitching motion. His leg is lowered, and he is preparing to release the ball.\n   - The pitcher is transitioning from the windup to the release point.\n\n3. **Image 0:**\n   - The pitcher has just released the ball. His arm is fully extended, and the ball is traveling towards the batter.\n   - This marks the ball release point, which naturally follows the windup.\n\n4. **Image 2:**\n   - The ball is closer to the batter, and the pitcher has completed his follow-through.\n   - This stage occurs after the ball release, completing the sequence.\n\nBy examining the pitcher's body position and the ball's location, the motion of the pitch naturally follows from the initial windup (Image 3), preparation (Image 1), release (Image 0), and follow-through (Image 2)."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_181_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_181_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_181_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_181_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 1, 3, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of the images, let's examine the key indicators related to the movement shown:\n\n1. **Starting Position (Image 2):** In this image, the person's body is closest to the ground, indicating the position where the push-up begins from the lowest point.\n\n2. **Initial Movement Up (Image 1):** Here, the person begins pushing up, slightly raising the body from the ground compared to the first image.\n\n3. **Continuation of Upward Movement (Image 3):** The person's body is further elevated, indicating a continued upward push, closer to the completed push-up position.\n\n4. **Completion of Movement (Image 0):** This image shows the person's body in the highest position, completing the push-up cycle before potentially going back down.\n\nEach step follows the natural progression of a push-up movement, from lowest to highest position, justifying the order [2, 1, 3, 0]."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_10.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_11.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_12.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_13.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_14.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_182_15.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the sequence, let's break down the key indicators in the images that justify the order:\n\n1. **Starting Position**: Image 10 shows the lifter in the starting position with the barbell on the ground. This is the initial step of a weightlifting sequence.\n\n2. **Lift Initiation**: Images 5 and 6 depict the initial phase of the lift. The lifter begins to pull the barbell upwards from the ground.\n\n3. **Mid-Pull**: Image 4 shows the lifter at the mid-pull stage, where the barbell is moving upwards and nearing the chest.\n\n4. **Transition Phase**: Images 15 and 14 demonstrate the transition phase as the lifter prepares to catch the barbell, with knees beginning to bend.\n\n5. **Catch Phase**: Images 12 and 9 illustrate the barbell being caught on the shoulders, requiring the lifter to squat slightly.\n\n6. **Standing Up**: Image 11 shows the lifter standing up straight with the barbell, following the catch.\n\n7. **Stabilization**: Images 3 and 13 represent the stabilization stage, where the lifter holds the barbell steady overhead.\n\n8. **Lowering the Barbell**: Images 2 and 0 display the lifter gently lowering the barbell back towards starting position.\n\n9. **Resetting**: Images 1 and 8 show the lifter standing straight with the barbell back in its starting position on the ground, completing the cycle.\n\n10. **Completion**: Image 7 represents the completion of the sequence, with the lifter finishing the movement and resetting for another lift or ending the session.\n\nEach image represents a specific moment within a weightlifting sequence. The sequence follows the logical progression of a lift from start to finish, ensuring correct form and stability at each stage."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_183_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 3, 6, 7, 1, 4, 2, 5].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine why the sequence [0, 3, 6, 7, 1, 4, 2, 5] is correct, we need to analyze the actions in each image and observe the progression of movements. Here's a step-by-step explanation:\n\n1. **Image 0**: The individual is in an initial push-up position with arms extended. This is the starting position before initiating the push-up sequence.\n\n2. **Image 3**: The person has slightly bent arms, starting the descent phase of the push-up. This shows the continuation into the push-up movement.\n\n3. **Image 6**: The person has lowered further, nearing the bottom part of the descent phase, indicating progression in the push-up.\n\n4. **Image 7**: The individual has reached the lowest point in the push-up position, with arms fully bent and chest close to the floor. This represents the midpoint of the exercise.\n\n5. **Image 1**: The person begins to push upward, shown by slightly more extended arms. This indicates the start of the ascent phase.\n\n6. **Image 4**: The individual continues to push further upwards, with arms extending more than in Image 1, illustrating progression in the push-up ascent.\n\n7. **Image 2**: The arms are almost fully extended, marking near completion of the ascent phase.\n\n8. **Image 5**: The person returns to the initial starting position, with arms fully extended. This completes one full push-up cycle.\n\nThe sequence follows the natural progression of a push-up movement from start to finish, as outlined above."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_184_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_184_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_184_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_184_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_184_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [4, 0, 3, 2, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nThe sequence of images depicts a bowling action. Here\u2019s a step-by-step explanation of the correct order [4, 0, 3, 2, 1]:\n\n1. **Image 4**: This is the starting position where the bowler is holding the ball and beginning to approach the lane.\n\n2. **Image 0**: The bowler is in the early stages of the swing, bringing the ball backward as they prepare to release it.\n\n3. **Image 3**: The bowler has completed the backswing and is starting to bring the ball forward.\n\n4. **Image 2**: The bowler is releasing the ball, evident from how the arm extends forward.\n\n5. **Image 1**: The follow-through is captured here, where the bowler\u2019s arm continues forward after releasing the ball.\n\nThese steps ensure that the sequence showcases the natural flow of a bowling action from preparation to follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_185_10.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the correct sequence of images, I'll describe a typical weightlifting (specifically a clean) motion and relate the images to the stages of this movement. The sequence [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3] follows this flow:\n\n1. **Image 0**: The initial position where the person is beginning to lift the barbell off the ground. This is the starting point of the clean.\n\n2. **Image 1**: The person has just initiated the lift, pulling the bar upward, maintaining the initial momentum.\n\n3. **Image 9**: Here, the bar is being lifted higher, nearing the transition phase where it reaches chest height.\n\n4. **Image 4**: The bar is now at the shoulders, preparing for the catch. The lifter starts to drop under the bar.\n\n5. **Image 10**: The lifter is in the process of catching the bar on their shoulders, transitioning into a squat to stabilize.\n\n6. **Image 2**: The bar is fully caught on the shoulders, and the lifter is using momentum to start standing up, showing the squat position.\n\n7. **Image 7**: The lifter begins to stabilize themselves, adjusting the grip and stance to prepare for the stand.\n\n8. **Image 8**: Standing up from the squat, gaining full control of the bar at shoulder height.\n\n9. **Image 5**: The lifter is nearly upright, with minimal bend in the knees as they finish the ascent.\n\n10. **Image 6**: Completed the lift, standing fully upright with the bar stable on the shoulders.\n\n11. **Image 3**: The final image where the lift is complete, and the lifter is stabilized, marking the end of the sequence.\n\nThis sequence correctly follows the phases of a clean lift from start to finish, focusing on bar position, body movement, and stabilization."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_186_10.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [9, 5, 1, 3, 10, 4, 2, 0, 7, 6, 8].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the correct sequence, we need to analyze the process of a baseball pitcher's delivery. Here\u2019s the step-by-step explanation:\n\n1. **Image 9**: The pitcher begins by taking the initial stance on the mound, preparing to start the pitch. This is the setup before any motion begins.\n\n2. **Image 5**: The pitcher starts the windup by bringing the hands together, beginning the motion.\n\n3. **Image 1**: Continuing the windup, the pitcher lifts one leg while keeping the pitching arm still retracted. This helps to build momentum.\n\n4. **Image 3**: The leg is raised higher, and the body starts to rotate, transitioning into the stride phase, where the pitcher shifts weight forward.\n\n5. **Image 10**: The stride continues, with the pitcher's body moving forward, aligning towards the throw.\n\n6. **Image 4**: The arm is now fully extended back, building up energy for the throw. \n\n7. **Image 2**: The pitcher's body is fully rotating, and the leg starts to extend towards the plate, indicating the throw is imminent.\n\n8. **Image 0**: The arm is moving forward rapidly. This is where the pitch is about to be released.\n\n9. **Image 7**: The arm is now fully extended forward, with the ball released. It's at the peak of the throwing motion.\n\n10. **Image 6**: The follow-through begins as the pitcher completes the throwing motion, with the body moving forward.\n\n11. **Image 8**: The motion concludes with the full follow-through, as the pitcher finishes the throw, and the body faces the plate.\n\nEach step captures a critical phase in a baseball pitch, ensuring the pitcher builds momentum and accuracy, ending with a complete follow-through. The order reflects the natural progression of a pitcher's motion."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_187_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_187_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_187_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_187_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_187_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [1, 0, 3, 2, 4].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand the sequence of images depicting a sit-up exercise, follow these steps, based on movement progression:\n\n1. **Starting Position (Image at Index 1):**\n   - The individual is lying flat on the exercise mat with hands behind the head. This is the initial position before starting the sit-up.\n\n2. **Initial Crunch (Image at Index 0):**\n   - The head and shoulders are lifted slightly off the ground. This marks the beginning of the sit-up movement.\n\n3. **Further Crunch (Image at Index 3):**\n   - The torso lifts further from the mat, advancing the sit-up. The person is continuing to rise towards a seated position.\n\n4. **Peak Position (Image at Index 2):**\n   - The person is at the highest point of the sit-up, with the torso off the ground. This is typically the endpoint before reversing the motion.\n\n5. **Return to Start (Image at Index 4):**\n   - The individual returns to a slightly lifted position again, on the way back down to the starting position.\n\nThis sequence accurately reflects the natural progression of a sit-up exercise from beginning to end."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_188_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_188_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_188_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_188_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 0, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence for the golf swing shown in the images, we must analyze the stages of the swing in order:\n\n1. **Neutral Stance (Image 2)**\n   - The golfer is standing in a ready position, relaxed, with the club behind the ball, preparing for the swing. This is the starting point.\n\n2. **Backswing (Image 3)**\n   - The golfer's club is raised, and the body is twisted slightly away from the ball. This is achieved by the golfer twisting their torso and shifting their weight to the back foot as they prepare to generate power.\n\n3. **Top of the Backswing (Image 0)**\n   - The golfer's club is at the highest point behind their head, completing the backswing. The body is fully coiled, and maximum rotational tension is achieved.\n\n4. **Downswing/Impact (Image 1)**\n   - The swing is in progress with the club moving toward the ball for impact. The body weight shifts forward, and the swing follows through the ball.\n\nBy considering these natural progressions of a golf swing, you can see how the sequence [2, 3, 0, 1] reflects the correct chronological order from preparation to impact."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_189_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [5, 2, 3, 0, 6, 4, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we need to follow the changes in the level of liquid being poured between cups. Here's a step-by-step explanation:\n\n1. **Image 5**: \n   - The pouring begins, and the cup is relatively full. This suggests it is the start of the sequence.\n\n2. **Image 2**: \n   - The cup is slightly less full as more liquid pours out. This indicates it's continuing from the first pour.\n\n3. **Image 3**: \n   - The cup is even less full now, showing sequential pouring.\n\n4. **Image 0**: \n   - The cup is almost empty, as only a small amount of liquid remains at the bottom.\n\n5. **Image 6**: \n   - A new pour begins, refilling the cup. The cup starts to refill, indicating it follows the emptying.\n\n6. **Image 4**: \n   - The cup is fuller now, continuing from the refill started in the previous step.\n\n7. **Image 1**: \n   - Finally, the pouring stops, and the cup is nearly empty, marking the end of both pours.\n\nIn summary, the sequence follows the pattern of two pouring cycles: a full pour out until the cup is nearly empty, followed by a refill. The images capture the changes in liquid level that validate this order."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_190_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_190_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_190_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_190_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 0, 2, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo organize these images in a chronological sequence, let's break down the key actions involved in a tennis serve:\n\n1. **Preparation**: \n   - **Image 3**: The individual is in the starting position, holding the tennis ball and racket, getting ready to toss the ball for a serve.\n\n2. **Ball Toss**:\n   - **Image 0**: Here, the ball has been tossed into the air, and the player is positioned to make the serve with the racket ready.\n\n3. **Swing**:\n   - **Image 2**: This image captures the peak of the serving motion, with the player extending upward to hit the ball.\n\n4. **Follow-through**:\n   - **Image 1**: Finally, the player has completed the serve, following through with the racket after hitting the ball.\n\nThis sequence logically describes the steps involved in executing a tennis serve, from preparation to follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_10.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_191_11.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the correct sequence [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9], let's focus on the movement involved in the exercise depicted, which appears to be a muscle-up using rings:\n\n1. **Image 10**: The sequence begins with the person preparing in the mid position, likely ready to push themselves upward.\n\n2. **Image 5**: Here, the individual begins pulling up, with a focus on gathering strength from a lower position.\n\n3. **Image 7**: The person continues pulling themselves upward, gaining height and moving towards the rings.\n\n4. **Image 2**: Further upward progress is shown, with the body nearing the rings. This further demonstrates gathering momentum for a transition.\n\n5. **Image 3**: The individual is shifting the position with a notable increase in elevation. The shoulders perhaps are close to rings, transitioning from pull to push.\n\n6. **Image 4**: The body has shifted more upwards, with the head rising above the rings, displaying a transition towards the dip phase of the muscle-up.\n\n7. **Image 1**: The person is pushing upwards with the head above the rings, into the dip phase, showing significant vertical movement.\n\n8. **Image 6**: The individual is now entirely above the rings, fully in the dip position, representing the top of the muscle-up.\n\n9. **Image 11**: The person begins descending, demonstrating control as they lower themselves back towards the rings.\n\n10. **Image 8**: Further descent is seen here as they lower from the dip position back to a hanging position.\n\n11. **Image 0**: The body is lower now, nearly back to the starting point, showing a controlled descent.\n\n12. **Image 9**: The sequence completes here with the person back in the hanging position, demonstrating the end of the cycle.\n\nThis sequence reflects the typical muscle-up movement, starting from a pull-up, transitioning to a dip, and returning to the starting position."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_192_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 2, 3, 4, 0, 5, 1].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo understand why the sequence [6, 2, 3, 4, 0, 5, 1] is correct, let's break it down step-by-step, focusing on the body position during the pull-up:\n\n1. **Image 6**: The person starts in the hanging position with arms fully extended. This is the beginning of the pull-up.\n\n2. **Image 2**: The person begins to pull themselves up. The arms are slightly bent, showing the initial phase of the pull-up.\n\n3. **Image 3**: The person continues pulling up. The arms are bent more, indicating progress in the upward motion.\n\n4. **Image 4**: The person is nearing the top of the pull-up. The chin is close to the bar, and the arms are almost fully contracted.\n\n5. **Image 0**: The person reaches the peak position of the pull-up, where the chin is above the bar.\n\n6. **Image 5**: The descent begins. The person starts lowering themselves, with the arms beginning to extend again.\n\n7. **Image 1**: The person returns to the hanging position with arms fully extended, completing the pull-up cycle.\n\nThese steps demonstrate a logical progression of a pull-up exercise, starting from a hanging position, pulling up to the top, and returning to the initial position."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_193_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_193_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_193_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_193_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 2, 1, 3].\n\nHere\u2019s a concise step-by-step explanation:\n\nAnalyzing the sequence of images depicting a pull-up, let's justify the order according to the list [0, 2, 1, 3]:\n\n1. **Image 0:** \n   - **Starting Position:** The person's arms are fully extended, signifying the beginning of the pull-up motion. This indicates the initial phase before any upward movement begins.\n\n2. **Image 2:** \n   - **Partial Upward Motion:** The person has started to pull themselves up. The elbows are slightly bent, showing progression from the starting position without being at the peak of motion.\n\n3. **Image 1:** \n   - **Further Upward Motion:** The person is pulling up further with more elbow flexion compared to Image 2. It demonstrates continued upward movement but not yet reaching the peak.\n\n4. **Image 3:**\n   - **End of Movement (Peak):** The person's elbows are the most bent, and they are closest to the bar. This indicates the end of the pull-up motion before returning to the starting position.\n\nThis order reflects the natural progression of a pull-up movement from start (arms fully extended) to finish (at the peak of the pull-up)."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_194_6.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 5, 3, 1, 2, 4, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo explain the correct sequence [6, 5, 3, 1, 2, 4, 0] for the given images representing a series of pull-ups, let's analyze the motion step by step:\n\n1. **Image 6:** The individual is hanging from the bars with arms fully extended. This is typically the starting position in a pull-up sequence.\n\n2. **Image 5:** The arms start to bend slightly as the person begins to pull up, showing the initial upward movement.\n\n3. **Image 3:** The person is higher, indicating further progress in the pull-up, with arms bent more than in the previous image.\n\n4. **Image 1:** The individual is nearly at the top, with elbows more bent, indicating they are nearing the peak of the pull-up.\n\n5. **Image 2:** The person reaches the peak position; the chin is above the bar, showing the highest point of the pull-up.\n\n6. **Image 4:** The individual begins to lower themselves back down, arms starting to extend but still bent.\n\n7. **Image 0:** The person is near the bottom of the movement, with arms nearly fully extended, ready to start a new repetition or finish.\n\nThis sequence shows a full pull-up motion from hanging, pulling up, reaching the peak, and lowering down."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_195_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_195_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_195_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_195_3.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [2, 3, 1, 0].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of the images in a bowling action, we should analyze each image for the key stages of a bowling throw:\n\n1. **Image 2: Preparation**\n   - The bowler is holding the ball close to their chest, preparing for the approach. This is the initial stage.\n\n2. **Image 3: Approach**\n   - The bowler begins moving forward, starting the delivery of the ball. The arm is slightly extended backward, and the bowler is in motion towards the lane.\n\n3. **Image 1: Release**\n   - The bowler is further along in the lane, with the arm extended forward, indicating the ball is being released towards the pins.\n\n4. **Image 0: Follow-through**\n   - The bowler completes the throw, with the arm fully extended in the follow-through position after releasing the ball.\n\nThis sequence [2, 3, 1, 0] reflects the natural progression of actions in a bowling throw from preparation to follow-through."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_196_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_196_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_196_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_196_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_196_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 3, 4, 1, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct chronological order of the images based on the given sequence [0, 3, 4, 1, 2], let's analyze each step in the context of a bowling scenario:\n\n1. **Image 0**:\n   - The bowler is in the preparation phase, holding the bowling ball and readying his stance.\n\n2. **Image 3**:\n   - The bowler has started the forward swing. This indicates the beginning of the approach, with the motion directed towards releasing the ball.\n\n3. **Image 4**:\n   - The bowler has transitioned to the release position. The ball is near the floor, showing he is closest to letting it go down the lane.\n\n4. **Image 1**:\n   - The ball has just been released as the bowler completes the follow-through. His arm is extended, indicating the completion of the throw.\n\n5. **Image 2**:\n   - The follow-through is completed, with the bowler's leg and arm in a relaxed position after the throw. This is the final step with the ball already rolling down the lane.\n\nEach step progressively shows the actions of a bowler from preparation to follow-through, aligning with a logical sequence of a bowling throw."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_197_7.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [6, 0, 1, 7, 5, 4, 3, 2].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of the images, we need to analyze the movements involved in a squat exercise as depicted:\n\n1. **Image 6**: The person is at the starting position, preparing to lift the barbell. This is typically where the sequence begins, with the barbell on the rack and the lifter in a standing position.\n\n2. **Image 0**: The lifter has unracked the barbell and is standing upright with it on their shoulders. This position occurs just after lifting the barbell off the rack.\n\n3. **Image 1**: The lifter begins to squat down, starting the lowering phase. They are slightly bending their knees.\n\n4. **Image 7**: The lifter lowers further into the squat, continuing the downward movement.\n\n5. **Image 5**: The lifter reaches the lowest point of the squat, where thighs are parallel (or close) to the ground.\n\n6. **Image 4**: The lifter starts to rise from the squat, beginning the upward movement by pushing through the heels.\n\n7. **Image 3**: The lifter continues the upward phase, moving towards standing up fully with the barbell.\n\n8. **Image 2**: The lifter is almost back to the standing position, completing the squat.\n\nThese images depict the chronological progression of a squat exercise from unracking the barbell to performing the squat and then returning to the standing position."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_198_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_198_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_198_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_198_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_198_4.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [3, 2, 1, 0, 4].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct order of the sequence [3, 2, 1, 0, 4], let's analyze the key indicators in the images:\n\n1. **Starting Position (Image 3):** The person is fully extended downward, with arms straight and no upward pull initiated. This is the typical starting position for a pull-up.\n\n2. **Initiation of Upward Motion (Image 2):** The person begins to pull up, with elbows bending slightly and the body slightly rising.\n\n3. **Mid-Pull Position (Image 1):** The person is halfway through the pull-up, with elbows significantly bent and the body raised further.\n\n4. **Topmost Position (Image 0):** The person reaches the peak of the pull-up, with the chin above the bar and arms bent significantly.\n\n5. **Descending Motion (Image 4):** The person starts to move downward, returning to a more extended arm position, following through after reaching the top.\n\nThis sequence depicts a complete pull-up motion, logically progressing from a hanging start, through upward motion, to the peak, and then descending back to the start."
+      }
+    ]
+  },
+  {
+    "system_prompt": "Answer the following questions by considering all images.",
+    "image": [
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_0.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_1.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_2.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_3.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_4.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_5.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_6.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_7.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_8.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_9.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_10.jpg",
+      "./Continuous-temporal/temporal_ordering/temporal_ordering_199_11.jpg"
+    ],
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<image><image><image><image><image><image><image><image><image><image><image><image>\nPlease predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order."
+      },
+      {
+        "from": "gpt",
+        "value": "The correct order is [0, 8, 2, 6, 5, 4, 7, 3, 9, 1, 11, 10].\n\nHere\u2019s a concise step-by-step explanation:\n\nTo determine the correct sequence of these images, we'll analyze key indicators of motion and progression during the bench press exercise.\n\n1. **Image 0**: The starting point where the lifter is about to begin the lift. The bar is fully supported by the rack.\n\n2. **Image 8**: The lifter begins to lift the bar off the rack. The spotter is assisting, but the bar is still close to the rack.\n\n3. **Image 2**: The bar is now completely off the rack, and the lifter begins the descent. \n\n4. **Image 6**: The bar is lowering towards the lifter's chest, indicating the early phase of the bench press.\n\n5. **Image 5**: The bar is closest to the lifter's chest, marking the transition between the downward and upward movement.\n\n6. **Image 4**: The lifter starts pushing the bar back up. The spotter is assisting slightly.\n\n7. **Image 7**: The bar is halfway up during the upward movement, showing the lift in progress.\n\n8. **Image 3**: The bar continues ascending. The lifter is pushing the bar up towards the endpoint.\n\n9. **Image 9**: The bar is nearing the end of the upward movement, with the lifter extending their arms.\n\n10. **Image 1**: The bar returns to the initial position, fully lifted and at the top, slightly above the chest level.\n\n11. **Image 11**: The bar is being lowered back to the rack in preparation for resting.\n\n12. **Image 10**: The bar returns to rest on the rack, concluding the sequence.\n\nThis sequence reflects the natural progression of a bench press: starting at rest, descending to the chest, ascending to full extension, and returning to rest."
+      }
+    ]
+  }
+]
