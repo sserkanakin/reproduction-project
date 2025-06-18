@@ -13,8 +13,10 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # --- 1. CONFIGURATION ---
-BASE_MODEL_ID = "llava-hf/llava-interleave-qwen-0.5b-hf"
-FINETUNED_MODEL_PATH = "eval-pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-0.5b-merged/"
+# BASE_MODEL_ID = "llava-hf/llava-interleave-qwen-0.5b-hf"
+BASE_MODEL_ID = "llava-hf/llava-interleave-qwen-7b-hf"  # Base model ID
+# FINETUNED_MODEL_PATH = "eval-pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-0.5b-merged/"
+FINETUNED_MODEL_PATH = "eval-pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-7b-merged/"  # Finetuned model path
 TEST_DATA_PATH = "eval-pipeline/data/finetune_data/test.json"
 OPENAI_JUDGE_MODEL = "gpt-4o"
 
