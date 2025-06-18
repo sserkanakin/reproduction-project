@@ -176,3 +176,4 @@ cython_debug/
 /MMIU/
 /eval-pipeline/data/
 /eval-pipeline/lmms-finetune/
+/eval-pipeline/idefics2-8b-temporal-finetune/
