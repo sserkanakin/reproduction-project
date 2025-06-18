@@ -82,8 +82,16 @@ def get_model_prediction(model, processor, image_paths, question):
         "max_new_tokens": 512,
         "do_sample": False,
     }
-    with torch.no_grad():
-        generated_ids = model.generate(**inputs, **generation_kwargs)
+    try:
+        with torch.no_grad():
+            generated_ids = model.generate(**inputs, **generation_kwargs)
+    except torch.cuda.OutOfMemoryError as e:
+        print(f"CUDA out of memory error during generation: {e}")
+        torch.cuda.empty_cache()
+        return None
+    except Exception as e:
+        print(f"Error during model.generate: {e}")
+        return None
 
     input_len = inputs['input_ids'].shape[1]
     response_ids = generated_ids[:, input_len:]
