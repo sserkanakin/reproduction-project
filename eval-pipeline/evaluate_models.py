@@ -158,16 +158,16 @@ def main():
 
         base_response = get_model_prediction(base_model, base_processor, image_paths, question)
         if base_response:
-            print("Base Model Raw Response:", base_response + "...")
+            print("Base Model Raw Response:", base_response[:100] + "...")
             base_choice = get_option_from_response(openai_client, base_response, options)
             print(f"Judged Choice for Base Model: {base_choice}")
             if base_choice == ground_truth:
                 base_model_correct += 1
         # add to questions, ask the model to explain the reasoning
-        question = f"{context} {question} select only one option from the following: {options}. Just give the letter of the option, do not give any explanation."
+        # question = f"{context} {question} select only one option from the following: {options}. Just give the letter of the option, do not give any explanation."
         finetuned_response = get_model_prediction(finetuned_model, finetuned_processor, image_paths, question)
         if finetuned_response:
-            print("Finetuned Model Raw Response:", finetuned_response + "...")
+            print("Finetuned Model Raw Response:", finetuned_response[:100] + "...")
             finetuned_choice = get_option_from_response(openai_client, finetuned_response, options)
             print(f"Judged Choice for Finetuned Model: {finetuned_choice}")
             if finetuned_choice == ground_truth:
