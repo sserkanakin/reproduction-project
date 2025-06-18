@@ -164,7 +164,7 @@ def main():
             if base_choice == ground_truth:
                 base_model_correct += 1
         # add to questions, ask the model to explain the reasoning
-        question = f"{context} {question}"
+        question = f"{context} {question} select only one option from the following: {options}"
         finetuned_response = get_model_prediction(finetuned_model, finetuned_processor, image_paths, question)
         if finetuned_response:
             print("Finetuned Model Raw Response:", finetuned_response + "...")
