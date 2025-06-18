@@ -37,19 +37,25 @@ def load_model_and_processor(model_path):
 def get_model_prediction(model, processor, image_paths, question):
     """
     Generates a free-text response from a model using the modern `apply_chat_template` method.
-    This function now handles image loading internally.
+    This version has the CORRECTED dictionary format for images.
     """
-    # 1. Construct the 'content' list for the chat template
-    # This combines the question and the paths to your images
+    # 1. Add a debug print to verify the absolute path of the first image
+    if image_paths:
+        first_image_abs_path = os.path.abspath(image_paths[0])
+        print(f"DEBUG: Attempting to load first image from absolute path: {first_image_abs_path}")
+        if not os.path.exists(first_image_abs_path):
+            print(f"WARNING: This image path does not exist!")
+
+    # 2. Construct the 'content' list for the chat template with the CORRECTED format
     content = [{"type": "text", "text": question}]
     for img_path in image_paths:
-        content.append({"type": "image_url", "image_url": {"url": img_path}})
+        # CORRECTED LINE: Using the proper format {"type": "image", "url": path}
+        content.append({"type": "image", "url": img_path})
 
-    # 2. Structure the conversation for the chat template
+    # 3. Structure the conversation for the chat template
     messages = [{"role": "user", "content": content}]
 
-    # 3. Let `apply_chat_template` do all the work: loading, processing, and tokenizing
-    # This is the cleaner method from the documentation
+    # 4. Let `apply_chat_template` do all the work
     try:
         inputs = processor.apply_chat_template(
             messages,
@@ -58,17 +64,17 @@ def get_model_prediction(model, processor, image_paths, question):
             return_tensors="pt",
             return_dict=True
         )
-    except FileNotFoundError as e:
-        print(f"Error: An image file was not found. Please check paths in your JSON.")
-        print(e)
+    except Exception as e:
+        # Catching a broader range of exceptions that might occur during image loading
+        print(f"Error during processor.apply_chat_template: {e}")
         return None
 
-    # 4. Move inputs to GPU and ensure dtype consistency (to prevent our previous RuntimeError)
+    # 5. Move inputs to GPU and ensure dtype consistency
     inputs = {k: v.to("cuda") for k, v in inputs.items()}
     if 'pixel_values' in inputs:
         inputs['pixel_values'] = inputs['pixel_values'].to(model.dtype)
 
-    # 5. Generate the response
+    # 6. Generate the response
     generation_kwargs = {
         "max_new_tokens": 512,
         "do_sample": False,
@@ -76,7 +82,6 @@ def get_model_prediction(model, processor, image_paths, question):
 
     generated_ids = model.generate(**inputs, **generation_kwargs)
 
-    # We only need to decode the newly generated tokens
     input_len = inputs['input_ids'].shape[1]
     response_ids = generated_ids[:, input_len:]
 
