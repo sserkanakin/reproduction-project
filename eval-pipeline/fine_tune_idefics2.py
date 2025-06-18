@@ -187,7 +187,7 @@ if __name__ == "__main__":
     parser.add_argument("--val_file", type=str, required=True, help="Path to the validation JSON file.")
     parser.add_argument("--image_base_path", type=str, required=True, help="Base directory where image folders are stored.")
     parser.add_argument("--output_dir", type=str, required=True, help="Directory to save checkpoints and final model.")
-    parser.add_argument("--epochs", type=int, default=1, help="Number of training epochs.")
+    parser.add_argument("--epochs", type=int, default=20, help="Number of training epochs.")
     parser.add_argument("--batch_size", type=int, default=1, help="Per-device batch size.")
     parser.add_argument("--gradient_accumulation", type=int, default=8, help="Gradient accumulation steps.")
     parser.add_argument("--learning_rate", type=float, default=2e-5, help="Initial learning rate.")
