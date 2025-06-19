@@ -1,0 +1,806 @@
+{
+    "base_model_results": [
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 3, 1, 2, 4, 0, 6]\nB: [1, 3, 0, 6, 2, 5, 4]\nC: [4, 5, 3, 0, 1, 6, 2]\nD: [2, 1, 0, 6, 4, 5, 3]\nA: [5, 3, 1, 2, 4, 0, 6]\nB: [1, 3, 0, 6, 2, 5, 4]\nC: [4, 5, 3, 0, 1, 6, 2]\nD: [2, 1, 0, 6, 4, 5, 3]",
+            "raw_output": "A man is doing pull ups on a bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 6, 0, 1, 2, 3, 5]\nB: [5, 1, 0, 6, 2, 4, 3]\nC: [2, 6, 5, 4, 0, 1, 3]\nD: [0, 4, 1, 3, 6, 2, 5]\nA: [4, 6, 0, 1, 2, 3, 5]\nB: [5, 1, 0, 6, 2, 4, 3]\nC: [2, 6, 5, 4, 0, 1, 3]\nD: [0, 4, 1, 3, 6, 2, 5]",
+            "raw_output": "A woman lifting weights in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [0, 3, 2, 1]\nC: [1, 2, 3, 0]\nD: [1, 0, 2, 3]\nA: [3, 0, 2, 1]\nB: [0, 3, 2, 1]\nC: [1, 2, 3, 0]\nD: [1, 0, 2, 3]",
+            "raw_output": "A man stands on a tennis court holding a racket.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 7, 12, 10, 2, 5, 3, 9, 6, 4, 13, 8, 11, 1]\nB: [11, 13, 7, 3, 1, 8, 5, 0, 4, 6, 12, 9, 10, 2]\nC: [0, 2, 11, 13, 12, 9, 10, 1, 8, 4, 3, 6, 7, 5]\nD: [10, 5, 4, 13, 11, 12, 0, 6, 8, 7, 2, 9, 1, 3]\nA: [0, 7, 12, 10, 2, 5, 3, 9, 6, 4, 13, 8, 11, 1]\nB: [11, 13, 7, 3, 1, 8, 5, 0, 4, 6, 12, 9, 10, 2]\nC: [0, 2, 11, 13, 12, 9, 10, 1, 8, 4, 3, 6, 7, 5]\nD: [10, 5, 4, 13, 11, 12, 0, 6, 8, 7, 2, 9, 1, 3]",
+            "raw_output": "",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 3, 0, 1, 4]\nB: [1, 0, 2, 3, 4]\nC: [4, 2, 3, 1, 0]\nD: [0, 1, 2, 4, 3]\nA: [2, 3, 0, 1, 4]\nB: [1, 0, 2, 3, 4]\nC: [4, 2, 3, 1, 0]\nD: [0, 1, 2, 4, 3]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [2, 3, 0, 1, 4]\n\nThis is because the pictures show a man lifting a barbell in different positions, and the order of the pictures shows the man lifting the barbell from left to right.",
+            "parsed_option": "A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 3, 1, 2]\nB: [0, 1, 2, 3]\nC: [1, 0, 3, 2]\nD: [0, 2, 1, 3]\nA: [0, 3, 1, 2]\nB: [0, 1, 2, 3]\nC: [1, 0, 3, 2]\nD: [0, 2, 1, 3]",
+            "raw_output": "A man bowling in a brightly lit bowling alley with a view of a city street.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 3, 0, 1]\nB: [0, 1, 2, 3]\nC: [0, 1, 2, 3]\nD: [0, 2, 1, 3]\nA: [2, 3, 0, 1]\nB: [0, 1, 2, 3]\nC: [0, 1, 2, 3]\nD: [0, 2, 1, 3]",
+            "raw_output": "The man is doing sit-ups on the blue mat.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 4, 3, 0, 2]\nB: [2, 4, 0, 3, 1]\nC: [1, 4, 2, 0, 3]\nD: [4, 1, 0, 2, 3]\nA: [1, 4, 3, 0, 2]\nB: [2, 4, 0, 3, 1]\nC: [1, 4, 2, 0, 3]\nD: [4, 1, 0, 2, 3]",
+            "raw_output": "A man is throwing a ball from a mound.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 4, 1, 2, 3, 5]\nB: [1, 5, 2, 4, 3, 0]\nC: [3, 0, 1, 2, 4, 5]\nD: [3, 2, 1, 4, 0, 5]\nA: [0, 4, 1, 2, 3, 5]\nB: [1, 5, 2, 4, 3, 0]\nC: [3, 0, 1, 2, 4, 5]\nD: [3, 2, 1, 4, 0, 5]",
+            "raw_output": "A group of men are working out in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 1, 0, 8, 9, 4, 2, 6, 3, 7]\nB: [5, 1, 7, 6, 0, 4, 9, 3, 8, 2]\nC: [2, 1, 8, 6, 0, 3, 7, 9, 4, 5]\nD: [5, 7, 9, 8, 2, 0, 6, 4, 3, 1]\nA: [5, 1, 0, 8, 9, 4, 2, 6, 3, 7]\nB: [5, 1, 7, 6, 0, 4, 9, 3, 8, 2]\nC: [2, 1, 8, 6, 0, 3, 7, 9, 4, 5]\nD: [5, 7, 9, 8, 2, 0, 6, 4, 3, 1]",
+            "raw_output": "A man lifting weights in a gym with exercise balls around.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 2, 6, 7, 4, 5, 10, 1, 8, 3, 9]\nB: [8, 4, 9, 2, 5, 0, 6, 3, 1, 10, 7]\nC: [6, 8, 3, 10, 2, 7, 5, 4, 9, 0, 1]\nD: [5, 7, 10, 0, 9, 4, 3, 6, 1, 2, 8]\nA: [0, 2, 6, 7, 4, 5, 10, 1, 8, 3, 9]\nB: [8, 4, 9, 2, 5, 0, 6, 3, 1, 10, 7]\nC: [6, 8, 3, 10, 2, 7, 5, 4, 9, 0, 1]\nD: [5, 7, 10, 0, 9, 4, 3, 6, 1, 2, 8]",
+            "raw_output": "The woman is doing an exercise on the deck.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [2, 0, 1, 3]\nC: [0, 2, 1, 3]\nD: [1, 3, 2, 0]\nA: [3, 0, 2, 1]\nB: [2, 0, 1, 3]\nC: [0, 2, 1, 3]\nD: [1, 3, 2, 0]",
+            "raw_output": "A man is hanging from a pull up bar in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 3, 1, 4, 5, 2]\nB: [3, 2, 4, 0, 5, 1]\nC: [3, 2, 5, 0, 1, 4]\nD: [5, 1, 2, 3, 4, 0]\nA: [0, 3, 1, 4, 5, 2]\nB: [3, 2, 4, 0, 5, 1]\nC: [3, 2, 5, 0, 1, 4]\nD: [5, 1, 2, 3, 4, 0]",
+            "raw_output": "A man lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 5, 2, 4, 3]\nB: [3, 1, 5, 4, 0, 2]\nC: [5, 0, 4, 3, 2, 1]\nD: [1, 3, 5, 2, 0, 4]\nA: [0, 1, 5, 2, 4, 3]\nB: [3, 1, 5, 4, 0, 2]\nC: [5, 0, 4, 3, 2, 1]\nD: [1, 3, 5, 2, 0, 4]",
+            "raw_output": "A man throwing a ball on a field.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 2, 9, 4, 7, 6, 5, 10, 8, 3]\nB: [5, 3, 2, 1, 0, 4, 6, 8, 9, 10, 7]\nC: [9, 5, 8, 6, 10, 2, 1, 3, 0, 4, 7]\nD: [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1]\nA: [0, 1, 2, 9, 4, 7, 6, 5, 10, 8, 3]\nB: [5, 3, 2, 1, 0, 4, 6, 8, 9, 10, 7]\nC: [9, 5, 8, 6, 10, 2, 1, 3, 0, 4, 7]\nD: [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1]",
+            "raw_output": "There are four red and yellow weights on the floor.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 2, 1, 4, 0]\nB: [1, 4, 3, 2, 0]\nC: [1, 4, 3, 0, 2]\nD: [2, 4, 1, 3, 0]\nA: [3, 2, 1, 4, 0]\nB: [1, 4, 3, 2, 0]\nC: [1, 4, 3, 0, 2]\nD: [2, 4, 1, 3, 0]",
+            "raw_output": "A man is hanging upside down on a pull up bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 0, 6, 2, 7, 3, 5, 1]\nB: [4, 1, 0, 7, 3, 6, 5, 2]\nC: [5, 7, 4, 6, 2, 0, 3, 1]\nD: [7, 2, 5, 4, 1, 0, 6, 3]\nA: [4, 0, 6, 2, 7, 3, 5, 1]\nB: [4, 1, 0, 7, 3, 6, 5, 2]\nC: [5, 7, 4, 6, 2, 0, 3, 1]\nD: [7, 2, 5, 4, 1, 0, 6, 3]",
+            "raw_output": "A person is pouring liquid into a cup on a table.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 10, 6, 0, 12, 1, 13, 4, 9, 8, 3, 7, 5, 11, 14]\nB: [2, 7, 5, 6, 11, 3, 1, 14, 8, 4, 12, 10, 0, 13, 9]\nC: [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11]\nD: [6, 2, 5, 14, 9, 4, 11, 1, 10, 12, 7, 13, 8, 3, 0]\nA: [2, 10, 6, 0, 12, 1, 13, 4, 9, 8, 3, 7, 5, 11, 14]\nB: [2, 7, 5, 6, 11, 3, 1, 14, 8, 4, 12, 10, 0, 13, 9]\nC: [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11]\nD: [6, 2, 5, 14, 9, 4, 11, 1, 10, 12, 7, 13, 8, 3, 0]",
+            "raw_output": "\"The man is lifting a weightliflif.\n\n.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 2, 3, 1]\nB: [1, 2, 0, 3]\nC: [2, 0, 1, 3]\nD: [1, 0, 3, 2]\nA: [0, 2, 3, 1]\nB: [1, 2, 0, 3]\nC: [2, 0, 1, 3]\nD: [1, 0, 3, 2]",
+            "raw_output": "A man is playing tennis and serving the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 5, 1, 3, 4, 2]\nB: [0, 5, 1, 3, 2, 4]\nC: [3, 0, 4, 1, 2, 5]\nD: [2, 4, 1, 0, 5, 3]\nA: [0, 5, 1, 3, 4, 2]\nB: [0, 5, 1, 3, 2, 4]\nC: [3, 0, 4, 1, 2, 5]\nD: [2, 4, 1, 0, 5, 3]",
+            "raw_output": "A man is at a gym doing bench presses with a personal trainer.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [8, 0, 7, 5, 1, 2, 3, 4, 6]\nB: [0, 7, 8, 4, 1, 6, 5, 3, 2]\nC: [1, 5, 3, 0, 4, 2, 6, 7, 8]\nD: [7, 2, 4, 1, 5, 0, 3, 6, 8]\nA: [8, 0, 7, 5, 1, 2, 3, 4, 6]\nB: [0, 7, 8, 4, 1, 6, 5, 3, 2]\nC: [1, 5, 3, 0, 4, 2, 6, 7, 8]\nD: [7, 2, 4, 1, 5, 0, 3, 6, 8]",
+            "raw_output": "A person is pouring liquid into a small cup from a large bottle.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 4, 3, 2, 1, 5]\nB: [3, 5, 0, 1, 4, 2]\nC: [2, 5, 3, 1, 4, 0]\nD: [4, 2, 0, 5, 1, 3]\nA: [0, 4, 3, 2, 1, 5]\nB: [3, 5, 0, 1, 4, 2]\nC: [2, 5, 3, 1, 4, 0]\nD: [4, 2, 0, 5, 1, 3]",
+            "raw_output": "The correct answer is D: [4, 2, 0, 5, 1, 3].",
+            "parsed_option": "D",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 5, 2, 3, 1, 0]\nB: [2, 1, 5, 0, 4, 3]\nC: [0, 5, 2, 1, 3, 4]\nD: [1, 0, 3, 4, 2, 5]\nA: [4, 5, 2, 3, 1, 0]\nB: [2, 1, 5, 0, 4, 3]\nC: [0, 5, 2, 1, 3, 4]\nD: [1, 0, 3, 4, 2, 5]",
+            "raw_output": "A man is standing on a tennis court.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 0, 2]\nB: [3, 2, 1, 0]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]\nA: [3, 1, 0, 2]\nB: [3, 2, 1, 0]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]",
+            "raw_output": "A person bowling with a 10 dollar sign in the background.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 2, 1, 0, 4, 5, 3]\nB: [5, 3, 1, 0, 2, 4, 6]\nC: [1, 0, 5, 3, 4, 6, 2]\nD: [4, 6, 5, 0, 1, 2, 3]\nA: [6, 2, 1, 0, 4, 5, 3]\nB: [5, 3, 1, 0, 2, 4, 6]\nC: [1, 0, 5, 3, 4, 6, 2]\nD: [4, 6, 5, 0, 1, 2, 3]",
+            "raw_output": "A man in red is standing on one leg on a fake golf course.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 4, 5, 2, 3, 0]\nB: [5, 0, 1, 2, 4, 3]\nC: [2, 4, 3, 0, 1, 5]\nD: [5, 2, 0, 4, 3, 1]\nA: [1, 4, 5, 2, 3, 0]\nB: [5, 0, 1, 2, 4, 3]\nC: [2, 4, 3, 0, 1, 5]\nD: [5, 2, 0, 4, 3, 1]",
+            "raw_output": "A: The man is doing sit-ups on the mat.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 1, 0, 3]\nB: [0, 1, 3, 2]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]\nA: [2, 1, 0, 3]\nB: [0, 1, 3, 2]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]",
+            "raw_output": "The order of the pictures is:\n\n1. [3, 2, 0, 1]\n\nThis is because the first picture shows a man lifting a barbell on a bench, the second picture shows a man lifting a barbell on a bench, the third picture shows a man lifting a barbell on a bench, and the fourth picture shows a man lifting a barbell on a bench.",
+            "parsed_option": "D",
+            "ground_truth": "D",
+            "is_correct": true
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 4, 5, 0, 2]\nB: [2, 4, 3, 5, 1, 0]\nC: [5, 3, 4, 0, 2, 1]\nD: [2, 3, 0, 4, 1, 5]\nA: [3, 1, 4, 5, 0, 2]\nB: [2, 4, 3, 5, 1, 0]\nC: [5, 3, 4, 0, 2, 1]\nD: [2, 3, 0, 4, 1, 5]",
+            "raw_output": "A man lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 0, 3, 2]\nB: [3, 2, 1, 0]\nC: [1, 2, 0, 3]\nD: [2, 3, 0, 1]\nA: [1, 0, 3, 2]\nB: [3, 2, 1, 0]\nC: [1, 2, 0, 3]\nD: [2, 3, 0, 1]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [1, 0, 3, 2]\n\nThis is because the pictures show a woman doing push-ups on a mat, and the order of the push-ups is the same as the order of the pictures.",
+            "parsed_option": "A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 0, 3, 2, 1, 4]\nB: [4, 1, 5, 3, 2, 0]\nC: [0, 3, 4, 2, 5, 1]\nD: [5, 4, 2, 0, 1, 3]\nA: [5, 0, 3, 2, 1, 4]\nB: [4, 1, 5, 3, 2, 0]\nC: [0, 3, 4, 2, 5, 1]\nD: [5, 4, 2, 0, 1, 3]",
+            "raw_output": "305.",
+            "parsed_option": "A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 2, 0]\nB: [0, 2, 1, 3]\nC: [3, 1, 0, 2]\nD: [2, 3, 1, 0]\nA: [3, 1, 2, 0]\nB: [0, 2, 1, 3]\nC: [3, 1, 0, 2]\nD: [2, 3, 1, 0]",
+            "raw_output": "A baseball game is underway and the batter has just hit the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 1, 3, 0]\nB: [1, 3, 2, 0]\nC: [3, 2, 1, 0]\nD: [0, 1, 3, 2]\nA: [2, 1, 3, 0]\nB: [1, 3, 2, 0]\nC: [3, 2, 1, 0]\nD: [0, 1, 3, 2]",
+            "raw_output": "A woman is doing push ups in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [11, 1, 2, 5, 15, 3, 0, 12, 6, 10, 8, 9, 14, 7, 13, 4]\nB: [9, 5, 6, 7, 2, 3, 4, 8, 0, 11, 12, 10, 15, 13, 14, 1]\nC: [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7]\nD: [10, 11, 7, 3, 0, 14, 4, 12, 8, 2, 1, 13, 5, 6, 15, 9]\nA: [11, 1, 2, 5, 15, 3, 0, 12, 6, 10, 8, 9, 14, 7, 13, 4]\nB: [9, 5, 6, 7, 2, 3, 4, 8, 0, 11, 12, 10, 15, 13, 14, 1]\nC: [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7]\nD: [10, 11, 7, 3, 0, 14, 4, 12, 8, 2, 1, 13, 5, 6, 15, 9]",
+            "raw_output": "The woman is lifting a personal personal trainer. The woman",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 5, 0, 7, 4, 2, 3, 6]\nB: [6, 4, 7, 1, 3, 0, 5, 2]\nC: [0, 3, 6, 7, 1, 4, 2, 5]\nD: [5, 0, 3, 7, 2, 1, 6, 4]\nA: [1, 5, 0, 7, 4, 2, 3, 6]\nB: [6, 4, 7, 1, 3, 0, 5, 2]\nC: [0, 3, 6, 7, 1, 4, 2, 5]\nD: [5, 0, 3, 7, 2, 1, 6, 4]",
+            "raw_output": "Two people are on the floor in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 4, 0, 3, 1]\nB: [1, 0, 4, 3, 2]\nC: [0, 3, 1, 2, 4]\nD: [4, 0, 3, 2, 1]\nA: [2, 4, 0, 3, 1]\nB: [1, 0, 4, 3, 2]\nC: [0, 3, 1, 2, 4]\nD: [4, 0, 3, 2, 1]",
+            "raw_output": "The answer is B.",
+            "parsed_option": "B",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3]\nB: [7, 1, 10, 6, 8, 3, 0, 9, 4, 2, 5]\nC: [9, 10, 8, 0, 2, 1, 4, 3, 7, 5, 6]\nD: [10, 5, 0, 3, 8, 9, 4, 2, 1, 7, 6]\nA: [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3]\nB: [7, 1, 10, 6, 8, 3, 0, 9, 4, 2, 5]\nC: [9, 10, 8, 0, 2, 1, 4, 3, 7, 5, 6]\nD: [10, 5, 0, 3, 8, 9, 4, 2, 1, 7, 6]",
+            "raw_output": "The man is lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 0, 2, 7, 8, 4, 1, 3, 5, 9, 10]\nB: [9, 5, 1, 3, 10, 4, 2, 0, 7, 6, 8]\nC: [5, 10, 1, 8, 4, 2, 3, 6, 9, 7, 0]\nD: [5, 7, 6, 0, 4, 3, 1, 2, 9, 8, 10]\nA: [6, 0, 2, 7, 8, 4, 1, 3, 5, 9, 10]\nB: [9, 5, 1, 3, 10, 4, 2, 0, 7, 6, 8]\nC: [5, 10, 1, 8, 4, 2, 3, 6, 9, 7, 0]\nD: [5, 7, 6, 0, 4, 3, 1, 2, 9, 8, 10]",
+            "raw_output": "In the image there is a man standing on the ground and behind him there are few people sitting on the chairs.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 0, 1, 2, 3]\nB: [4, 3, 2, 1, 0]\nC: [1, 0, 3, 2, 4]\nD: [0, 4, 1, 2, 3]\nA: [4, 0, 1, 2, 3]\nB: [4, 3, 2, 1, 0]\nC: [1, 0, 3, 2, 4]\nD: [0, 4, 1, 2, 3]",
+            "raw_output": "The woman is sitting on a mat and doing an exercise.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 1, 2]\nB: [1, 3, 0, 2]\nC: [2, 3, 0, 1]\nD: [3, 1, 2, 0]\nA: [3, 0, 1, 2]\nB: [1, 3, 0, 2]\nC: [2, 3, 0, 1]\nD: [3, 1, 2, 0]",
+            "raw_output": "The order of the pictures is:\n\n1. A\n2. C\n3. D\n4. B.",
+            "parsed_option": "B",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 4, 2, 6, 3, 1, 0]\nB: [5, 2, 3, 0, 6, 4, 1]\nC: [5, 1, 4, 2, 3, 0, 6]\nD: [2, 4, 0, 5, 6, 1, 3]\nA: [5, 4, 2, 6, 3, 1, 0]\nB: [5, 2, 3, 0, 6, 4, 1]\nC: [5, 1, 4, 2, 3, 0, 6]\nD: [2, 4, 0, 5, 6, 1, 3]",
+            "raw_output": "A person is pouring something into a cup.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 2, 0, 1]\nB: [3, 0, 2, 1]\nC: [2, 3, 0, 1]\nD: [2, 3, 1, 0]\nA: [3, 2, 0, 1]\nB: [3, 0, 2, 1]\nC: [2, 3, 0, 1]\nD: [2, 3, 1, 0]",
+            "raw_output": "A man is playing tennis and serving the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [10, 0, 8, 5, 11, 4, 1, 7, 3, 2, 9, 6]\nB: [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9]\nC: [11, 9, 4, 10, 7, 6, 8, 1, 5, 2, 0, 3]\nD: [2, 0, 1, 4, 9, 10, 5, 6, 8, 3, 11, 7]\nA: [10, 0, 8, 5, 11, 4, 1, 7, 3, 2, 9, 6]\nB: [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9]\nC: [11, 9, 4, 10, 7, 6, 8, 1, 5, 2, 0, 3]\nD: [2, 0, 1, 4, 9, 10, 5, 6, 8, 3, 11, 7]",
+            "raw_output": "The man is doing pull-ups on a pull-up bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 2, 4, 0, 6, 1, 3]\nB: [1, 4, 6, 0, 3, 2, 5]\nC: [6, 2, 3, 4, 0, 5, 1]\nD: [6, 2, 3, 4, 0, 1, 5]\nA: [5, 2, 4, 0, 6, 1, 3]\nB: [1, 4, 6, 0, 3, 2, 5]\nC: [6, 2, 3, 4, 0, 5, 1]\nD: [6, 2, 3, 4, 0, 1, 5]",
+            "raw_output": "A man is hanging from chin up bars in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [0, 2, 1, 3]\nC: [0, 3, 1, 2]\nD: [2, 3, 1, 0]\nA: [3, 0, 2, 1]\nB: [0, 2, 1, 3]\nC: [0, 3, 1, 2]\nD: [2, 3, 1, 0]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [3, 0, 2, 1]\n\nThis is because the pictures show a man doing pull-ups, and the order of the pictures shows him getting closer to the bar with each picture.",
+            "parsed_option": "A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 5, 3, 1, 2, 4, 0]\nB: [3, 0, 6, 5, 1, 4, 2]\nC: [4, 6, 1, 5, 0, 3, 2]\nD: [5, 2, 6, 1, 4, 3, 0]\nA: [6, 5, 3, 1, 2, 4, 0]\nB: [3, 0, 6, 5, 1, 4, 2]\nC: [4, 6, 1, 5, 0, 3, 2]\nD: [5, 2, 6, 1, 4, 3, 0]",
+            "raw_output": "A woman is doing pull ups on a playground set.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 2, 3]\nB: [2, 0, 3, 1]\nC: [2, 3, 1, 0]\nD: [2, 3, 1, 0]\nA: [0, 1, 2, 3]\nB: [2, 0, 3, 1]\nC: [2, 3, 1, 0]\nD: [2, 3, 1, 0]",
+            "raw_output": "A person standing in a bowling alley looking at the pins.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]",
+            "raw_output": "The correct order of the pictures is:\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]\nThe answer is D: [0, 3, 4, 1, 2].",
+            "parsed_option": "D",
+            "ground_truth": "D",
+            "is_correct": true
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 0, 1, 7, 5, 4, 3, 2]\nB: [5, 0, 1, 6, 4, 7, 3, 2]\nC: [2, 1, 6, 7, 4, 3, 0, 5]\nD: [3, 6, 0, 1, 7, 4, 5, 2]\nA: [6, 0, 1, 7, 5, 4, 3, 2]\nB: [5, 0, 1, 6, 4, 7, 3, 2]\nC: [2, 1, 6, 7, 4, 3, 0, 5]\nD: [3, 6, 0, 1, 7, 4, 5, 2]",
+            "raw_output": "A man lifting weights with colorful plates around him.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 2, 3, 4, 0]\nB: [3, 2, 1, 0, 4]\nC: [4, 1, 0, 2, 3]\nD: [0, 3, 2, 4, 1]\nA: [1, 2, 3, 4, 0]\nB: [3, 2, 1, 0, 4]\nC: [4, 1, 0, 2, 3]\nD: [0, 3, 2, 4, 1]",
+            "raw_output": "The correct answer is D: [0, 3, 2, 4, 1].",
+            "parsed_option": "D",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 8, 2, 6, 5, 4, 7, 3, 9, 1, 11, 10]\nB: [8, 7, 1, 2, 11, 10, 5, 9, 4, 6, 3, 0]\nC: [1, 4, 11, 9, 3, 0, 10, 5, 7, 6, 2, 8]\nD: [3, 8, 2, 11, 1, 7, 5, 10, 0, 4, 9, 6]\nA: [0, 8, 2, 6, 5, 4, 7, 3, 9, 1, 11, 10]\nB: [8, 7, 1, 2, 11, 10, 5, 9, 4, 6, 3, 0]\nC: [1, 4, 11, 9, 3, 0, 10, 5, 7, 6, 2, 8]\nD: [3, 8, 2, 11, 1, 7, 5, 10, 0, 4, 9, 6]",
+            "raw_output": "The man is doing a bench press on a weight bench.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        }
+    ],
+    "tuned_model_results": [
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 3, 1, 2, 4, 0, 6]\nB: [1, 3, 0, 6, 2, 5, 4]\nC: [4, 5, 3, 0, 1, 6, 2]\nD: [2, 1, 0, 6, 4, 5, 3]\nA: [5, 3, 1, 2, 4, 0, 6]\nB: [1, 3, 0, 6, 2, 5, 4]\nC: [4, 5, 3, 0, 1, 6, 2]\nD: [2, 1, 0, 6, 4, 5, 3]",
+            "raw_output": "A man is doing pull ups on a bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 6, 0, 1, 2, 3, 5]\nB: [5, 1, 0, 6, 2, 4, 3]\nC: [2, 6, 5, 4, 0, 1, 3]\nD: [0, 4, 1, 3, 6, 2, 5]\nA: [4, 6, 0, 1, 2, 3, 5]\nB: [5, 1, 0, 6, 2, 4, 3]\nC: [2, 6, 5, 4, 0, 1, 3]\nD: [0, 4, 1, 3, 6, 2, 5]",
+            "raw_output": "A woman lifting weights in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [0, 3, 2, 1]\nC: [1, 2, 3, 0]\nD: [1, 0, 2, 3]\nA: [3, 0, 2, 1]\nB: [0, 3, 2, 1]\nC: [1, 2, 3, 0]\nD: [1, 0, 2, 3]",
+            "raw_output": "A man stands on a tennis court holding a racket.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 7, 12, 10, 2, 5, 3, 9, 6, 4, 13, 8, 11, 1]\nB: [11, 13, 7, 3, 1, 8, 5, 0, 4, 6, 12, 9, 10, 2]\nC: [0, 2, 11, 13, 12, 9, 10, 1, 8, 4, 3, 6, 7, 5]\nD: [10, 5, 4, 13, 11, 12, 0, 6, 8, 7, 2, 9, 1, 3]\nA: [0, 7, 12, 10, 2, 5, 3, 9, 6, 4, 13, 8, 11, 1]\nB: [11, 13, 7, 3, 1, 8, 5, 0, 4, 6, 12, 9, 10, 2]\nC: [0, 2, 11, 13, 12, 9, 10, 1, 8, 4, 3, 6, 7, 5]\nD: [10, 5, 4, 13, 11, 12, 0, 6, 8, 7, 2, 9, 1, 3]",
+            "raw_output": "",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 3, 0, 1, 4]\nB: [1, 0, 2, 3, 4]\nC: [4, 2, 3, 1, 0]\nD: [0, 1, 2, 4, 3]\nA: [2, 3, 0, 1, 4]\nB: [1, 0, 2, 3, 4]\nC: [4, 2, 3, 1, 0]\nD: [0, 1, 2, 4, 3]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [2, 3, 0, 1, 4]\n\nThis is because the pictures show a man lifting a barbell in different positions, and the order of the pictures shows the man lifting the barbell from left to right.",
+            "parsed_option": "A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 3, 1, 2]\nB: [0, 1, 2, 3]\nC: [1, 0, 3, 2]\nD: [0, 2, 1, 3]\nA: [0, 3, 1, 2]\nB: [0, 1, 2, 3]\nC: [1, 0, 3, 2]\nD: [0, 2, 1, 3]",
+            "raw_output": "A man bowling in a brightly lit bowling alley with a view of a city street.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 3, 0, 1]\nB: [0, 1, 2, 3]\nC: [0, 1, 2, 3]\nD: [0, 2, 1, 3]\nA: [2, 3, 0, 1]\nB: [0, 1, 2, 3]\nC: [0, 1, 2, 3]\nD: [0, 2, 1, 3]",
+            "raw_output": "The man is doing sit-ups on the blue mat.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 4, 3, 0, 2]\nB: [2, 4, 0, 3, 1]\nC: [1, 4, 2, 0, 3]\nD: [4, 1, 0, 2, 3]\nA: [1, 4, 3, 0, 2]\nB: [2, 4, 0, 3, 1]\nC: [1, 4, 2, 0, 3]\nD: [4, 1, 0, 2, 3]",
+            "raw_output": "A man is throwing a ball from a mound.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 4, 1, 2, 3, 5]\nB: [1, 5, 2, 4, 3, 0]\nC: [3, 0, 1, 2, 4, 5]\nD: [3, 2, 1, 4, 0, 5]\nA: [0, 4, 1, 2, 3, 5]\nB: [1, 5, 2, 4, 3, 0]\nC: [3, 0, 1, 2, 4, 5]\nD: [3, 2, 1, 4, 0, 5]",
+            "raw_output": "A group of men are working out in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 1, 0, 8, 9, 4, 2, 6, 3, 7]\nB: [5, 1, 7, 6, 0, 4, 9, 3, 8, 2]\nC: [2, 1, 8, 6, 0, 3, 7, 9, 4, 5]\nD: [5, 7, 9, 8, 2, 0, 6, 4, 3, 1]\nA: [5, 1, 0, 8, 9, 4, 2, 6, 3, 7]\nB: [5, 1, 7, 6, 0, 4, 9, 3, 8, 2]\nC: [2, 1, 8, 6, 0, 3, 7, 9, 4, 5]\nD: [5, 7, 9, 8, 2, 0, 6, 4, 3, 1]",
+            "raw_output": "A man lifting weights in a gym with exercise balls around.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 2, 6, 7, 4, 5, 10, 1, 8, 3, 9]\nB: [8, 4, 9, 2, 5, 0, 6, 3, 1, 10, 7]\nC: [6, 8, 3, 10, 2, 7, 5, 4, 9, 0, 1]\nD: [5, 7, 10, 0, 9, 4, 3, 6, 1, 2, 8]\nA: [0, 2, 6, 7, 4, 5, 10, 1, 8, 3, 9]\nB: [8, 4, 9, 2, 5, 0, 6, 3, 1, 10, 7]\nC: [6, 8, 3, 10, 2, 7, 5, 4, 9, 0, 1]\nD: [5, 7, 10, 0, 9, 4, 3, 6, 1, 2, 8]",
+            "raw_output": "The woman is doing an exercise on the deck.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [2, 0, 1, 3]\nC: [0, 2, 1, 3]\nD: [1, 3, 2, 0]\nA: [3, 0, 2, 1]\nB: [2, 0, 1, 3]\nC: [0, 2, 1, 3]\nD: [1, 3, 2, 0]",
+            "raw_output": "A man is hanging from a pull up bar in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 3, 1, 4, 5, 2]\nB: [3, 2, 4, 0, 5, 1]\nC: [3, 2, 5, 0, 1, 4]\nD: [5, 1, 2, 3, 4, 0]\nA: [0, 3, 1, 4, 5, 2]\nB: [3, 2, 4, 0, 5, 1]\nC: [3, 2, 5, 0, 1, 4]\nD: [5, 1, 2, 3, 4, 0]",
+            "raw_output": "A man lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 5, 2, 4, 3]\nB: [3, 1, 5, 4, 0, 2]\nC: [5, 0, 4, 3, 2, 1]\nD: [1, 3, 5, 2, 0, 4]\nA: [0, 1, 5, 2, 4, 3]\nB: [3, 1, 5, 4, 0, 2]\nC: [5, 0, 4, 3, 2, 1]\nD: [1, 3, 5, 2, 0, 4]",
+            "raw_output": "A man throwing a ball on a field.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 2, 9, 4, 7, 6, 5, 10, 8, 3]\nB: [5, 3, 2, 1, 0, 4, 6, 8, 9, 10, 7]\nC: [9, 5, 8, 6, 10, 2, 1, 3, 0, 4, 7]\nD: [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1]\nA: [0, 1, 2, 9, 4, 7, 6, 5, 10, 8, 3]\nB: [5, 3, 2, 1, 0, 4, 6, 8, 9, 10, 7]\nC: [9, 5, 8, 6, 10, 2, 1, 3, 0, 4, 7]\nD: [4, 10, 3, 2, 8, 7, 0, 9, 5, 6, 1]",
+            "raw_output": "There are four red and yellow weights on the floor.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 2, 1, 4, 0]\nB: [1, 4, 3, 2, 0]\nC: [1, 4, 3, 0, 2]\nD: [2, 4, 1, 3, 0]\nA: [3, 2, 1, 4, 0]\nB: [1, 4, 3, 2, 0]\nC: [1, 4, 3, 0, 2]\nD: [2, 4, 1, 3, 0]",
+            "raw_output": "A man is hanging upside down on a pull up bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 0, 6, 2, 7, 3, 5, 1]\nB: [4, 1, 0, 7, 3, 6, 5, 2]\nC: [5, 7, 4, 6, 2, 0, 3, 1]\nD: [7, 2, 5, 4, 1, 0, 6, 3]\nA: [4, 0, 6, 2, 7, 3, 5, 1]\nB: [4, 1, 0, 7, 3, 6, 5, 2]\nC: [5, 7, 4, 6, 2, 0, 3, 1]\nD: [7, 2, 5, 4, 1, 0, 6, 3]",
+            "raw_output": "A person is pouring liquid into a cup on a table.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 10, 6, 0, 12, 1, 13, 4, 9, 8, 3, 7, 5, 11, 14]\nB: [2, 7, 5, 6, 11, 3, 1, 14, 8, 4, 12, 10, 0, 13, 9]\nC: [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11]\nD: [6, 2, 5, 14, 9, 4, 11, 1, 10, 12, 7, 13, 8, 3, 0]\nA: [2, 10, 6, 0, 12, 1, 13, 4, 9, 8, 3, 7, 5, 11, 14]\nB: [2, 7, 5, 6, 11, 3, 1, 14, 8, 4, 12, 10, 0, 13, 9]\nC: [4, 6, 7, 1, 5, 10, 12, 2, 0, 14, 13, 8, 9, 3, 11]\nD: [6, 2, 5, 14, 9, 4, 11, 1, 10, 12, 7, 13, 8, 3, 0]",
+            "raw_output": "\"The man is lifting a weightliflif.\n\n.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 2, 3, 1]\nB: [1, 2, 0, 3]\nC: [2, 0, 1, 3]\nD: [1, 0, 3, 2]\nA: [0, 2, 3, 1]\nB: [1, 2, 0, 3]\nC: [2, 0, 1, 3]\nD: [1, 0, 3, 2]",
+            "raw_output": "A man is playing tennis and serving the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 5, 1, 3, 4, 2]\nB: [0, 5, 1, 3, 2, 4]\nC: [3, 0, 4, 1, 2, 5]\nD: [2, 4, 1, 0, 5, 3]\nA: [0, 5, 1, 3, 4, 2]\nB: [0, 5, 1, 3, 2, 4]\nC: [3, 0, 4, 1, 2, 5]\nD: [2, 4, 1, 0, 5, 3]",
+            "raw_output": "A man is at a gym doing bench presses with a personal trainer.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [8, 0, 7, 5, 1, 2, 3, 4, 6]\nB: [0, 7, 8, 4, 1, 6, 5, 3, 2]\nC: [1, 5, 3, 0, 4, 2, 6, 7, 8]\nD: [7, 2, 4, 1, 5, 0, 3, 6, 8]\nA: [8, 0, 7, 5, 1, 2, 3, 4, 6]\nB: [0, 7, 8, 4, 1, 6, 5, 3, 2]\nC: [1, 5, 3, 0, 4, 2, 6, 7, 8]\nD: [7, 2, 4, 1, 5, 0, 3, 6, 8]",
+            "raw_output": "A person is pouring liquid into a small cup from a large bottle.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 4, 3, 2, 1, 5]\nB: [3, 5, 0, 1, 4, 2]\nC: [2, 5, 3, 1, 4, 0]\nD: [4, 2, 0, 5, 1, 3]\nA: [0, 4, 3, 2, 1, 5]\nB: [3, 5, 0, 1, 4, 2]\nC: [2, 5, 3, 1, 4, 0]\nD: [4, 2, 0, 5, 1, 3]",
+            "raw_output": "The correct answer is D: [4, 2, 0, 5, 1, 3].",
+            "parsed_option": "D",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 5, 2, 3, 1, 0]\nB: [2, 1, 5, 0, 4, 3]\nC: [0, 5, 2, 1, 3, 4]\nD: [1, 0, 3, 4, 2, 5]\nA: [4, 5, 2, 3, 1, 0]\nB: [2, 1, 5, 0, 4, 3]\nC: [0, 5, 2, 1, 3, 4]\nD: [1, 0, 3, 4, 2, 5]",
+            "raw_output": "A man is standing on a tennis court.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 0, 2]\nB: [3, 2, 1, 0]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]\nA: [3, 1, 0, 2]\nB: [3, 2, 1, 0]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]",
+            "raw_output": "A person bowling with a 10 dollar sign in the background.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 2, 1, 0, 4, 5, 3]\nB: [5, 3, 1, 0, 2, 4, 6]\nC: [1, 0, 5, 3, 4, 6, 2]\nD: [4, 6, 5, 0, 1, 2, 3]\nA: [6, 2, 1, 0, 4, 5, 3]\nB: [5, 3, 1, 0, 2, 4, 6]\nC: [1, 0, 5, 3, 4, 6, 2]\nD: [4, 6, 5, 0, 1, 2, 3]",
+            "raw_output": "A man in red is standing on one leg on a fake golf course.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 4, 5, 2, 3, 0]\nB: [5, 0, 1, 2, 4, 3]\nC: [2, 4, 3, 0, 1, 5]\nD: [5, 2, 0, 4, 3, 1]\nA: [1, 4, 5, 2, 3, 0]\nB: [5, 0, 1, 2, 4, 3]\nC: [2, 4, 3, 0, 1, 5]\nD: [5, 2, 0, 4, 3, 1]",
+            "raw_output": "A: The man is doing sit-ups on the mat.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 1, 0, 3]\nB: [0, 1, 3, 2]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]\nA: [2, 1, 0, 3]\nB: [0, 1, 3, 2]\nC: [2, 1, 3, 0]\nD: [3, 2, 0, 1]",
+            "raw_output": "The order of the pictures is:\n\n1. [3, 2, 0, 1]\n\nThis is because the first picture shows a man lifting a barbell on a bench, the second picture shows a man lifting a barbell on a bench, the third picture shows a man lifting a barbell on a bench, and the fourth picture shows a man lifting a barbell on a bench.",
+            "parsed_option": "D",
+            "ground_truth": "D",
+            "is_correct": true
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 4, 5, 0, 2]\nB: [2, 4, 3, 5, 1, 0]\nC: [5, 3, 4, 0, 2, 1]\nD: [2, 3, 0, 4, 1, 5]\nA: [3, 1, 4, 5, 0, 2]\nB: [2, 4, 3, 5, 1, 0]\nC: [5, 3, 4, 0, 2, 1]\nD: [2, 3, 0, 4, 1, 5]",
+            "raw_output": "A man lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 0, 3, 2]\nB: [3, 2, 1, 0]\nC: [1, 2, 0, 3]\nD: [2, 3, 0, 1]\nA: [1, 0, 3, 2]\nB: [3, 2, 1, 0]\nC: [1, 2, 0, 3]\nD: [2, 3, 0, 1]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [1, 0, 3, 2]\n\nThis is because the pictures show a woman doing push-ups on a mat, and the order of the push-ups is the same as the order of the pictures.",
+            "parsed_option": "A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 0, 3, 2, 1, 4]\nB: [4, 1, 5, 3, 2, 0]\nC: [0, 3, 4, 2, 5, 1]\nD: [5, 4, 2, 0, 1, 3]\nA: [5, 0, 3, 2, 1, 4]\nB: [4, 1, 5, 3, 2, 0]\nC: [0, 3, 4, 2, 5, 1]\nD: [5, 4, 2, 0, 1, 3]",
+            "raw_output": "305.",
+            "parsed_option": "A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 1, 2, 0]\nB: [0, 2, 1, 3]\nC: [3, 1, 0, 2]\nD: [2, 3, 1, 0]\nA: [3, 1, 2, 0]\nB: [0, 2, 1, 3]\nC: [3, 1, 0, 2]\nD: [2, 3, 1, 0]",
+            "raw_output": "A baseball game is underway and the batter has just hit the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 1, 3, 0]\nB: [1, 3, 2, 0]\nC: [3, 2, 1, 0]\nD: [0, 1, 3, 2]\nA: [2, 1, 3, 0]\nB: [1, 3, 2, 0]\nC: [3, 2, 1, 0]\nD: [0, 1, 3, 2]",
+            "raw_output": "A woman is doing push ups in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [11, 1, 2, 5, 15, 3, 0, 12, 6, 10, 8, 9, 14, 7, 13, 4]\nB: [9, 5, 6, 7, 2, 3, 4, 8, 0, 11, 12, 10, 15, 13, 14, 1]\nC: [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7]\nD: [10, 11, 7, 3, 0, 14, 4, 12, 8, 2, 1, 13, 5, 6, 15, 9]\nA: [11, 1, 2, 5, 15, 3, 0, 12, 6, 10, 8, 9, 14, 7, 13, 4]\nB: [9, 5, 6, 7, 2, 3, 4, 8, 0, 11, 12, 10, 15, 13, 14, 1]\nC: [10, 5, 6, 4, 15, 14, 12, 9, 11, 3, 13, 2, 0, 1, 8, 7]\nD: [10, 11, 7, 3, 0, 14, 4, 12, 8, 2, 1, 13, 5, 6, 15, 9]",
+            "raw_output": "The woman is lifting a personal personal trainer. The woman",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 5, 0, 7, 4, 2, 3, 6]\nB: [6, 4, 7, 1, 3, 0, 5, 2]\nC: [0, 3, 6, 7, 1, 4, 2, 5]\nD: [5, 0, 3, 7, 2, 1, 6, 4]\nA: [1, 5, 0, 7, 4, 2, 3, 6]\nB: [6, 4, 7, 1, 3, 0, 5, 2]\nC: [0, 3, 6, 7, 1, 4, 2, 5]\nD: [5, 0, 3, 7, 2, 1, 6, 4]",
+            "raw_output": "Two people are on the floor in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [2, 4, 0, 3, 1]\nB: [1, 0, 4, 3, 2]\nC: [0, 3, 1, 2, 4]\nD: [4, 0, 3, 2, 1]\nA: [2, 4, 0, 3, 1]\nB: [1, 0, 4, 3, 2]\nC: [0, 3, 1, 2, 4]\nD: [4, 0, 3, 2, 1]",
+            "raw_output": "The answer is B.",
+            "parsed_option": "B",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3]\nB: [7, 1, 10, 6, 8, 3, 0, 9, 4, 2, 5]\nC: [9, 10, 8, 0, 2, 1, 4, 3, 7, 5, 6]\nD: [10, 5, 0, 3, 8, 9, 4, 2, 1, 7, 6]\nA: [0, 1, 9, 4, 10, 2, 7, 8, 5, 6, 3]\nB: [7, 1, 10, 6, 8, 3, 0, 9, 4, 2, 5]\nC: [9, 10, 8, 0, 2, 1, 4, 3, 7, 5, 6]\nD: [10, 5, 0, 3, 8, 9, 4, 2, 1, 7, 6]",
+            "raw_output": "The man is lifting a barbell in a gym.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 0, 2, 7, 8, 4, 1, 3, 5, 9, 10]\nB: [9, 5, 1, 3, 10, 4, 2, 0, 7, 6, 8]\nC: [5, 10, 1, 8, 4, 2, 3, 6, 9, 7, 0]\nD: [5, 7, 6, 0, 4, 3, 1, 2, 9, 8, 10]\nA: [6, 0, 2, 7, 8, 4, 1, 3, 5, 9, 10]\nB: [9, 5, 1, 3, 10, 4, 2, 0, 7, 6, 8]\nC: [5, 10, 1, 8, 4, 2, 3, 6, 9, 7, 0]\nD: [5, 7, 6, 0, 4, 3, 1, 2, 9, 8, 10]",
+            "raw_output": "In the image there is a man standing on the ground and behind him there are few people sitting on the chairs.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 0, 1, 2, 3]\nB: [4, 3, 2, 1, 0]\nC: [1, 0, 3, 2, 4]\nD: [0, 4, 1, 2, 3]\nA: [4, 0, 1, 2, 3]\nB: [4, 3, 2, 1, 0]\nC: [1, 0, 3, 2, 4]\nD: [0, 4, 1, 2, 3]",
+            "raw_output": "The woman is sitting on a mat and doing an exercise.",
+            "parsed_option": "N/A",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 1, 2]\nB: [1, 3, 0, 2]\nC: [2, 3, 0, 1]\nD: [3, 1, 2, 0]\nA: [3, 0, 1, 2]\nB: [1, 3, 0, 2]\nC: [2, 3, 0, 1]\nD: [3, 1, 2, 0]",
+            "raw_output": "The order of the pictures is:\n\n1. A\n2. C\n3. D\n4. B.",
+            "parsed_option": "B",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "pouring",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 4, 2, 6, 3, 1, 0]\nB: [5, 2, 3, 0, 6, 4, 1]\nC: [5, 1, 4, 2, 3, 0, 6]\nD: [2, 4, 0, 5, 6, 1, 3]\nA: [5, 4, 2, 6, 3, 1, 0]\nB: [5, 2, 3, 0, 6, 4, 1]\nC: [5, 1, 4, 2, 3, 0, 6]\nD: [2, 4, 0, 5, 6, 1, 3]",
+            "raw_output": "A person is pouring something into a cup.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 2, 0, 1]\nB: [3, 0, 2, 1]\nC: [2, 3, 0, 1]\nD: [2, 3, 1, 0]\nA: [3, 2, 0, 1]\nB: [3, 0, 2, 1]\nC: [2, 3, 0, 1]\nD: [2, 3, 1, 0]",
+            "raw_output": "A man is playing tennis and serving the ball.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [10, 0, 8, 5, 11, 4, 1, 7, 3, 2, 9, 6]\nB: [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9]\nC: [11, 9, 4, 10, 7, 6, 8, 1, 5, 2, 0, 3]\nD: [2, 0, 1, 4, 9, 10, 5, 6, 8, 3, 11, 7]\nA: [10, 0, 8, 5, 11, 4, 1, 7, 3, 2, 9, 6]\nB: [10, 5, 7, 2, 3, 4, 1, 6, 11, 8, 0, 9]\nC: [11, 9, 4, 10, 7, 6, 8, 1, 5, 2, 0, 3]\nD: [2, 0, 1, 4, 9, 10, 5, 6, 8, 3, 11, 7]",
+            "raw_output": "The man is doing pull-ups on a pull-up bar.",
+            "parsed_option": "N/A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [5, 2, 4, 0, 6, 1, 3]\nB: [1, 4, 6, 0, 3, 2, 5]\nC: [6, 2, 3, 4, 0, 5, 1]\nD: [6, 2, 3, 4, 0, 1, 5]\nA: [5, 2, 4, 0, 6, 1, 3]\nB: [1, 4, 6, 0, 3, 2, 5]\nC: [6, 2, 3, 4, 0, 5, 1]\nD: [6, 2, 3, 4, 0, 1, 5]",
+            "raw_output": "A man is hanging from chin up bars in a gym.",
+            "parsed_option": "D",
+            "ground_truth": "C",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [3, 0, 2, 1]\nB: [0, 2, 1, 3]\nC: [0, 3, 1, 2]\nD: [2, 3, 1, 0]\nA: [3, 0, 2, 1]\nB: [0, 2, 1, 3]\nC: [0, 3, 1, 2]\nD: [2, 3, 1, 0]",
+            "raw_output": "The correct order of the pictures is:\n\nA: [3, 0, 2, 1]\n\nThis is because the pictures show a man doing pull-ups, and the order of the pictures shows him getting closer to the bar with each picture.",
+            "parsed_option": "A",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 5, 3, 1, 2, 4, 0]\nB: [3, 0, 6, 5, 1, 4, 2]\nC: [4, 6, 1, 5, 0, 3, 2]\nD: [5, 2, 6, 1, 4, 3, 0]\nA: [6, 5, 3, 1, 2, 4, 0]\nB: [3, 0, 6, 5, 1, 4, 2]\nC: [4, 6, 1, 5, 0, 3, 2]\nD: [5, 2, 6, 1, 4, 3, 0]",
+            "raw_output": "A woman is doing pull ups on a playground set.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 1, 2, 3]\nB: [2, 0, 3, 1]\nC: [2, 3, 1, 0]\nD: [2, 3, 1, 0]\nA: [0, 1, 2, 3]\nB: [2, 0, 3, 1]\nC: [2, 3, 1, 0]\nD: [2, 3, 1, 0]",
+            "raw_output": "A person standing in a bowling alley looking at the pins.",
+            "parsed_option": "N/A",
+            "ground_truth": "D",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]",
+            "raw_output": "The correct order of the pictures is:\nA: [4, 3, 2, 0, 1]\nB: [3, 0, 1, 2, 4]\nC: [0, 2, 4, 1, 3]\nD: [0, 3, 4, 1, 2]\nThe answer is D: [0, 3, 4, 1, 2].",
+            "parsed_option": "D",
+            "ground_truth": "D",
+            "is_correct": true
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [6, 0, 1, 7, 5, 4, 3, 2]\nB: [5, 0, 1, 6, 4, 7, 3, 2]\nC: [2, 1, 6, 7, 4, 3, 0, 5]\nD: [3, 6, 0, 1, 7, 4, 5, 2]\nA: [6, 0, 1, 7, 5, 4, 3, 2]\nB: [5, 0, 1, 6, 4, 7, 3, 2]\nC: [2, 1, 6, 7, 4, 3, 0, 5]\nD: [3, 6, 0, 1, 7, 4, 5, 2]",
+            "raw_output": "A man lifting weights with colorful plates around him.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [1, 2, 3, 4, 0]\nB: [3, 2, 1, 0, 4]\nC: [4, 1, 0, 2, 3]\nD: [0, 3, 2, 4, 1]\nA: [1, 2, 3, 4, 0]\nB: [3, 2, 1, 0, 4]\nC: [4, 1, 0, 2, 3]\nD: [0, 3, 2, 4, 1]",
+            "raw_output": "The correct answer is D: [0, 3, 2, 4, 1].",
+            "parsed_option": "D",
+            "ground_truth": "B",
+            "is_correct": false
+        },
+        {
+            "sample_source": "penn_action",
+            "prompt": "Please predict the order of the following pictures, and give each picture a sequential index. This index starts from 0. The larger the index, the later the order.\nSelect from the following choices.\nA: [0, 8, 2, 6, 5, 4, 7, 3, 9, 1, 11, 10]\nB: [8, 7, 1, 2, 11, 10, 5, 9, 4, 6, 3, 0]\nC: [1, 4, 11, 9, 3, 0, 10, 5, 7, 6, 2, 8]\nD: [3, 8, 2, 11, 1, 7, 5, 10, 0, 4, 9, 6]\nA: [0, 8, 2, 6, 5, 4, 7, 3, 9, 1, 11, 10]\nB: [8, 7, 1, 2, 11, 10, 5, 9, 4, 6, 3, 0]\nC: [1, 4, 11, 9, 3, 0, 10, 5, 7, 6, 2, 8]\nD: [3, 8, 2, 11, 1, 7, 5, 10, 0, 4, 9, 6]",
+            "raw_output": "The man is doing a bench press on a weight bench.",
+            "parsed_option": "N/A",
+            "ground_truth": "A",
+            "is_correct": false
+        }
+    ]
+}

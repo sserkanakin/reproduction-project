@@ -14,7 +14,7 @@ How to Run:
    python benchmark.py \
        --val_file data/finetune_data/test.json \
        --image_base_path data/ \
-       --adapter_path idefics2-8b-temporal-finetune-a100/final_checkpoint \
+       --adapter_path idefics2-8b-temporal-finetune/final_checkpoint \
        --results_json_path results.json \
        --summary_txt_path summary.txt
 """

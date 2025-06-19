@@ -11,10 +11,14 @@ VERSION 2 UPDATE:
 
 How to Run:
    python inference.py \
-       --adapter_path ./idefics2-8b-temporal-finetune-a100/final_checkpoint \
-       --image_paths ./data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_0.jpg \
-                     ./data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_1.jpg \
-                     # ... and so on for all image paths
+       --adapter_path idefics2-8b-temporal-finetune-a100/final_checkpoint \
+       --image_paths data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_0.jpg \
+                     data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_1.jpg \
+                     data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_2.jpg \
+                     data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_3.jpg \
+                     data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_4.jpg \
+                     data/finetune_data/Continuous-temporal/temporal_ordering/temporal_ordering_150_5.jpg 
+                     
 """
 
 import torch
