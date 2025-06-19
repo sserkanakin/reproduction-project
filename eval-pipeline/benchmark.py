@@ -110,7 +110,8 @@ def evaluate_model(model, oai_client, processor, dataset, image_base_path, max_n
                 continue
 
             # Construct the full prompt
-            prompt_text = f"{sample['question']}\n{sample['context']}\n{sample['options']}"
+            prompt_text = sample["context"] + "\n\n" + sample["question"] + "Do not tell what is going on, use long descriptive sentences to answer the question.\n\n"
+            print(f"Evaluating sample: {prompt_text}")
             ground_truth_option = sample["output"]
             
             # Get model prediction
@@ -123,6 +124,7 @@ def evaluate_model(model, oai_client, processor, dataset, image_base_path, max_n
             is_correct = (parsed_option == ground_truth_option)
             if is_correct:
                 correct_predictions += 1
+            print("Current correct predictions:", correct_predictions)
             
             # Log detailed results
             results_log.append({
@@ -237,6 +239,7 @@ if __name__ == "__main__":
     parser.add_argument("--adapter_path", type=str, required=True)
     parser.add_argument("--results_json_path", type=str, default="results.json")
     parser.add_argument("--summary_txt_path", type=str, default="summary.txt")
-    parser.add_argument("--max_new_tokens", type=int, default=512)
+    parser.add_argument("--max_new_tokens", type=int, default=2048,
+                        help="Maximum number of new tokens to generate in the model's response.")
     args = parser.parse_args()
     main(args)
