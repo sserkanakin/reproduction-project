@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-eval-pipeline/prepare_temporal_dataset.py
+src/eval_pipeline/prepare_temporal_dataset.py
 
 This script processes a temporal ordering dataset.
 For training data, it uses the OpenAI reasoning API to generate explanations and saves the output in a new format.

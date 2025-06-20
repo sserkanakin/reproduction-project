@@ -1,4 +1,4 @@
-# eval-pipeline/test_inference_final.py
+# src/eval_pipeline/scripts/test_inference.py
 import os
 import shutil
 import tempfile
