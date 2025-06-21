@@ -38,16 +38,10 @@ python src/benchmark_idefics2.py \
   --summary_txt_path results/summary.txt
 ```
 
-### Simple Inference
-
-A minimal multi‑image inference example is provided:
+### Fine-tuning
+TODO
 
 ```bash
-python src/run_inference.py
-```
-
-Adjust model IDs and image paths inside the script as needed.
 
 ## Notes
 
-The data under `src/eval_pipeline/data` is a small sample to demonstrate the file format. For real experiments you will need to supply the full dataset and image files.
