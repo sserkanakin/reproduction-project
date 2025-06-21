@@ -172,10 +172,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-/llava-next/
-/MMIU/
-/src/data/
-/src/eval_pipeline/lmms-finetune/
-/src/eval_pipeline/idefics2-8b-temporal-finetune/
-/src/eval_pipeline/lmms-finetune/
-/results
+/results/*
+
