@@ -1,14 +1,15 @@
 # fine_tune_idefics2_v11_definitive.py
 """
-A professional script to fine-tune the Idefics2-8b model.
+Script to fine-tune the Idefics2-8b model.
 
-VERSION 11 (DEFINITIVE FIX 2):
-- Corrected the logic inside the `CustomDataCollator` to robustly handle prompt
-  creation, permanently fixing the recurring `ValueError: shape mismatch`.
-- The collator now correctly parses the human prompt, splitting it by the <image>
-  placeholder and interleaving the text chunks with the actual image objects.
-- The Dataset is now extremely simple, only loading raw data. All complex
-  processing is now correctly handled within the collator.
+This script uses a definitive custom data collator that robustly handles interleaved text and image inputs,
+ensuring that the model can learn from complex conversation structures with images interspersed throughout the text.
+#             messages,
+#             add_generation_prompt=False,
+It is designed to work with the Idefics2-8b model and uses LoRA for efficient fine-tuning.
+It supports gradient checkpointing, LoRA configuration, and uses a custom data collator to handle the training data.
+It also includes robust error handling for missing images and ensures that the training process is efficient and effective.
+This script is intended for use with the Hugging Face Transformers library and the PEFT library for parameter-efficient fine-tuning.
 
 How to Run:
    python fine_tune_idefics2_v11_definitive.py \

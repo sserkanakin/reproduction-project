@@ -51,7 +51,7 @@ This repository contains a small collection of scripts used to fine tune and eva
 Run the benchmark script on the included sample dataset:
 
 ```bash
-python src/eval_pipeline/benchmark.py \
+python src/eval_pipeline/benchmark_idefics2.py \
   --val_file src/eval_pipeline/data/finetune_data/test.json \
   --image_base_path src/eval_pipeline/data/ \
   --adapter_path path/to/adapter \

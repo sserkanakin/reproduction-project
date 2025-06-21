@@ -1,4 +1,4 @@
-# benchmark.py
+# benchmark_idefics2.py
 """
 A comprehensive script to benchmark a fine-tuned Idefics2 model against its base version.
 
@@ -11,7 +11,7 @@ VERSION 2.0:
 
 How to Run:
    # First, ensure you have a .env file with your OPENAI_API_KEY
-   python benchmark.py \
+   python benchmark_idefics2.py \
        --val_file data/finetune_data/test.json \
        --image_base_path data/ \
        --adapter_path idefics2-8b-temporal-finetune/final_checkpoint \

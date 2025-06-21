@@ -174,7 +174,8 @@ cython_debug/
 .pypirc
 /llava-next/
 /MMIU/
-/src/eval_pipeline/data/
+/src/data/
 /src/eval_pipeline/lmms-finetune/
 /src/eval_pipeline/idefics2-8b-temporal-finetune/
 /src/eval_pipeline/lmms-finetune/
+/results
