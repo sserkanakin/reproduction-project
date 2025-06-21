@@ -128,7 +128,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-eval-pipeline/.env
+src/eval_pipeline/.env
 .venv
 env/
 venv/
@@ -174,7 +174,8 @@ cython_debug/
 .pypirc
 /llava-next/
 /MMIU/
-/eval-pipeline/data/
-/eval-pipeline/lmms-finetune/
-/eval-pipeline/idefics2-8b-temporal-finetune/
-/eval-pipeline/lmms-finetune/
+/src/data/
+/src/eval_pipeline/lmms-finetune/
+/src/eval_pipeline/idefics2-8b-temporal-finetune/
+/src/eval_pipeline/lmms-finetune/
+/results

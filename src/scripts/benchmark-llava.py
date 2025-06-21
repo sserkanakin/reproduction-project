@@ -15,9 +15,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # --- 1. CONFIGURATION ---
 # BASE_MODEL_ID = "llava-hf/llava-interleave-qwen-0.5b-hf"
 BASE_MODEL_ID = "llava-hf/llava-interleave-qwen-7b-hf"  # Base model ID
-# FINETUNED_MODEL_PATH = "eval-pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-0.5b-merged/"
-FINETUNED_MODEL_PATH = "eval-pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-7b-merged/"  # Finetuned model path
-TEST_DATA_PATH = "eval-pipeline/data/finetune_data/test.json"
+# FINETUNED_MODEL_PATH = "src/eval_pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-0.5b-merged/"
+FINETUNED_MODEL_PATH = "src/eval_pipeline/lmms-finetune/checkpoints/llava-interleave-qwen-7b-merged/"  # Finetuned model path
+TEST_DATA_PATH = "src/eval_pipeline/data/finetune_data/test.json"
 OPENAI_JUDGE_MODEL = "gpt-4o"
 
 # --- HELPER FUNCTIONS ---
@@ -148,7 +148,7 @@ def main():
 
     for i, item in enumerate(tqdm(test_data, desc="Evaluating models")):
         print(f"\n--- Evaluating Sample {i + 1}/{total_samples} ---")
-        image_paths = [os.path.join("eval-pipeline/data", path.lstrip("./")) for path in item["input_image_path"]]
+        image_paths = [os.path.join("src/eval_pipeline/data", path.lstrip("./")) for path in item["input_image_path"]]
         question = item["question"]
         context = item["context"]
         # conbining context with question
