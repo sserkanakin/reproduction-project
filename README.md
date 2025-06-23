@@ -186,7 +186,3 @@ python src/scripts/benchmark-llava.py
 - For large-scale runs, consider batching and monitoring API usage.
 
 ---
-
-## 📄 License
-
-MIT License (see `LICENSE` file).
